@@ -13,7 +13,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _navIndex = 0;
   late PageController _pageController;
-  bool _isBottomNavVisible = true;
+  // bool _isBottomNavVisible = true;
 
   @override
   void initState() {
@@ -30,9 +30,9 @@ class _HomeScreenState extends State<HomeScreen> {
   String get _currentTitle {
     switch (_navIndex) {
       case 0:
-        return 'Generators';
-      case 1:
-        return 'Wheel';
+        return 'Random Generators';
+      // case 1:
+        // return 'Wheel';
       default:
         return 'Random';
     }
@@ -73,76 +73,77 @@ class _HomeScreenState extends State<HomeScreen> {
         body: PageView(
           controller: _pageController,
           onPageChanged: _onPageChanged,
-          children: const [GeneratorsTab(), WheelTab()],
+          // children: const [GeneratorsTab(), WheelTab()],
+          children: const [GeneratorsTab()],
         ),
       ),
       extendBody: true,
-      bottomNavigationBar: AnimatedSlide(
-        duration: const Duration(milliseconds: 300),
-        offset: _isBottomNavVisible ? Offset.zero : const Offset(0, 1),
-        child: AnimatedOpacity(
-          duration: const Duration(milliseconds: 300),
-          opacity: _isBottomNavVisible ? 1.0 : 0.0,
-          child: Container(
-            margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 20,
-                  offset: const Offset(0, 10),
-                ),
-              ],
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(30),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.surface.withOpacity(0.7),
-                    borderRadius: BorderRadius.circular(30),
-                    border: Border.all(
-                      color: theme.colorScheme.outline.withOpacity(0.2),
-                      width: 1,
-                    ),
-                  ),
-                  child: NavigationBar(
-                    selectedIndex: _navIndex,
-                    onDestinationSelected: (index) {
-                      _pageController.animateToPage(
-                        index,
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                      );
-                    },
-                    elevation: 0,
-                    height: 70,
-                    backgroundColor: Colors.transparent,
-                    indicatorColor: theme.colorScheme.primaryContainer
-                        .withOpacity(0.8),
-                    labelBehavior:
-                        NavigationDestinationLabelBehavior.alwaysShow,
-                    destinations: const [
-                      NavigationDestination(
-                        icon: Icon(Icons.auto_awesome_outlined),
-                        selectedIcon: Icon(Icons.auto_awesome),
-                        label: 'Generators',
-                      ),
-                      NavigationDestination(
-                        icon: Icon(Icons.album_outlined),
-                        selectedIcon: Icon(Icons.album),
-                        label: 'Wheel',
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
+      // bottomNavigationBar: AnimatedSlide(
+      //   duration: const Duration(milliseconds: 300),
+      //   offset: _isBottomNavVisible ? Offset.zero : const Offset(0, 1),
+      //   child: AnimatedOpacity(
+      //     duration: const Duration(milliseconds: 300),
+      //     opacity: _isBottomNavVisible ? 1.0 : 0.0,
+      //     child: Container(
+      //       margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+      //       decoration: BoxDecoration(
+      //         borderRadius: BorderRadius.circular(30),
+      //         boxShadow: [
+      //           BoxShadow(
+      //             color: Colors.black.withOpacity(0.1),
+      //             blurRadius: 20,
+      //             offset: const Offset(0, 10),
+      //           ),
+      //         ],
+      //       ),
+      //       child: ClipRRect(
+      //         borderRadius: BorderRadius.circular(30),
+      //         child: BackdropFilter(
+      //           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+      //           child: Container(
+      //             decoration: BoxDecoration(
+      //               color: theme.colorScheme.surface.withOpacity(0.7),
+      //               borderRadius: BorderRadius.circular(30),
+      //               border: Border.all(
+      //                 color: theme.colorScheme.outline.withOpacity(0.2),
+      //                 width: 1,
+      //               ),
+      //             ),
+      //             child: NavigationBar(
+      //               selectedIndex: _navIndex,
+      //               onDestinationSelected: (index) {
+      //                 _pageController.animateToPage(
+      //                   index,
+      //                   duration: const Duration(milliseconds: 300),
+      //                   curve: Curves.easeInOut,
+      //                 );
+      //               },
+      //               elevation: 0,
+      //               height: 70,
+      //               backgroundColor: Colors.transparent,
+      //               indicatorColor: theme.colorScheme.primaryContainer
+      //                   .withOpacity(0.8),
+      //               labelBehavior:
+      //                   NavigationDestinationLabelBehavior.alwaysShow,
+      //               destinations: const [
+      //                 NavigationDestination(
+      //                   icon: Icon(Icons.auto_awesome_outlined),
+      //                   selectedIcon: Icon(Icons.auto_awesome),
+      //                   label: 'Generators',
+      //                 ),
+      //                 NavigationDestination(
+      //                   icon: Icon(Icons.album_outlined),
+      //                   selectedIcon: Icon(Icons.album),
+      //                   label: 'Wheel',
+      //                 ),
+      //               ],
+      //             ),
+      //           ),
+      //         ),
+      //       ),
+      //     ),
+      //   ),
+      // ),
     );
   }
 }

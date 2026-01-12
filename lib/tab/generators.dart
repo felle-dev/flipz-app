@@ -3,6 +3,8 @@ import 'package:random/page/generators/password.dart';
 import 'package:random/page/generators/random_number.dart';
 import 'package:random/page/generators/dice_roller.dart';
 import 'package:random/page/generators/coin_flip.dart';
+import 'package:random/page/generators/spinning_wheel.dart';
+import 'package:random/page/generators/username.dart';
 
 class GeneratorsTab extends StatelessWidget {
   const GeneratorsTab({super.key});
@@ -10,65 +12,189 @@ class GeneratorsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
     return ListView(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.only(left: 20, right: 20),
       children: [
-        Text(
-          'Quick Tools',
-          style: theme.textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.bold,
+        // Generators Section
+        Container(
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: theme.colorScheme.outlineVariant,
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(16),
+            color: theme.colorScheme.surface,
+          ),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.auto_awesome_outlined,
+                      color: theme.colorScheme.primary,
+                      size: 20,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Generators',
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: theme.colorScheme.primary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Divider(height: 1, color: theme.colorScheme.outlineVariant),
+              _GeneratorListTile(
+                title: 'Password Generator',
+                subtitle: 'Create secure passwords',
+                icon: Icons.lock_outline,
+                color: Colors.purple,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PasswordGeneratorPage(),
+                    ),
+                  );
+                },
+              ),
+              Divider(
+                height: 1,
+                indent: 72,
+                color: theme.colorScheme.outlineVariant,
+              ),
+              _GeneratorListTile(
+                title: 'Username Generator',
+                subtitle: 'Generate random usernames',
+                icon: Icons.person_outline,
+                color: Colors.teal,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const UsernameGeneratorPage(),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
         ),
         const SizedBox(height: 16),
-        _GeneratorCard(
-          title: 'Password Generator',
-          subtitle: 'Create secure passwords',
-          icon: Icons.lock_outline,
-          color: Colors.purple,
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const PasswordGeneratorPage(),
+
+        // Random Tools Section
+        Container(
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: theme.colorScheme.outlineVariant,
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(16),
+            color: theme.colorScheme.surface,
+          ),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.casino_outlined,
+                      color: theme.colorScheme.primary,
+                      size: 20,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Random Tools',
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: theme.colorScheme.primary,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            );
-          },
-        ),
-        _GeneratorCard(
-          title: 'Random Number',
-          subtitle: 'Generate random numbers',
-          icon: Icons.numbers,
-          color: Colors.blue,
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const RandomNumberPage()),
-            );
-          },
-        ),
-        _GeneratorCard(
-          title: 'Dice Roller',
-          subtitle: 'Roll virtual dice',
-          icon: Icons.casino_outlined,
-          color: Colors.orange,
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const DiceRollerPage()),
-            );
-          },
-        ),
-        _GeneratorCard(
-          title: 'Coin Flip',
-          subtitle: 'Flip a virtual coin',
-          icon: Icons.monetization_on_outlined,
-          color: Colors.amber,
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const CoinFlipPage()),
-            );
-          },
+              Divider(height: 1, color: theme.colorScheme.outlineVariant),
+              _GeneratorListTile(
+                title: 'Random Number',
+                subtitle: 'Generate random numbers',
+                icon: Icons.numbers,
+                color: Colors.blue,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const RandomNumberPage(),
+                    ),
+                  );
+                },
+              ),
+              Divider(
+                height: 1,
+                indent: 72,
+                color: theme.colorScheme.outlineVariant,
+              ),
+              _GeneratorListTile(
+                title: 'Dice Roller',
+                subtitle: 'Roll virtual dice',
+                icon: Icons.casino_outlined,
+                color: Colors.orange,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const DiceRollerPage(),
+                    ),
+                  );
+                },
+              ),
+              Divider(
+                height: 1,
+                indent: 72,
+                color: theme.colorScheme.outlineVariant,
+              ),
+              _GeneratorListTile(
+                title: 'Coin Flip',
+                subtitle: 'Flip a virtual coin',
+                icon: Icons.monetization_on_outlined,
+                color: Colors.amber,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CoinFlipPage(),
+                    ),
+                  );
+                },
+              ),
+              Divider(
+                height: 1,
+                indent: 72,
+                color: theme.colorScheme.outlineVariant,
+              ),
+              _GeneratorListTile(
+                title: 'Spinning Wheel',
+                subtitle: 'Spin the wheel to decide',
+                icon: Icons.album_outlined,
+                color: Colors.pink,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SpinningWheelPage(),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
         const SizedBox(height: 100),
       ],
@@ -76,14 +202,14 @@ class GeneratorsTab extends StatelessWidget {
   }
 }
 
-class _GeneratorCard extends StatelessWidget {
+class _GeneratorListTile extends StatelessWidget {
   final String title;
   final String subtitle;
   final IconData icon;
   final Color color;
   final VoidCallback onTap;
 
-  const _GeneratorCard({
+  const _GeneratorListTile({
     required this.title,
     required this.subtitle,
     required this.icon,
@@ -93,52 +219,22 @@ class _GeneratorCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
+    return Material(
+      color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(20),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            children: [
-              Container(
-                width: 56,
-                height: 56,
-                decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Icon(icon, color: color, size: 28),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      subtitle,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Icon(
-                Icons.chevron_right,
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-            ],
+        child: ListTile(
+          leading: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(icon, color: color),
           ),
+          title: Text(title),
+          subtitle: Text(subtitle),
+          trailing: const Icon(Icons.chevron_right),
         ),
       ),
     );

@@ -5,7 +5,6 @@ import 'package:random/page/generators/dice_roller.dart';
 import 'package:random/page/generators/coin_flip.dart';
 import 'package:random/page/generators/spinning_wheel.dart';
 import 'package:random/page/generators/username.dart';
-import 'package:random/page/generators/telegram_theme.dart';
 import 'package:random/page/generators/quick_tiles.dart';
 import 'package:random/page/generators/pomodoro_timer.dart';
 
@@ -235,20 +234,6 @@ class GeneratorsTab extends StatelessWidget {
                 ),
               ),
               Divider(height: 1, color: theme.colorScheme.outlineVariant),
-              _GeneratorListTile(
-                title: 'Dynamic Telegram Theme',
-                subtitle: 'Generate Telegram themes',
-                icon: Icons.palette_outlined,
-                color: Colors.cyan,
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const TelegramMonetApp(),
-                    ),
-                  );
-                },
-              ),
               Divider(
                 height: 1,
                 indent: 72,

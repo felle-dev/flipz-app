@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:random/page/generators/device.dart';
+import 'package:random/page/generators/email.dart';
 import 'package:random/page/generators/password.dart';
 import 'package:random/page/generators/random_number.dart';
 import 'package:random/page/generators/dice_roller.dart';
@@ -73,6 +74,25 @@ class GeneratorsTab extends StatelessWidget {
                 color: theme.colorScheme.outlineVariant,
               ),
               _GeneratorListTile(
+                title: 'Email Generator',
+                subtitle: 'Generate random email',
+                icon: Icons.email_outlined,
+                color: Colors.indigo,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const EmailGeneratorPage(),
+                    ),
+                  );
+                },
+              ),
+              Divider(
+                height: 1,
+                indent: 72,
+                color: theme.colorScheme.outlineVariant,
+              ),
+              _GeneratorListTile(
                 title: 'Username Generator',
                 subtitle: 'Generate random usernames',
                 icon: Icons.person_outline,
@@ -86,11 +106,16 @@ class GeneratorsTab extends StatelessWidget {
                   );
                 },
               ),
+              Divider(
+                height: 1,
+                indent: 72,
+                color: theme.colorScheme.outlineVariant,
+              ),
               _GeneratorListTile(
                 title: 'Device Name Generator',
                 subtitle: 'Generate Random Device Names',
                 icon: Icons.phone_android_outlined,
-                color: Colors.teal,
+                color: Colors.blueGrey,
                 onTap: () {
                   Navigator.push(
                     context,

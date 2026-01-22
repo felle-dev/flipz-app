@@ -1,4 +1,6 @@
-import 'dart:io' show File;
+import 'dart:io' show File, Platform;
+import 'package:gal/gal.dart';
+import 'package:open_file/open_file.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -203,12 +205,18 @@ class _ExifEraserPageState extends State<ExifEraserPage> {
 
   Future<void> _saveImage() async {
     if (kIsWeb) {
-      // For web, trigger download
-      if (_webImageBytes == null) return;
+      if (_webProcessedBytes == null) return;
 
       try {
-        final blob = html.Blob([_webImageBytes!]);
+        final blob = html.Blob([_webProcessedBytes!]);
         final url = html.Url.createObjectUrlFromBlob(blob);
+        // ignore: unused_local_variable
+        final anchor = html.AnchorElement(href: url)
+          ..setAttribute(
+            'download',
+            'exif_erased_${DateTime.now().millisecondsSinceEpoch}.jpg',
+          )
+          ..click();
         html.Url.revokeObjectUrl(url);
 
         if (mounted) {
@@ -229,22 +237,64 @@ class _ExifEraserPageState extends State<ExifEraserPage> {
     if (_processedImage == null) return;
 
     try {
-      String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
-
-      if (selectedDirectory == null) return;
-
-      final timestamp = DateTime.now().millisecondsSinceEpoch;
-      final fileName = 'exif_erased_$timestamp.jpg';
-      final savePath = '$selectedDirectory/$fileName';
-
       final bytes = await _processedImage!.readAsBytes();
-      final saveFile = File(savePath);
-      await saveFile.writeAsBytes(bytes);
 
-      if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Image saved to: $savePath')));
+      if (Platform.isAndroid || Platform.isIOS) {
+        final hasAccess = await Gal.hasAccess();
+        if (!hasAccess) {
+          final granted = await Gal.requestAccess();
+          if (!granted) {
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Permission denied. Cannot save to gallery.'),
+                ),
+              );
+            }
+            return;
+          }
+        }
+
+        await Gal.putImageBytes(
+          bytes,
+          name: "exif_erased_${DateTime.now().millisecondsSinceEpoch}",
+        );
+
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Image saved to gallery!'),
+              duration: Duration(seconds: 3),
+            ),
+          );
+        }
+      } else {
+        String? selectedDirectory = await FilePicker.platform
+            .getDirectoryPath();
+
+        if (selectedDirectory == null) return;
+
+        final timestamp = DateTime.now().millisecondsSinceEpoch;
+        final fileName = 'exif_erased_$timestamp.jpg';
+        final savePath = '$selectedDirectory/$fileName';
+
+        final saveFile = File(savePath);
+        await saveFile.writeAsBytes(bytes);
+
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Image saved to: $savePath'),
+              action: SnackBarAction(
+                label: 'Open',
+                onPressed: () async {
+                  await OpenFile.open(savePath);
+                },
+              ),
+              duration: const Duration(seconds: 4),
+            ),
+          );
+        }
       }
     } catch (e) {
       if (mounted) {

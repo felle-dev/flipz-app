@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:random/page/generators/device.dart';
 import 'package:random/page/generators/email.dart';
+import 'package:random/page/generators/exif_eraser.dart';
 import 'package:random/page/generators/password.dart';
 import 'package:random/page/generators/random_number.dart';
 import 'package:random/page/generators/dice_roller.dart';
@@ -308,6 +309,25 @@ class GeneratorsTab extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => const PomodoroTimerPage(),
+                    ),
+                  );
+                },
+              ),
+              Divider(
+                height: 1,
+                indent: 72,
+                color: theme.colorScheme.outlineVariant,
+              ),
+              _GeneratorListTile(
+                title: 'Exif Eraser',
+                subtitle: 'Erase EXIF data from images',
+                icon: Icons.photo_camera_back_outlined,
+                color: Colors.lightBlue,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ExifEraserPage(),
                     ),
                   );
                 },

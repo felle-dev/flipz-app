@@ -16,6 +16,7 @@ class _ReadingTimerPageState extends State<ReadingTimerPage> {
   int _totalPagesRead = 0;
   int _todayMinutes = 0;
   int _totalSessions = 0;
+  // ignore: unused_field
   String _lastSessionDate = '';
 
   // Settings

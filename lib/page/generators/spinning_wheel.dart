@@ -46,6 +46,7 @@ class _SpinningWheelPageState extends State<SpinningWheelPage>
   late AnimationController _animationController;
   late Animation<double> _animation;
   bool _isSpinning = false;
+  // ignore: unused_field
   String? _result;
   double _currentRotation = 0;
   bool _isEditing = false;

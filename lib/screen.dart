@@ -14,7 +14,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _navIndex = 0;
   late PageController _pageController;
-  // bool _isBottomNavVisible = true;
 
   @override
   void initState() {
@@ -43,6 +42,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _onPageChanged(int index) {
     setState(() => _navIndex = index);
+  }
+
+  void _onNavTap(int index) {
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
   }
 
   @override
@@ -80,66 +87,150 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       extendBody: true,
-      bottomNavigationBar: Container(
-        margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 20,
-              offset: const Offset(0, 10),
+      bottomNavigationBar: CustomFloatingNavBar(
+        currentIndex: _navIndex,
+        onTap: _onNavTap,
+      ),
+    );
+  }
+}
+
+class CustomFloatingNavBar extends StatelessWidget {
+  final int currentIndex;
+  final Function(int) onTap;
+
+  const CustomFloatingNavBar({
+    super.key,
+    required this.currentIndex,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Container(
+      margin: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(40),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(40),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surface.withOpacity(0.6),
+              borderRadius: BorderRadius.circular(40),
+              border: Border.all(
+                color: theme.colorScheme.outline.withOpacity(0.15),
+                width: 1,
+              ),
             ),
-          ],
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _NavItem(
+                  icon: Icons.auto_awesome_outlined,
+                  selectedIcon: Icons.auto_awesome,
+                  label: 'Generators',
+                  isSelected: currentIndex == 0,
+                  onTap: () => onTap(0),
+                ),
+                _NavItem(
+                  icon: Icons.build_outlined,
+                  selectedIcon: Icons.build,
+                  label: 'Utilities',
+                  isSelected: currentIndex == 1,
+                  onTap: () => onTap(1),
+                ),
+                _NavItem(
+                  icon: Icons.casino_outlined,
+                  selectedIcon: Icons.casino,
+                  label: 'Random',
+                  isSelected: currentIndex == 2,
+                  onTap: () => onTap(2),
+                ),
+              ],
+            ),
+          ),
         ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(30),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Container(
-              decoration: BoxDecoration(
-                color: theme.colorScheme.surface.withOpacity(0.7),
-                borderRadius: BorderRadius.circular(30),
-                border: Border.all(
-                  color: theme.colorScheme.outline.withOpacity(0.2),
-                  width: 1,
-                ),
-              ),
-              child: NavigationBar(
-                selectedIndex: _navIndex,
-                onDestinationSelected: (index) {
-                  _pageController.animateToPage(
-                    index,
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeInOut,
-                  );
+      ),
+    );
+  }
+}
+
+class _NavItem extends StatelessWidget {
+  final IconData icon;
+  final IconData selectedIcon;
+  final String label;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const _NavItem({
+    required this.icon,
+    required this.selectedIcon,
+    required this.label,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Expanded(
+      child: GestureDetector(
+        onTap: onTap,
+        behavior: HitTestBehavior.opaque,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeInOut,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          decoration: BoxDecoration(
+            color: isSelected
+                ? theme.colorScheme.primaryContainer.withOpacity(0.7)
+                : Colors.transparent,
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 200),
+                transitionBuilder: (child, animation) {
+                  return ScaleTransition(scale: animation, child: child);
                 },
-                elevation: 0,
-                height: 70,
-                backgroundColor: Colors.transparent,
-                indicatorColor: theme.colorScheme.primaryContainer.withOpacity(
-                  0.8,
+                child: Icon(
+                  isSelected ? selectedIcon : icon,
+                  key: ValueKey(isSelected),
+                  color: isSelected
+                      ? theme.colorScheme.onPrimaryContainer
+                      : theme.colorScheme.onSurfaceVariant,
+                  size: 24,
                 ),
-                labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-                destinations: const [
-                  NavigationDestination(
-                    icon: Icon(Icons.auto_awesome_outlined),
-                    selectedIcon: Icon(Icons.auto_awesome),
-                    label: 'Generators',
-                  ),
-                  NavigationDestination(
-                    icon: Icon(Icons.build_outlined),
-                    selectedIcon: Icon(Icons.build),
-                    label: 'Utilities',
-                  ),
-                  NavigationDestination(
-                    icon: Icon(Icons.casino_outlined),
-                    selectedIcon: Icon(Icons.casino),
-                    label: 'Random',
-                  ),
-                ],
               ),
-            ),
+              const SizedBox(height: 4),
+              AnimatedDefaultTextStyle(
+                duration: const Duration(milliseconds: 200),
+                style: theme.textTheme.labelSmall!.copyWith(
+                  color: isSelected
+                      ? theme.colorScheme.onPrimaryContainer
+                      : theme.colorScheme.onSurfaceVariant,
+                  fontWeight: FontWeight.normal,
+                ),
+                child: Text(label),
+              ),
+            ],
           ),
         ),
       ),

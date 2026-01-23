@@ -79,7 +79,7 @@ class _PomodoroTimerPageState extends State<PomodoroTimerPage> {
     await _playSystemAlarmSound();
 
     // Vibrate device
-    if (await Vibration.hasVibrator() ?? false) {
+    if (await Vibration.hasVibrator()) {
       // Vibrate in a pattern: [wait, vibrate, wait, vibrate]
       Vibration.vibrate(
         pattern: [0, 500, 200, 500, 200, 500],

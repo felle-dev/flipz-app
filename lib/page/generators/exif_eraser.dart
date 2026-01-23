@@ -211,6 +211,7 @@ class _ExifEraserPageState extends State<ExifEraserPage> {
       try {
         final blob = html.Blob([_webProcessedBytes!]);
         final url = html.Url.createObjectUrlFromBlob(blob);
+        // ignore: unused_local_variable
         final anchor = html.AnchorElement(href: url)
           ..setAttribute(
             'download',

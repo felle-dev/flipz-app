@@ -132,14 +132,3 @@ Open-source thrives on collaboration! You can:
 ## **License**
 This project is licensed under the **GNU General Public License v3.0**. See [LICENSE](LICENSE) for more details.
 
-## **Support**
-If you find this project helpful, please consider:
-- Starring the repository
-- Reporting bugs
-- Suggesting new features
-- Sharing with others
-
-## **Contact**
-- **GitHub:** [@felle-dev](https://github.com/felle-dev)
-- **Issues:** [Report a bug or request a feature](https://github.com/felle-dev/random-app/issues)
-

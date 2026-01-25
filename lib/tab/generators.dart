@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:random/page/generators/device.dart';
 import 'package:random/page/generators/email.dart';
+import 'package:random/page/generators/identity.dart';
 import 'package:random/page/generators/password.dart';
 import 'package:random/page/generators/username.dart';
 
@@ -108,6 +109,28 @@ class GeneratorsTab extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => const DeviceGeneratorPage(),
+                    ),
+                  );
+                },
+              ),
+              _GeneratorCard(
+                title: 'Identity',
+                subtitle: 'Fake identities',
+                icon: Icons.badge_outlined,
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    colorScheme.errorContainer,
+                    colorScheme.errorContainer.withOpacity(0.7),
+                  ],
+                ),
+                iconColor: colorScheme.onErrorContainer,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const RandomIdentityGeneratorPage(),
                     ),
                   );
                 },

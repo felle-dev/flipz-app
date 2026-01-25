@@ -11,118 +11,121 @@ class DeviceGeneratorPage extends StatefulWidget {
 
 class _DeviceGeneratorPageState extends State<DeviceGeneratorPage> {
   String _generatedDeviceName = '';
-  String _selectedBrand = 'Random';
+  String _selectedCategory = 'Random';
   final List<String> _history = [];
 
-  // Realistic device naming patterns by brand
-  final Map<String, List<String>> _devicePatterns = {
+  // Realistic naming patterns
+  final Map<String, List<String>> _namePatterns = {
     'Samsung': [
-      'Galaxy S24',
-      'Galaxy S24+',
-      'Galaxy S24 Ultra',
-      'Galaxy S23 FE',
-      'Galaxy A54 5G',
-      'Galaxy A34 5G',
-      'Galaxy A15',
-      'Galaxy M54',
-      'Galaxy F54',
-      'Galaxy Z Fold5',
-      'Galaxy Z Flip5',
-      'Galaxy Tab S9',
-      'Galaxy Watch6',
-    ],
-    'Apple': [
-      'iPhone 15 Pro Max',
-      'iPhone 15 Pro',
-      'iPhone 15 Plus',
-      'iPhone 15',
-      'iPhone 14 Pro',
-      'iPhone 14',
-      'iPhone SE',
-      'iPad Pro 12.9',
-      'iPad Air',
-      'iPad mini',
-      'Apple Watch Series 9',
-      'Apple Watch Ultra 2',
+      'Galaxy_####',
+      'SM-####',
+      'GalaxyS##',
+      'GalaxyA##',
+      'SM-A###',
+      'SM-G###',
+      'Galaxy A##',
+      'Galaxy S##',
+      'Galaxy M##',
+      'Galaxy F##',
+      'AndroidAP_####',
     ],
     'Xiaomi': [
-      'Xiaomi 14 Pro',
-      'Xiaomi 14',
-      'Xiaomi 13T Pro',
-      'Redmi Note 13 Pro+',
-      'Redmi Note 13 Pro',
-      'Redmi Note 13',
-      'Redmi 13C',
-      'POCO X6 Pro',
-      'POCO F6',
-      'POCO M6 Pro',
-      'Mi Pad 6',
-    ],
-    'Google': [
-      'Pixel 8 Pro',
-      'Pixel 8',
-      'Pixel 8a',
-      'Pixel 7a',
-      'Pixel Fold',
-      'Pixel Tablet',
-      'Pixel Watch 2',
-      'Pixel Buds Pro',
-    ],
-    'OnePlus': [
-      'OnePlus 12',
-      'OnePlus 12R',
-      'OnePlus 11',
-      'OnePlus Nord 3',
-      'OnePlus Nord CE 3',
-      'OnePlus Pad',
-      'OnePlus Watch 2',
+      'Xiaomi_####',
+      'Redmi_####',
+      'POCO_####',
+      'Mi_####',
+      'Redmi Note ##',
+      'POCO X#',
+      'POCO F#',
+      'POCO M#',
+      'Redmi ##',
+      'Mi ##',
+      'AndroidAP_####',
     ],
     'Oppo': [
-      'Oppo Find X7 Pro',
-      'Oppo Find X6 Pro',
-      'Oppo Reno 11 Pro',
-      'Oppo Reno 11',
-      'Oppo A79 5G',
-      'Oppo A58',
-      'Oppo Pad Air',
+      'OPPO_####',
+      'CPH####',
+      'OPPO A##',
+      'OPPO Reno#',
+      'OPPO Find X#',
+      'CPH###',
+      'AndroidAP_####',
     ],
     'Vivo': [
-      'Vivo X100 Pro',
-      'Vivo X90 Pro',
-      'Vivo V29 Pro',
-      'Vivo V29',
-      'Vivo Y100',
-      'Vivo Y56',
-      'iQOO 12',
-      'iQOO Neo 9 Pro',
-      'iQOO Z9',
+      'vivo_####',
+      'vivo Y##',
+      'vivo V##',
+      'vivo X##',
+      'iQOO_####',
+      'iQOO ##',
+      'AndroidAP_####',
     ],
     'Realme': [
-      'Realme GT 5 Pro',
-      'Realme GT 5',
-      'Realme 12 Pro+',
-      'Realme 12 Pro',
-      'Realme 12',
-      'Realme C67',
-      'Realme Narzo 70 Pro',
+      'realme_####',
+      'RMX####',
+      'realme ##',
+      'realme C##',
+      'realme GT#',
+      'Narzo ##',
+      'AndroidAP_####',
     ],
-    'Motorola': [
-      'Motorola Edge 50 Pro',
-      'Motorola Edge 40 Neo',
-      'Moto G84',
-      'Moto G54',
-      'Moto G34',
-      'Motorola Razr 40 Ultra',
-      'Motorola ThinkPhone',
+    'Huawei': [
+      'HUAWEI_####',
+      'HUAWEI-####',
+      'HUAWEI P##',
+      'HUAWEI Y#',
+      'HONOR_####',
+      'HONOR ##',
+      'AndroidAP_####',
     ],
-    'Nothing': [
-      'Nothing Phone (2)',
-      'Nothing Phone (2a)',
-      'Nothing Phone (1)',
-      'Nothing Ear (2)',
-      'CMF Phone 1',
-      'CMF Watch Pro',
-      'CMF Buds Pro',
+    'iPhone': [
+      'iPhone_####',
+      "iPhone's iPhone",
+      'iPhone (##)',
+      'My iPhone',
+      'iPhone',
+    ],
+    'Router': [
+      'NETGEAR##',
+      'NETGEAR####',
+      'ASUS_####',
+      'ASUS##',
+      'TP-Link_####',
+      'TPLink####',
+      'Linksys####',
+      'Linksys_####',
+      'D-Link_####',
+      'DLink####',
+      'Wireless_####',
+      'Router_####',
+      'Network_####',
+      'Home_WiFi_####',
+      'Tenda_####',
+      'Tenda##',
+      'Mercusys_####',
+      'ZTE_####',
+      'ZTE####',
+      'Huawei_####',
+      'HuaweiWiFi_####',
+      'Belkin_####',
+      'Belkin##',
+      'Cisco_####',
+      'Arris_####',
+      'Motorola_####',
+      'Ubiquiti_####',
+      'MikroTik_####',
+      'Synology_####',
+      'Buffalo_####',
+      'AirPort_####',
+      'Archer_####',
+      'Archer##',
+      'Deco_####',
+      'Mesh_####',
+      'SmartWiFi_####',
+      'HomeNet_####',
+      'MyNetwork_####',
+      'WiFi_####',
+      'Net_####',
     ],
   };
 
@@ -132,21 +135,28 @@ class _DeviceGeneratorPageState extends State<DeviceGeneratorPage> {
     _generateDeviceName();
   }
 
+  String _generateNumber(String pattern) {
+    final random = Random();
+    return pattern.replaceAllMapped(RegExp(r'#'), (match) {
+      return random.nextInt(10).toString();
+    });
+  }
+
   void _generateDeviceName() {
     final random = Random();
     String deviceName = '';
 
-    if (_selectedBrand == 'Random') {
-      // Pick a random brand
-      final brands = _devicePatterns.keys.toList();
-      final randomBrand = brands[random.nextInt(brands.length)];
-      final devices = _devicePatterns[randomBrand]!;
-      deviceName = devices[random.nextInt(devices.length)];
-    } else {
-      // Use selected brand
-      final devices = _devicePatterns[_selectedBrand]!;
-      deviceName = devices[random.nextInt(devices.length)];
+    String selectedCategory = _selectedCategory;
+
+    if (_selectedCategory == 'Random') {
+      final categories = _namePatterns.keys.toList();
+      selectedCategory = categories[random.nextInt(categories.length)];
     }
+
+    final patterns = _namePatterns[selectedCategory]!;
+    final pattern = patterns[random.nextInt(patterns.length)];
+
+    deviceName = _generateNumber(pattern);
 
     setState(() {
       _generatedDeviceName = deviceName;
@@ -170,14 +180,14 @@ class _DeviceGeneratorPageState extends State<DeviceGeneratorPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final brands = ['Random', ..._devicePatterns.keys.toList()];
+    final categories = ['Random', ..._namePatterns.keys.toList()];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Device Name Generator')),
+      appBar: AppBar(title: const Text('WiFi Name Generator')),
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          // Generated Device Name Section
+          // Generated Name Section
           Container(
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
@@ -195,13 +205,13 @@ class _DeviceGeneratorPageState extends State<DeviceGeneratorPage> {
                   child: Row(
                     children: [
                       Icon(
-                        Icons.smartphone_outlined,
+                        Icons.wifi,
                         color: theme.colorScheme.primary,
                         size: 20,
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        'Generated Device Name',
+                        'Generated WiFi Name',
                         style: theme.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: theme.colorScheme.primary,
@@ -219,6 +229,7 @@ class _DeviceGeneratorPageState extends State<DeviceGeneratorPage> {
                         _generatedDeviceName,
                         style: theme.textTheme.headlineSmall?.copyWith(
                           fontWeight: FontWeight.bold,
+                          fontFamily: 'monospace',
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -260,7 +271,7 @@ class _DeviceGeneratorPageState extends State<DeviceGeneratorPage> {
           ),
           const SizedBox(height: 16),
 
-          // Brand Selection Section
+          // Category Selection Section
           Container(
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
@@ -285,7 +296,7 @@ class _DeviceGeneratorPageState extends State<DeviceGeneratorPage> {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        'Select Brand',
+                        'Select Category',
                         style: theme.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: theme.colorScheme.primary,
@@ -300,13 +311,13 @@ class _DeviceGeneratorPageState extends State<DeviceGeneratorPage> {
                   child: Wrap(
                     spacing: 8,
                     runSpacing: 8,
-                    children: brands.map((brand) {
+                    children: categories.map((category) {
                       return ChoiceChip(
-                        label: Text(brand),
-                        selected: _selectedBrand == brand,
+                        label: Text(category),
+                        selected: _selectedCategory == category,
                         onSelected: (selected) {
                           setState(() {
-                            _selectedBrand = brand;
+                            _selectedCategory = category;
                           });
                           _generateDeviceName();
                         },
@@ -374,12 +385,15 @@ class _DeviceGeneratorPageState extends State<DeviceGeneratorPage> {
                               backgroundColor:
                                   theme.colorScheme.primaryContainer,
                               child: Icon(
-                                Icons.phone_android,
+                                Icons.wifi,
                                 size: 20,
                                 color: theme.colorScheme.onPrimaryContainer,
                               ),
                             ),
-                            title: Text(deviceName),
+                            title: Text(
+                              deviceName,
+                              style: const TextStyle(fontFamily: 'monospace'),
+                            ),
                             trailing: IconButton(
                               icon: const Icon(Icons.copy),
                               onPressed: () => _copyToClipboard(deviceName),

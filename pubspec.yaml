@@ -45,6 +45,7 @@ dependencies:
   universal_html: ^2.3.0
   open_file: ^3.5.11
   gal: ^2.3.2
+  battery_plus: ^7.0.0
 
 dev_dependencies:
   flutter_test:

@@ -94,7 +94,7 @@ class GeneratorsTab extends StatelessWidget {
               ),
               _GeneratorCard(
                 title: 'Device Name',
-                subtitle: 'Device names',
+                subtitle: 'Random network names',
                 icon: Icons.phone_android_outlined,
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
@@ -137,7 +137,7 @@ class GeneratorsTab extends StatelessWidget {
                 },
               ),
               _GeneratorCard(
-                title: 'Phone',
+                title: 'Number',
                 subtitle: 'Fake numbers',
                 icon: Icons.phone_outlined,
                 gradient: LinearGradient(

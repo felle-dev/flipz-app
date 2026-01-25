@@ -136,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
               showLicensePage(
                 context: context,
                 applicationName: 'Random',
-                applicationVersion: '1.0.0',
+                applicationVersion: '1.1.0',
               );
             },
             icon: const Icon(Icons.description_outlined, size: 18),

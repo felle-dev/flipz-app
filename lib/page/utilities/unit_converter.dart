@@ -245,6 +245,30 @@ class _UnitConverterPageState extends State<UnitConverterPage> {
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
+                      TextField(
+                        controller: _inputController,
+                        decoration: InputDecoration(
+                          labelText: 'Enter value to convert',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          suffixIcon: _inputController.text.isNotEmpty
+                              ? IconButton(
+                                  icon: const Icon(Icons.clear),
+                                  onPressed: () => _inputController.clear(),
+                                )
+                              : null,
+                        ),
+                        keyboardType: const TextInputType.numberWithOptions(
+                          decimal: true,
+                        ),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                            RegExp(r'^\-?[0-9]*\.?[0-9]*'),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
                       DropdownButtonFormField<String>(
                         value: _fromUnit,
                         decoration: InputDecoration(
@@ -265,30 +289,6 @@ class _UnitConverterPageState extends State<UnitConverterPage> {
                             _convert();
                           });
                         },
-                      ),
-                      const SizedBox(height: 16),
-                      TextField(
-                        controller: _inputController,
-                        decoration: InputDecoration(
-                          labelText: 'Value',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          suffixIcon: _inputController.text.isNotEmpty
-                              ? IconButton(
-                                  icon: const Icon(Icons.clear),
-                                  onPressed: () => _inputController.clear(),
-                                )
-                              : null,
-                        ),
-                        keyboardType: const TextInputType.numberWithOptions(
-                          decimal: true,
-                        ),
-                        inputFormatters: [
-                          FilteringTextInputFormatter.allow(
-                            RegExp(r'^\-?[0-9]*\.?[0-9]*'),
-                          ),
-                        ],
                       ),
                     ],
                   ),

@@ -22,27 +22,6 @@ class _PhoneGeneratorPageState extends State<PhoneGeneratorPage> {
       'format': '(###) ###-####',
       'example': '(555) 123-4567',
     },
-    'UK': {
-      'name': 'United Kingdom',
-      'code': '+44',
-      'flag': '🇬🇧',
-      'format': '#### ### ####',
-      'example': '7700 900123',
-    },
-    'CA': {
-      'name': 'Canada',
-      'code': '+1',
-      'flag': '🇨🇦',
-      'format': '(###) ###-####',
-      'example': '(555) 123-4567',
-    },
-    'AU': {
-      'name': 'Australia',
-      'code': '+61',
-      'flag': '🇦🇺',
-      'format': '#### ### ###',
-      'example': '0412 345 678',
-    },
     'DE': {
       'name': 'Germany',
       'code': '+49',
@@ -50,124 +29,12 @@ class _PhoneGeneratorPageState extends State<PhoneGeneratorPage> {
       'format': '#### ########',
       'example': '0151 23456789',
     },
-    'FR': {
-      'name': 'France',
-      'code': '+33',
-      'flag': '🇫🇷',
-      'format': '## ## ## ## ##',
-      'example': '06 12 34 56 78',
-    },
-    'IT': {
-      'name': 'Italy',
-      'code': '+39',
-      'flag': '🇮🇹',
-      'format': '### ### ####',
-      'example': '320 123 4567',
-    },
-    'ES': {
-      'name': 'Spain',
-      'code': '+34',
-      'flag': '🇪🇸',
-      'format': '### ## ## ##',
-      'example': '612 34 56 78',
-    },
-    'NL': {
-      'name': 'Netherlands',
-      'code': '+31',
-      'flag': '🇳🇱',
-      'format': '## ########',
-      'example': '06 12345678',
-    },
-    'JP': {
-      'name': 'Japan',
-      'code': '+81',
-      'flag': '🇯🇵',
-      'format': '###-####-####',
-      'example': '090-1234-5678',
-    },
-    'CN': {
-      'name': 'China',
-      'code': '+86',
-      'flag': '🇨🇳',
-      'format': '### #### ####',
-      'example': '138 0013 8000',
-    },
-    'IN': {
-      'name': 'India',
-      'code': '+91',
-      'flag': '🇮🇳',
-      'format': '##### #####',
-      'example': '98765 43210',
-    },
-    'BR': {
-      'name': 'Brazil',
-      'code': '+55',
-      'flag': '🇧🇷',
-      'format': '(##) #####-####',
-      'example': '(11) 98765-4321',
-    },
-    'MX': {
-      'name': 'Mexico',
-      'code': '+52',
-      'flag': '🇲🇽',
-      'format': '### ### ####',
-      'example': '55 1234 5678',
-    },
-    'RU': {
-      'name': 'Russia',
-      'code': '+7',
-      'flag': '🇷🇺',
-      'format': '(###) ###-##-##',
-      'example': '(912) 345-67-89',
-    },
-    'ZA': {
-      'name': 'South Africa',
-      'code': '+27',
-      'flag': '🇿🇦',
-      'format': '### ### ####',
-      'example': '071 234 5678',
-    },
-    'KR': {
-      'name': 'South Korea',
-      'code': '+82',
-      'flag': '🇰🇷',
-      'format': '###-####-####',
-      'example': '010-1234-5678',
-    },
-    'SE': {
-      'name': 'Sweden',
-      'code': '+46',
-      'flag': '🇸🇪',
-      'format': '###-### ## ##',
-      'example': '070-123 45 67',
-    },
-    'NO': {
-      'name': 'Norway',
-      'code': '+47',
-      'flag': '🇳🇴',
-      'format': '### ## ###',
-      'example': '412 34 567',
-    },
-    'PL': {
-      'name': 'Poland',
-      'code': '+48',
-      'flag': '🇵🇱',
-      'format': '### ### ###',
-      'example': '512 345 678',
-    },
-    'RO': {
-      'name': 'Romania',
-      'code': '+40',
-      'flag': '🇷🇴',
-      'format': '#### ### ###',
-      'example': '0712 345 678',
-    },
     'ID': {
       'name': 'Indonesia',
       'code': '+62',
       'flag': '🇮🇩',
-      'format': '####-####-####',
-      'example': '0812-3456-7890',
+      'format': '8##-####-####',
+      'example': '812-3456-7890',
     },
   };
 
@@ -328,19 +195,6 @@ class _PhoneGeneratorPageState extends State<PhoneGeneratorPage> {
                               ),
                             ),
                           ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: FilledButton.icon(
-                              onPressed: _copyPhone,
-                              icon: const Icon(Icons.copy_all, size: 18),
-                              label: const Text('Copy with Code'),
-                              style: FilledButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 12,
-                                ),
-                              ),
-                            ),
-                          ),
                         ],
                       ),
                     ],
@@ -454,35 +308,6 @@ class _PhoneGeneratorPageState extends State<PhoneGeneratorPage> {
             label: const Text('Generate New Number'),
             style: FilledButton.styleFrom(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            ),
-          ),
-          const SizedBox(height: 8),
-
-          // Info Card
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.surfaceContainerHighest,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: theme.colorScheme.outlineVariant),
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.info_outline,
-                  color: theme.colorScheme.primary,
-                  size: 20,
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    'These are randomly generated fake phone numbers for testing purposes only.',
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                ),
-              ],
             ),
           ),
           const SizedBox(height: 100),

@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:random/page/generators/exif_eraser.dart';
-import 'package:random/page/generators/info.dart';
-import 'package:random/page/generators/quick_tiles.dart';
-// ignore: unused_import
-import 'package:random/page/generators/pomodoro_timer.dart';
-// ignore: unused_import
-import 'package:random/page/generators/reading_timer.dart';
-import 'package:random/page/generators/unit_converter.dart';
+import 'package:random/page/utilities/exif_eraser.dart';
+import 'package:random/page/utilities/info.dart';
+import 'package:random/page/utilities/quick_tiles.dart';
+import 'package:random/page/utilities/unit_converter.dart';
 
 class UtilitiesTab extends StatelessWidget {
   const UtilitiesTab({super.key});
@@ -28,50 +24,6 @@ class UtilitiesTab extends StatelessWidget {
               mainAxisSpacing: 12,
             ),
             delegate: SliverChildListDelegate([
-              // _UtilityCard(
-              //   title: 'Pomodoro',
-              //   subtitle: 'Focus timer',
-              //   icon: Icons.timer_outlined,
-              //   gradient: LinearGradient(
-              //     begin: Alignment.topLeft,
-              //     end: Alignment.bottomRight,
-              //     colors: [
-              //       colorScheme.errorContainer,
-              //       colorScheme.errorContainer.withOpacity(0.7),
-              //     ],
-              //   ),
-              //   iconColor: colorScheme.onErrorContainer,
-              //   onTap: () {
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //         builder: (context) => const PomodoroTimerPage(),
-              //       ),
-              //     );
-              //   },
-              // ),
-              // _UtilityCard(
-              //   title: 'Reading',
-              //   subtitle: 'Track sessions',
-              //   icon: Icons.book_outlined,
-              //   gradient: LinearGradient(
-              //     begin: Alignment.topLeft,
-              //     end: Alignment.bottomRight,
-              //     colors: [
-              //       colorScheme.tertiaryContainer,
-              //       colorScheme.tertiaryContainer.withOpacity(0.7),
-              //     ],
-              //   ),
-              //   iconColor: colorScheme.onTertiaryContainer,
-              //   onTap: () {
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //         builder: (context) => const ReadingTimerPage(),
-              //       ),
-              //     );
-              //   },
-              // ),
               _UtilityCard(
                 title: 'EXIF Eraser',
                 subtitle: 'Remove metadata',
@@ -141,7 +93,7 @@ class UtilitiesTab extends StatelessWidget {
               _UtilityCard(
                 title: 'Device Info',
                 subtitle: 'Phone specs',
-                icon: Icons.phone_android_outlined,
+                icon: Icons.info_outline,
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,

@@ -15,6 +15,9 @@ class _DeviceInfoPageState extends State<DeviceInfoPage> {
   final DeviceInfoPlugin _deviceInfo = DeviceInfoPlugin();
   final Battery _battery = Battery();
 
+  // Platform channel for battery cycles
+  static const platform = MethodChannel('com.random.app/battery_info');
+
   Map<String, String> _deviceData = {};
   Map<String, String> _batteryData = {};
   bool _isLoading = true;
@@ -152,29 +155,20 @@ class _DeviceInfoPageState extends State<DeviceInfoPage> {
   }
 
   Future<void> _loadChargingCycles() async {
-    // Note: Battery charging cycles are not directly available via plugins
-    // On Android, this requires reading system files or battery stats
-    // On iOS, this is restricted and not accessible
-    // For desktop platforms, it varies by OS
-
     try {
       if (Platform.isAndroid) {
-        // Attempt to read battery cycle count from system
-        // This is a simplified example - actual implementation may vary
         final result = await _readAndroidBatteryCycles();
         setState(() {
           _chargingCycles = result;
         });
       } else if (Platform.isMacOS) {
-        // On macOS, cycle count can be read via system_profiler
         final result = await _readMacOSBatteryCycles();
         setState(() {
           _chargingCycles = result;
         });
       } else {
-        // For other platforms, set to N/A
         setState(() {
-          _chargingCycles = -1; // -1 indicates N/A
+          _chargingCycles = -1;
         });
       }
     } catch (e) {
@@ -185,19 +179,20 @@ class _DeviceInfoPageState extends State<DeviceInfoPage> {
   }
 
   Future<int> _readAndroidBatteryCycles() async {
-    // This is a placeholder - actual implementation would require
-    // reading from /sys/class/power_supply/battery/cycle_count
-    // or similar system files, which requires platform channels
-    return -1; // Not available without native code
+    try {
+      final int cycles = await platform.invokeMethod('getBatteryCycles');
+      return cycles;
+    } on PlatformException catch (e) {
+      print("Failed to get battery cycles: '${e.message}'.");
+      return -1;
+    }
   }
 
   Future<int> _readMacOSBatteryCycles() async {
     try {
-      // On macOS, we can use system_profiler command
       final result = await Process.run('system_profiler', ['SPPowerDataType']);
       final output = result.stdout.toString();
 
-      // Parse cycle count from output
       final cycleMatch = RegExp(r'Cycle Count:\s*(\d+)').firstMatch(output);
       if (cycleMatch != null) {
         return int.parse(cycleMatch.group(1)!);
@@ -296,7 +291,6 @@ class _DeviceInfoPageState extends State<DeviceInfoPage> {
       );
     }
 
-    // Check if battery info is available
     final hasBatteryInfo = !_batteryData.containsKey('Error');
     final batteryLevel = hasBatteryInfo
         ? int.tryParse(
@@ -310,7 +304,6 @@ class _DeviceInfoPageState extends State<DeviceInfoPage> {
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          // Battery Section (only show if battery info is available)
           if (hasBatteryInfo) ...[
             Container(
               clipBehavior: Clip.antiAlias,
@@ -383,7 +376,6 @@ class _DeviceInfoPageState extends State<DeviceInfoPage> {
                                   ),
                                 );
                               }).toList(),
-                              // Charging cycles
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 12),
                                 child: Column(
@@ -422,7 +414,6 @@ class _DeviceInfoPageState extends State<DeviceInfoPage> {
             ),
             const SizedBox(height: 16),
           ] else ...[
-            // Show message for desktop platforms without battery
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -448,7 +439,6 @@ class _DeviceInfoPageState extends State<DeviceInfoPage> {
             const SizedBox(height: 16),
           ],
 
-          // Device Info Section
           Container(
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
@@ -531,7 +521,6 @@ class _DeviceInfoPageState extends State<DeviceInfoPage> {
           ),
           const SizedBox(height: 16),
 
-          // Refresh Button
           OutlinedButton.icon(
             onPressed: () {
               setState(() => _isLoading = true);

@@ -144,11 +144,11 @@ class GeneratorsTab extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    colorScheme.surfaceContainerHigh,
-                    colorScheme.surfaceContainerHigh.withOpacity(0.7),
+                    colorScheme.primaryContainer,
+                    colorScheme.primaryContainer.withOpacity(0.7),
                   ],
                 ),
-                iconColor: colorScheme.onSurface,
+                iconColor: colorScheme.onPrimaryContainer,
                 onTap: () {
                   Navigator.push(
                     context,

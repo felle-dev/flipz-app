@@ -15,7 +15,7 @@ class _EmailGeneratorPageState extends State<EmailGeneratorPage> {
   bool _includeAdjective = true;
   bool _capitalize = false;
   String _separator = '.';
-  String _domain = '@gmail.com';
+  String _domain = '@proton.me';
   final List<String> _history = [];
 
   final List<String> _adjectives = [

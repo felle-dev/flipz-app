@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:random/page/generators/random_number.dart';
-import 'package:random/page/generators/dice_roller.dart';
-import 'package:random/page/generators/coin_flip.dart';
-import 'package:random/page/generators/spinning_wheel.dart';
+import 'package:random/page/random/random_number.dart';
+import 'package:random/page/random/dice_roller.dart';
+import 'package:random/page/random/coin_flip.dart';
+import 'package:random/page/random/spinning_wheel.dart';
 
 class RandomToolsTab extends StatelessWidget {
   const RandomToolsTab({super.key});

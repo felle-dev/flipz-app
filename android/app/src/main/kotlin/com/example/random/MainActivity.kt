@@ -3,63 +3,86 @@ package com.example.random
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.os.BatteryManager
+import android.os.Build
 import android.provider.Settings
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 
 class MainActivity : FlutterActivity() {
-    private val CHANNEL = "com.random.app/quick_tiles"
+    private val CHANNEL_TILES = "com.random.app/quick_tiles"
+    private val CHANNEL_BATTERY = "com.random.app/battery_info"
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
-    super.configureFlutterEngine(flutterEngine)
-    
-    MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler { call, result ->
-        when (call.method) {
-            "getActiveTiles" -> {
-                val activeTiles = getActiveTiles()
-                result.success(activeTiles)
-            }
-            "addTile" -> {
-                val tileId = call.argument<String>("tileId")
-                if (tileId != null) {
-                    enableTile(tileId, true)
-                    result.success(true)
-                } else {
-                    result.error("INVALID_ARGUMENT", "tileId is required", null)
+        super.configureFlutterEngine(flutterEngine)
+        
+        // Quick Tiles Channel
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL_TILES).setMethodCallHandler { call, result ->
+            when (call.method) {
+                "getActiveTiles" -> {
+                    val activeTiles = getActiveTiles()
+                    result.success(activeTiles)
+                }
+                "addTile" -> {
+                    val tileId = call.argument<String>("tileId")
+                    if (tileId != null) {
+                        enableTile(tileId, true)
+                        result.success(true)
+                    } else {
+                        result.error("INVALID_ARGUMENT", "tileId is required", null)
+                    }
+                }
+                "removeTile" -> {
+                    val tileId = call.argument<String>("tileId")
+                    if (tileId != null) {
+                        enableTile(tileId, false)
+                        result.success(true)
+                    } else {
+                        result.error("INVALID_ARGUMENT", "tileId is required", null)
+                    }
+                }
+                "checkAccessibility" -> {
+                    val isEnabled = isAccessibilityServiceEnabled(this)
+                    result.success(isEnabled)
+                }
+                "openAccessibilitySettings" -> {
+                    try {
+                        val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        startActivity(intent)
+                        result.success(null)
+                    } catch (e: Exception) {
+                        result.error("ERROR", e.message, null)
+                    }
+                }
+                else -> {
+                    result.notImplemented()
                 }
             }
-            "removeTile" -> {
-                val tileId = call.argument<String>("tileId")
-                if (tileId != null) {
-                    enableTile(tileId, false)
-                    result.success(true)
-                } else {
-                    result.error("INVALID_ARGUMENT", "tileId is required", null)
+        }
+
+        // Battery Info Channel
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL_BATTERY).setMethodCallHandler { call, result ->
+            when (call.method) {
+                "getBatteryCycles" -> {
+                    val cycles = getBatteryCycleCount()
+                    if (cycles != -1) {
+                        result.success(cycles)
+                    } else {
+                        result.error("UNAVAILABLE", "Battery cycle count not available", null)
+                    }
                 }
-            }
-            "checkAccessibility" -> {
-                val isEnabled = isAccessibilityServiceEnabled(this)
-                result.success(isEnabled)
-            }
-            "openAccessibilitySettings" -> {
-                try {
-                    val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(intent)
-                    result.success(null)
-                } catch (e: Exception) {
-                    result.error("ERROR", e.message, null)
+                else -> {
+                    result.notImplemented()
                 }
-            }
-            else -> {
-                result.notImplemented()
             }
         }
     }
-}
 
+    // Quick Tiles Methods
     private fun getActiveTiles(): List<String> {
         val activeTiles = mutableListOf<String>()
         val tileMap = mapOf(
@@ -109,5 +132,65 @@ class MainActivity : FlutterActivity() {
             Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES
         )
         return enabledServices?.contains(service) == true
+    }
+
+    // Battery Cycle Methods
+    private fun getBatteryCycleCount(): Int {
+        return try {
+            // Method 1: Try to get it from BatteryManager (Android 5.0+)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                val batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
+                
+                // Try different properties that might contain cycle count
+                val cycleCount = batteryManager.getIntProperty(BatteryManager.EXTRA_CYCLE_COUNT)
+                if (cycleCount > 0) {
+                    return cycleCount
+                }
+            }
+
+            // Method 2: Try to get it from broadcast intent
+            val batteryStatus: Intent? = IntentFilter(Intent.ACTION_BATTERY_CHANGED).let { filter ->
+                applicationContext.registerReceiver(null, filter)
+            }
+            
+            batteryStatus?.let {
+                val cycles = it.getIntExtra(BatteryManager.EXTRA_CYCLE_COUNT, -1)
+                if (cycles > 0) {
+                    return cycles
+                }
+            }
+
+            // Method 3: Try to read from system file (requires root on some devices)
+            // This is the most reliable method but may not work on all devices
+            val cycleCountFile = java.io.File("/sys/class/power_supply/battery/cycle_count")
+            if (cycleCountFile.exists() && cycleCountFile.canRead()) {
+                val content = cycleCountFile.readText().trim()
+                return content.toIntOrNull() ?: -1
+            }
+
+            // Alternative paths that some manufacturers use
+            val alternatePaths = listOf(
+                "/sys/class/power_supply/battery/battery_cycle",
+                "/sys/class/power_supply/bms/cycle_count",
+                "/sys/class/power_supply/Battery/cycle_count",
+                "/sys/devices/platform/battery/power_supply/battery/cycle_count"
+            )
+
+            for (path in alternatePaths) {
+                val file = java.io.File(path)
+                if (file.exists() && file.canRead()) {
+                    val content = file.readText().trim()
+                    val cycleCount = content.toIntOrNull()
+                    if (cycleCount != null && cycleCount > 0) {
+                        return cycleCount
+                    }
+                }
+            }
+
+            -1
+        } catch (e: Exception) {
+            e.printStackTrace()
+            -1
+        }
     }
 }

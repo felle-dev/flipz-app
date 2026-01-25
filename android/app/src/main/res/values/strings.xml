@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="accessibility_service_description"
-    >Allows the app to take screenshots using quick settings tiles</string
+    >This service is required to take screenshots and lock your screen from the quick settings tiles.</string
   >
+  <string name="shortcut_lock">Lock Screen</string>
+  <string name="shortcut_lock_disabled">Accessibility service required</string>
+
+  <string name="widget_description">Tap to lock your screen instantly</string>
 </resources>

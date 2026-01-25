@@ -27,9 +27,29 @@
         android:name="io.flutter.embedding.android.NormalTheme"
         android:resource="@style/NormalTheme"
       />
+
+      <!-- App Shortcuts -->
+      <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
+
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+
+    <!-- Shortcut Handler Activity -->
+    <activity
+      android:name=".ShortcutHandlerActivity"
+      android:theme="@android:style/Theme.Translucent.NoTitleBar"
+      android:excludeFromRecents="true"
+      android:exported="true"
+      android:noHistory="true"
+      android:taskAffinity=""
+      android:launchMode="singleInstance"
+    >
+      <intent-filter>
+        <action android:name="com.example.random.LOCK_SCREEN" />
+        <category android:name="android.intent.category.DEFAULT" />
       </intent-filter>
     </activity>
 
@@ -43,16 +63,15 @@
       android:launchMode="singleInstance"
     />
 
-    <!-- Device Admin Receiver for Lock Screen -->
-    <receiver
-      android:name=".DeviceAdminReceiver"
-      android:exported="true"
-      android:permission="android.permission.BIND_DEVICE_ADMIN"
-    >
-      <meta-data android:name="android.app.device_admin" android:resource="@xml/device_admin" />
+    <!-- Lock Widget -->
+    <receiver android:name=".LockWidgetProvider" android:exported="true">
       <intent-filter>
-        <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
       </intent-filter>
+      <meta-data
+        android:name="android.appwidget.provider"
+        android:resource="@xml/lock_widget_info"
+      />
     </receiver>
 
     <!-- Lock Screen Tile -->
@@ -95,7 +114,7 @@
       </intent-filter>
     </service>
 
-    <!-- Accessibility Service for Screenshot -->
+    <!-- Accessibility Service for Lock Screen -->
     <service
       android:name=".CustomAccessibilityService"
       android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"

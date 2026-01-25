@@ -61,27 +61,13 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
 
   Future<void> _toggleTile(String tileId, bool isActive) async {
     try {
-      // Special handling for screenshot tile
-      if (tileId == 'screenshot' && isActive) {
-        // Check if accessibility is enabled
+      // Check accessibility for both screenshot and lock screen tiles
+      if ((tileId == 'screenshot' || tileId == 'lock_screen') && isActive) {
         final bool accessibilityEnabled = await _checkAccessibility();
 
         if (!accessibilityEnabled) {
           if (mounted) {
-            _showAccessibilityDialog();
-          }
-          return;
-        }
-      }
-
-      // Special handling for lock screen tile
-      if (tileId == 'lock_screen' && isActive) {
-        // Check if device admin is enabled
-        final bool deviceAdminEnabled = await _checkDeviceAdmin();
-
-        if (!deviceAdminEnabled) {
-          if (mounted) {
-            _showDeviceAdminDialog();
+            _showAccessibilityDialog(tileId);
           }
           return;
         }
@@ -94,12 +80,9 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
         });
         if (mounted) {
           String message = 'Tile added! Pull down quick settings to see it.';
-          if (tileId == 'screenshot') {
+          if (tileId == 'screenshot' || tileId == 'lock_screen') {
             message =
-                'Screenshot tile added! Make sure accessibility is enabled.';
-          } else if (tileId == 'lock_screen') {
-            message =
-                'Lock screen tile added! Make sure device admin is enabled.';
+                '${tileId == 'screenshot' ? 'Screenshot' : 'Lock screen'} tile added! Make sure accessibility is enabled.';
           }
 
           ScaffoldMessenger.of(context).showSnackBar(
@@ -143,17 +126,11 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
     }
   }
 
-  Future<bool> _checkDeviceAdmin() async {
-    try {
-      final result = await platform.invokeMethod('checkDeviceAdmin');
-      return result as bool? ?? false;
-    } catch (e) {
-      debugPrint('Failed to check device admin: $e');
-      return false;
-    }
-  }
+  void _showAccessibilityDialog(String tileId) {
+    final String featureName = tileId == 'screenshot'
+        ? 'Screenshot'
+        : 'Lock screen';
 
-  void _showAccessibilityDialog() {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -164,8 +141,8 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
             Text('Enable Accessibility'),
           ],
         ),
-        content: const Text(
-          'Screenshot functionality requires accessibility permission. '
+        content: Text(
+          '$featureName functionality requires accessibility permission. '
           'Would you like to enable it now?\n\n'
           'In Settings, find "Random" under Accessibility and turn it on.',
         ),
@@ -186,52 +163,11 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
     );
   }
 
-  void _showDeviceAdminDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Row(
-          children: [
-            Icon(Icons.admin_panel_settings),
-            SizedBox(width: 8),
-            Text('Enable Device Admin'),
-          ],
-        ),
-        content: const Text(
-          'Lock screen functionality requires Device Administrator permission. '
-          'Would you like to enable it now?\n\n'
-          'This permission allows the app to lock your device screen.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          FilledButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _openDeviceAdminSettings();
-            },
-            child: const Text('Open Settings'),
-          ),
-        ],
-      ),
-    );
-  }
-
   Future<void> _openAccessibilitySettings() async {
     try {
       await platform.invokeMethod('openAccessibilitySettings');
     } catch (e) {
       debugPrint('Failed to open accessibility settings: $e');
-    }
-  }
-
-  Future<void> _openDeviceAdminSettings() async {
-    try {
-      await platform.invokeMethod('openDeviceAdminSettings');
-    } catch (e) {
-      debugPrint('Failed to open device admin settings: $e');
     }
   }
 
@@ -271,11 +207,38 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 8),
-              Text('• Lock Screen: Device Administrator'),
-              Text('• Screenshot: Accessibility (Android 9.0+)'),
+              Text('• Lock Screen: Accessibility Service'),
+              Text('• Screenshot: Accessibility Service (Android 9.0+)'),
               SizedBox(height: 16),
               Text(
-                'Note: Quick Settings Tiles require Android 7.0+.',
+                'Troubleshooting:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 8),
+              Text(
+                'If you cannot enable accessibility service:',
+                style: TextStyle(fontSize: 13),
+              ),
+              SizedBox(height: 4),
+              Text(
+                '1. Go to App Info (long-press app icon → App info)',
+                style: TextStyle(fontSize: 12),
+              ),
+              Text(
+                '2. Tap the 3-dot menu (top right corner)',
+                style: TextStyle(fontSize: 12),
+              ),
+              Text(
+                '3. Select "Allow restricted settings"',
+                style: TextStyle(fontSize: 12),
+              ),
+              Text(
+                '4. Now try enabling accessibility again',
+                style: TextStyle(fontSize: 12),
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Note: Quick Settings Tiles require Android 7.0+. The "Allow restricted settings" option may not be available on all Android versions.',
                 style: TextStyle(fontSize: 12, fontStyle: FontStyle.italic),
               ),
             ],
@@ -353,36 +316,6 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
                 const SizedBox(height: 100),
               ],
             ),
-    );
-  }
-
-  Widget _buildInstructionStep(String number, String text) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        children: [
-          Container(
-            width: 24,
-            height: 24,
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
-              shape: BoxShape.circle,
-            ),
-            child: Center(
-              child: Text(
-                number,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onPrimary,
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(child: Text(text)),
-        ],
-      ),
     );
   }
 }

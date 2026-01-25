@@ -107,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('About Random Tools'),
+        title: const Text('About Random'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.pop(context);
               showLicensePage(
                 context: context,
-                applicationName: 'Random Tools',
+                applicationName: 'Random',
                 applicationVersion: '1.0.0',
               );
             },

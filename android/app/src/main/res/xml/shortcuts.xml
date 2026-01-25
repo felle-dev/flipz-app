@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+  <shortcut
+    android:shortcutId="lock_screen"
+    android:enabled="true"
+    android:icon="@android:drawable/ic_lock_lock"
+    android:shortcutShortLabel="@string/shortcut_lock"
+    android:shortcutLongLabel="@string/shortcut_lock"
+    android:shortcutDisabledMessage="@string/shortcut_lock_disabled"
+  >
+    <intent
+      android:action="com.example.random.LOCK_SCREEN"
+      android:targetPackage="com.example.random"
+      android:targetClass="com.example.random.ShortcutHandlerActivity"
+    />
+    <categories android:name="android.shortcut.conversation" />
+  </shortcut>
+</shortcuts>

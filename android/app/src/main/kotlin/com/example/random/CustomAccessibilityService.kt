@@ -15,18 +15,26 @@ class CustomAccessibilityService : AccessibilityService() {
     companion object {
         private const val TAG = "CustomAccessibility"
         const val ACTION_TAKE_SCREENSHOT = "com.example.random.TAKE_SCREENSHOT"
+        const val ACTION_LOCK_SCREEN = "com.example.random.LOCK_SCREEN"
         
         @Volatile
         private var instance: CustomAccessibilityService? = null
         
         fun isRunning(): Boolean = instance != null
+        
+        fun lockScreen() {
+            instance?.performLockScreen()
+        }
+        
+        fun getInstance(): CustomAccessibilityService? = instance
     }
     
-    private val screenshotReceiver = object : BroadcastReceiver() {
+    private val actionReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             Log.d(TAG, "Broadcast received: ${intent?.action}")
-            if (intent?.action == ACTION_TAKE_SCREENSHOT) {
-                takeScreenshot()
+            when (intent?.action) {
+                ACTION_TAKE_SCREENSHOT -> takeScreenshot()
+                ACTION_LOCK_SCREEN -> performLockScreen()
             }
         }
     }
@@ -37,15 +45,32 @@ class CustomAccessibilityService : AccessibilityService() {
         Log.d(TAG, "Accessibility service connected")
         
         try {
-            val filter = IntentFilter(ACTION_TAKE_SCREENSHOT)
+            val filter = IntentFilter().apply {
+                addAction(ACTION_TAKE_SCREENSHOT)
+                addAction(ACTION_LOCK_SCREEN)
+            }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                registerReceiver(screenshotReceiver, filter, RECEIVER_NOT_EXPORTED)
+                registerReceiver(actionReceiver, filter, RECEIVER_NOT_EXPORTED)
             } else {
-                registerReceiver(screenshotReceiver, filter)
+                registerReceiver(actionReceiver, filter)
             }
             Log.d(TAG, "Broadcast receiver registered")
         } catch (e: Exception) {
             Log.e(TAG, "Failed to register receiver", e)
+        }
+    }
+    
+    private fun performLockScreen() {
+        try {
+            Log.d(TAG, "Attempting to lock screen...")
+            val result = performGlobalAction(GLOBAL_ACTION_LOCK_SCREEN)
+            Log.d(TAG, "Lock screen action result: $result")
+            if (!result) {
+                Toast.makeText(this, "Failed to lock screen", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error locking screen", e)
+            Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
     
@@ -69,7 +94,7 @@ class CustomAccessibilityService : AccessibilityService() {
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
-        // Not needed for screenshot functionality
+        // Not needed for screenshot/lock functionality
     }
 
     override fun onInterrupt() {
@@ -80,7 +105,7 @@ class CustomAccessibilityService : AccessibilityService() {
         super.onDestroy()
         instance = null
         try {
-            unregisterReceiver(screenshotReceiver)
+            unregisterReceiver(actionReceiver)
             Log.d(TAG, "Broadcast receiver unregistered")
         } catch (e: Exception) {
             Log.e(TAG, "Error unregistering receiver", e)

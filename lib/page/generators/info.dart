@@ -18,12 +18,14 @@ class _DeviceInfoPageState extends State<DeviceInfoPage> {
   Map<String, String> _deviceData = {};
   Map<String, String> _batteryData = {};
   bool _isLoading = true;
+  int _chargingCycles = 0;
 
   @override
   void initState() {
     super.initState();
     _loadDeviceInfo();
     _loadBatteryInfo();
+    _loadChargingCycles();
   }
 
   Future<void> _loadDeviceInfo() async {
@@ -56,6 +58,48 @@ class _DeviceInfoPageState extends State<DeviceInfoPage> {
           'Local Model': iosInfo.localizedModel,
           'Identifier': iosInfo.identifierForVendor ?? 'N/A',
           'Is Physical Device': iosInfo.isPhysicalDevice.toString(),
+        };
+      } else if (Platform.isWindows) {
+        WindowsDeviceInfo windowsInfo = await _deviceInfo.windowsInfo;
+        deviceData = {
+          'Computer Name': windowsInfo.computerName,
+          'Number of Cores': windowsInfo.numberOfCores.toString(),
+          'System Memory (GB)': (windowsInfo.systemMemoryInMegabytes / 1024)
+              .toStringAsFixed(2),
+          'Product Name': windowsInfo.productName,
+          'Display Version': windowsInfo.displayVersion,
+          'Platform ID': windowsInfo.platformId.toString(),
+          'Major Version': windowsInfo.majorVersion.toString(),
+          'Minor Version': windowsInfo.minorVersion.toString(),
+          'Build Number': windowsInfo.buildNumber.toString(),
+        };
+      } else if (Platform.isLinux) {
+        LinuxDeviceInfo linuxInfo = await _deviceInfo.linuxInfo;
+        deviceData = {
+          'Name': linuxInfo.name,
+          'Version': linuxInfo.version ?? 'N/A',
+          'ID': linuxInfo.id,
+          'ID Like': linuxInfo.idLike?.join(', ') ?? 'N/A',
+          'Version Codename': linuxInfo.versionCodename ?? 'N/A',
+          'Version ID': linuxInfo.versionId ?? 'N/A',
+          'Pretty Name': linuxInfo.prettyName,
+          'Build ID': linuxInfo.buildId ?? 'N/A',
+          'Variant': linuxInfo.variant ?? 'N/A',
+          'Variant ID': linuxInfo.variantId ?? 'N/A',
+          'Machine ID': linuxInfo.machineId ?? 'N/A',
+        };
+      } else if (Platform.isMacOS) {
+        MacOsDeviceInfo macInfo = await _deviceInfo.macOsInfo;
+        deviceData = {
+          'Computer Name': macInfo.computerName,
+          'Host Name': macInfo.hostName,
+          'Model': macInfo.model,
+          'Kernel Version': macInfo.kernelVersion,
+          'OS Release': macInfo.osRelease,
+          'Major Version': macInfo.majorVersion.toString(),
+          'Minor Version': macInfo.minorVersion.toString(),
+          'Patch Version': macInfo.patchVersion.toString(),
+          'System GUID': macInfo.systemGUID ?? 'N/A',
         };
       }
     } catch (e) {
@@ -99,12 +143,69 @@ class _DeviceInfoPageState extends State<DeviceInfoPage> {
         'Health Status': _getBatteryHealth(batteryLevel),
       };
     } catch (e) {
-      batteryData = {'Error': 'Failed to get battery info: $e'};
+      batteryData = {'Error': 'Battery info not available on this platform'};
     }
 
     setState(() {
       _batteryData = batteryData;
     });
+  }
+
+  Future<void> _loadChargingCycles() async {
+    // Note: Battery charging cycles are not directly available via plugins
+    // On Android, this requires reading system files or battery stats
+    // On iOS, this is restricted and not accessible
+    // For desktop platforms, it varies by OS
+
+    try {
+      if (Platform.isAndroid) {
+        // Attempt to read battery cycle count from system
+        // This is a simplified example - actual implementation may vary
+        final result = await _readAndroidBatteryCycles();
+        setState(() {
+          _chargingCycles = result;
+        });
+      } else if (Platform.isMacOS) {
+        // On macOS, cycle count can be read via system_profiler
+        final result = await _readMacOSBatteryCycles();
+        setState(() {
+          _chargingCycles = result;
+        });
+      } else {
+        // For other platforms, set to N/A
+        setState(() {
+          _chargingCycles = -1; // -1 indicates N/A
+        });
+      }
+    } catch (e) {
+      setState(() {
+        _chargingCycles = -1;
+      });
+    }
+  }
+
+  Future<int> _readAndroidBatteryCycles() async {
+    // This is a placeholder - actual implementation would require
+    // reading from /sys/class/power_supply/battery/cycle_count
+    // or similar system files, which requires platform channels
+    return -1; // Not available without native code
+  }
+
+  Future<int> _readMacOSBatteryCycles() async {
+    try {
+      // On macOS, we can use system_profiler command
+      final result = await Process.run('system_profiler', ['SPPowerDataType']);
+      final output = result.stdout.toString();
+
+      // Parse cycle count from output
+      final cycleMatch = RegExp(r'Cycle Count:\s*(\d+)').firstMatch(output);
+      if (cycleMatch != null) {
+        return int.parse(cycleMatch.group(1)!);
+      }
+    } catch (e) {
+      // Command failed or not available
+    }
+    return -1;
   }
 
   String _getBatteryHealth(int level) {
@@ -195,95 +296,157 @@ class _DeviceInfoPageState extends State<DeviceInfoPage> {
       );
     }
 
+    // Check if battery info is available
+    final hasBatteryInfo = !_batteryData.containsKey('Error');
+    final batteryLevel = hasBatteryInfo
+        ? int.tryParse(
+                _batteryData['Battery Level']?.replaceAll('%', '') ?? '0',
+              ) ??
+              0
+        : 0;
+
     return Scaffold(
       appBar: AppBar(title: const Text('Device Info')),
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          // Battery Section
-          Container(
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: theme.colorScheme.outlineVariant,
-                width: 1,
+          // Battery Section (only show if battery info is available)
+          if (hasBatteryInfo) ...[
+            Container(
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: theme.colorScheme.outlineVariant,
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(16),
+                color: theme.colorScheme.surface,
               ),
-              borderRadius: BorderRadius.circular(16),
-              color: theme.colorScheme.surface,
-            ),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.battery_charging_full,
-                        color: theme.colorScheme.primary,
-                        size: 20,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Battery Health',
-                        style: theme.textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.battery_charging_full,
                           color: theme.colorScheme.primary,
+                          size: 20,
                         ),
-                      ),
-                    ],
+                        const SizedBox(width: 8),
+                        Text(
+                          'Battery Health',
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: theme.colorScheme.primary,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Divider(height: 1, color: theme.colorScheme.outlineVariant),
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Row(
-                    children: [
-                      _buildBatteryIndicator(
-                        int.tryParse(
-                              _batteryData['Battery Level']?.replaceAll(
-                                    '%',
-                                    '',
-                                  ) ??
-                                  '0',
-                            ) ??
-                            0,
-                        theme,
-                      ),
-                      const SizedBox(width: 24),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: _batteryData.entries.map((entry) {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 12),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    entry.key,
-                                    style: theme.textTheme.bodySmall?.copyWith(
-                                      color: theme.colorScheme.onSurfaceVariant,
+                  Divider(height: 1, color: theme.colorScheme.outlineVariant),
+                  Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Row(
+                      children: [
+                        _buildBatteryIndicator(batteryLevel, theme),
+                        const SizedBox(width: 24),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ..._batteryData.entries.map((entry) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 12),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        entry.key,
+                                        style: theme.textTheme.bodySmall
+                                            ?.copyWith(
+                                              color: theme
+                                                  .colorScheme
+                                                  .onSurfaceVariant,
+                                            ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        entry.value,
+                                        style: theme.textTheme.titleMedium
+                                            ?.copyWith(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }).toList(),
+                              // Charging cycles
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 12),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Charging Cycles',
+                                      style: theme.textTheme.bodySmall
+                                          ?.copyWith(
+                                            color: theme
+                                                .colorScheme
+                                                .onSurfaceVariant,
+                                          ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    entry.value,
-                                    style: theme.textTheme.titleMedium
-                                        ?.copyWith(fontWeight: FontWeight.bold),
-                                  ),
-                                ],
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      _chargingCycles == -1
+                                          ? 'N/A'
+                                          : _chargingCycles.toString(),
+                                      style: theme.textTheme.titleMedium
+                                          ?.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            );
-                          }).toList(),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: 16),
+            const SizedBox(height: 16),
+          ] else ...[
+            // Show message for desktop platforms without battery
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surfaceContainerHighest,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: theme.colorScheme.outlineVariant),
+              ),
+              child: Row(
+                children: [
+                  Icon(Icons.info_outline, color: theme.colorScheme.primary),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      'Battery information is not available on this platform.',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+          ],
 
           // Device Info Section
           Container(
@@ -303,7 +466,11 @@ class _DeviceInfoPageState extends State<DeviceInfoPage> {
                   child: Row(
                     children: [
                       Icon(
-                        Icons.phone_android_outlined,
+                        Platform.isWindows ||
+                                Platform.isLinux ||
+                                Platform.isMacOS
+                            ? Icons.computer_outlined
+                            : Icons.phone_android_outlined,
                         color: theme.colorScheme.primary,
                         size: 20,
                       ),
@@ -370,6 +537,7 @@ class _DeviceInfoPageState extends State<DeviceInfoPage> {
               setState(() => _isLoading = true);
               _loadDeviceInfo();
               _loadBatteryInfo();
+              _loadChargingCycles();
             },
             icon: const Icon(Icons.refresh),
             label: const Text('Refresh Info'),

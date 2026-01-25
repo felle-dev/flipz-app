@@ -319,10 +319,26 @@ class _RandomIdentityGeneratorPageState
 
   final List<String> _emailDomains = [
     'gmail.com',
-    'yahoo.com',
-    'outlook.com',
-    'hotmail.com',
-    'protonmail.com',
+    '@proton.me',
+    '@tutanota.com',
+    '@fastmail.com',
+    '@posteo.de',
+    '@mailbox.org',
+    '@runbox.com',
+    '@mailfence.com',
+    '@disroot.org',
+    '@ctemplar.com',
+    '@cock.li',
+    '@airmail.cc',
+    '@mail.com',
+    '@gmx.com',
+    '@yandex.com',
+    '@zoho.com',
+    '@inbox.com',
+    '@lycos.com',
+    '@rediffmail.com',
+    '@mail.ru',
+    '@privateemail.com',
   ];
 
   void _generateIdentity() {

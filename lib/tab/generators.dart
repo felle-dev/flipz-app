@@ -3,6 +3,7 @@ import 'package:random/page/generators/device.dart';
 import 'package:random/page/generators/email.dart';
 import 'package:random/page/generators/identity.dart';
 import 'package:random/page/generators/password.dart';
+import 'package:random/page/generators/phone.dart';
 import 'package:random/page/generators/username.dart';
 
 class GeneratorsTab extends StatelessWidget {
@@ -131,6 +132,28 @@ class GeneratorsTab extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => const RandomIdentityGeneratorPage(),
+                    ),
+                  );
+                },
+              ),
+              _GeneratorCard(
+                title: 'Phone',
+                subtitle: 'Fake numbers',
+                icon: Icons.phone_outlined,
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    colorScheme.surfaceContainerHigh,
+                    colorScheme.surfaceContainerHigh.withOpacity(0.7),
+                  ],
+                ),
+                iconColor: colorScheme.onSurface,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PhoneGeneratorPage(),
                     ),
                   );
                 },

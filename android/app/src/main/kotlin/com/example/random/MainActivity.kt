@@ -137,18 +137,7 @@ class MainActivity : FlutterActivity() {
     // Battery Cycle Methods
     private fun getBatteryCycleCount(): Int {
         return try {
-            // Method 1: Try to get it from BatteryManager (Android 5.0+)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                val batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
-                
-                // Try different properties that might contain cycle count
-                val cycleCount = batteryManager.getIntProperty(BatteryManager.EXTRA_CYCLE_COUNT)
-                if (cycleCount > 0) {
-                    return cycleCount
-                }
-            }
-
-            // Method 2: Try to get it from broadcast intent
+            // Method 1: Try to get it from broadcast intent
             val batteryStatus: Intent? = IntentFilter(Intent.ACTION_BATTERY_CHANGED).let { filter ->
                 applicationContext.registerReceiver(null, filter)
             }
@@ -160,7 +149,7 @@ class MainActivity : FlutterActivity() {
                 }
             }
 
-            // Method 3: Try to read from system file (requires root on some devices)
+            // Method 2: Try to read from system file (may require permissions on some devices)
             // This is the most reliable method but may not work on all devices
             val cycleCountFile = java.io.File("/sys/class/power_supply/battery/cycle_count")
             if (cycleCountFile.exists() && cycleCountFile.canRead()) {

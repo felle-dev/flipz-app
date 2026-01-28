@@ -92,7 +92,7 @@ class _GeneratorsTabState extends State<GeneratorsTab> {
           title: 'Identity',
           subtitle: 'Fake identities',
           icon: Icons.badge_outlined,
-          containerColor: colorScheme.surfaceContainerHighest,
+          containerColor: colorScheme.errorContainer,
           pageBuilder: () => const RandomIdentityGeneratorPage(),
         ),
         GeneratorItem(

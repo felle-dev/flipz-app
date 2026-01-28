@@ -31,6 +31,7 @@
 - **Phone Generator** – Generate fake phone numbers
 - **Device Name Generator** – Random device names for privacy
 - **Identity Generator** – Complete fake identities for testing forms
+- **Lorem Ipsum Generator** – Generate Lorem Ipsum text
 
 ### **Games**
 - **Random Number** – Generate random numbers in any range
@@ -46,9 +47,12 @@
 
 ## **Screenshots**
 <div style="display: flex; justify-content: space-around; gap: 10px;">
-  <img src="./screenshot/ss1.png" width="200" alt="Generators Tab">
-  <img src="./screenshot/ss2.png" width="200" alt="Random Tools">
-  <img src="./screenshot/ss3.png" width="200" alt="Utilities">
+  <img src="./screenshot/ss1.png" width="200">
+  <img src="./screenshot/ss2.png" width="200">
+  <img src="./screenshot/ss3.png" width="200">
+  <img src="./screenshot/ss4.png" width="200">
+  <img src="./screenshot/ss5.png" width="200">
+  <img src="./screenshot/ss6.png" width="200">
 </div>
 
 ## **Tech Stack**

@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
       case 2:
         return 'Games';
       default:
-        return 'Random';
+        return 'Flipz';
     }
   }
 
@@ -78,6 +78,19 @@ class _HomeScreenState extends State<HomeScreen> {
               backgroundColor: theme.colorScheme.surface,
               foregroundColor: theme.colorScheme.onSurface,
               actions: [
+                PopupMenuButton<String>(
+                  icon: const Icon(Icons.language),
+                  tooltip: 'Language',
+                  onSelected: (String languageCode) {
+                    // TODO: Handle language change
+                  },
+                  itemBuilder: (BuildContext context) => [
+                    const PopupMenuItem(value: 'en', child: Text('English')),
+                    const PopupMenuItem(value: 'de', child: Text('Deutsch')),
+                    const PopupMenuItem(value: 'id', child: Text('Indonesia')),
+                  ],
+                ),
+
                 IconButton(
                   icon: const Icon(Icons.info_outline),
                   onPressed: () => _showAboutDialog(context),
@@ -107,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('About Random'),
+        title: const Text('About Flipz'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,8 +148,8 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.pop(context);
               showLicensePage(
                 context: context,
-                applicationName: 'Random',
-                applicationVersion: '1.1.0',
+                applicationName: 'Flipz',
+                applicationVersion: '1.1.1',
               );
             },
             icon: const Icon(Icons.description_outlined, size: 18),

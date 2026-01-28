@@ -6,27 +6,11 @@ import 'package:random/page/generators/loremipsum.dart';
 import 'package:random/page/generators/password.dart';
 import 'package:random/page/generators/phone.dart';
 import 'package:random/page/generators/username.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-class GeneratorItem {
-  final String id;
-  final String title;
-  final String subtitle;
-  final IconData icon;
-  final Color containerColor;
-  final Widget Function() pageBuilder;
-  bool isPinned;
-
-  GeneratorItem({
-    required this.id,
-    required this.title,
-    required this.subtitle,
-    required this.icon,
-    required this.containerColor,
-    required this.pageBuilder,
-    this.isPinned = false,
-  });
-}
+import 'package:random/models/generator_item.dart';
+import 'package:random/config/app_strings.dart';
+import 'package:random/config/app_dimensions.dart';
+import 'package:random/utils/preferences_helper.dart';
+import 'package:random/widgets/generator_list_card.dart';
 
 class GeneratorsTab extends StatefulWidget {
   const GeneratorsTab({super.key});
@@ -37,7 +21,6 @@ class GeneratorsTab extends StatefulWidget {
 
 class _GeneratorsTabState extends State<GeneratorsTab> {
   late List<GeneratorItem> _generators;
-  static const String _pinnedKey = 'pinned_generators';
 
   @override
   void initState() {
@@ -57,56 +40,56 @@ class _GeneratorsTabState extends State<GeneratorsTab> {
       _generators = [
         GeneratorItem(
           id: 'password',
-          title: 'Password',
-          subtitle: 'Secure passwords',
+          title: AppStrings.generatorPassword,
+          subtitle: AppStrings.generatorPasswordSubtitle,
           icon: Icons.lock_outline,
           containerColor: colorScheme.primaryContainer,
           pageBuilder: () => const PasswordGeneratorPage(),
         ),
         GeneratorItem(
           id: 'email',
-          title: 'Email',
-          subtitle: 'Random emails',
+          title: AppStrings.generatorEmail,
+          subtitle: AppStrings.generatorEmailSubtitle,
           icon: Icons.email_outlined,
           containerColor: colorScheme.secondaryContainer,
           pageBuilder: () => const EmailGeneratorPage(),
         ),
         GeneratorItem(
           id: 'username',
-          title: 'Username',
-          subtitle: 'Random usernames',
+          title: AppStrings.generatorUsername,
+          subtitle: AppStrings.generatorUsernameSubtitle,
           icon: Icons.person_outline,
           containerColor: colorScheme.tertiaryContainer,
           pageBuilder: () => const UsernameGeneratorPage(),
         ),
         GeneratorItem(
           id: 'device',
-          title: 'Device Name',
-          subtitle: 'Random device',
+          title: AppStrings.generatorDevice,
+          subtitle: AppStrings.generatorDeviceSubtitle,
           icon: Icons.phone_android_outlined,
           containerColor: colorScheme.errorContainer,
           pageBuilder: () => const DeviceGeneratorPage(),
         ),
         GeneratorItem(
           id: 'identity',
-          title: 'Identity',
-          subtitle: 'Fake identities',
+          title: AppStrings.generatorIdentity,
+          subtitle: AppStrings.generatorIdentitySubtitle,
           icon: Icons.badge_outlined,
           containerColor: colorScheme.errorContainer,
           pageBuilder: () => const RandomIdentityGeneratorPage(),
         ),
         GeneratorItem(
           id: 'phone',
-          title: 'Number',
-          subtitle: 'Fake numbers',
+          title: AppStrings.generatorPhone,
+          subtitle: AppStrings.generatorPhoneSubtitle,
           icon: Icons.phone_outlined,
           containerColor: colorScheme.primaryContainer,
           pageBuilder: () => const PhoneGeneratorPage(),
         ),
         GeneratorItem(
           id: 'lorem_ipsum',
-          title: 'Lorem Ipsum',
-          subtitle: 'Placeholder text',
+          title: AppStrings.generatorLoremIpsum,
+          subtitle: AppStrings.generatorLoremIpsumSubtitle,
           icon: Icons.text_fields,
           containerColor: colorScheme.secondaryContainer,
           pageBuilder: () => const LoremIpsumGeneratorPage(),
@@ -116,10 +99,8 @@ class _GeneratorsTabState extends State<GeneratorsTab> {
     }
   }
 
-  // Load pinned state from SharedPreferences
   Future<void> _loadPinnedState() async {
-    final prefs = await SharedPreferences.getInstance();
-    final pinnedIds = prefs.getStringList(_pinnedKey) ?? [];
+    final pinnedIds = await PreferencesHelper.getPinnedGenerators();
 
     setState(() {
       for (var generator in _generators) {
@@ -128,14 +109,12 @@ class _GeneratorsTabState extends State<GeneratorsTab> {
     });
   }
 
-  // Save pinned state to SharedPreferences
   Future<void> _savePinnedState() async {
-    final prefs = await SharedPreferences.getInstance();
     final pinnedIds = _generators
         .where((g) => g.isPinned)
         .map((g) => g.id)
         .toList();
-    await prefs.setStringList(_pinnedKey, pinnedIds);
+    await PreferencesHelper.savePinnedGenerators(pinnedIds);
   }
 
   List<GeneratorItem> get _pinnedGenerators =>
@@ -165,14 +144,23 @@ class _GeneratorsTabState extends State<GeneratorsTab> {
           // Pinned section
           if (pinnedItems.isNotEmpty) ...[
             SliverPadding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+              padding: const EdgeInsets.fromLTRB(
+                AppDimensions.paddingMedium,
+                AppDimensions.paddingMedium,
+                AppDimensions.paddingMedium,
+                AppDimensions.paddingSmall,
+              ),
               sliver: SliverToBoxAdapter(
                 child: Row(
                   children: [
-                    Icon(Icons.push_pin, size: 16, color: colorScheme.primary),
-                    const SizedBox(width: 8),
+                    Icon(
+                      Icons.push_pin,
+                      size: AppDimensions.iconXSmall,
+                      color: colorScheme.primary,
+                    ),
+                    const SizedBox(width: AppDimensions.spacing8),
                     Text(
-                      'Pinned',
+                      AppStrings.pinned,
                       style: theme.textTheme.titleSmall?.copyWith(
                         color: colorScheme.primary,
                         fontWeight: FontWeight.bold,
@@ -183,11 +171,13 @@ class _GeneratorsTabState extends State<GeneratorsTab> {
               ),
             ),
             SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppDimensions.paddingMedium,
+              ),
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate((context, index) {
                   final item = pinnedItems[index];
-                  return _GeneratorListCard(
+                  return GeneratorListCard(
                     key: ValueKey(item.id),
                     item: item,
                     onTap: () {
@@ -209,10 +199,15 @@ class _GeneratorsTabState extends State<GeneratorsTab> {
           if (unpinnedItems.isNotEmpty) ...[
             if (pinnedItems.isNotEmpty)
               SliverPadding(
-                padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
+                padding: const EdgeInsets.fromLTRB(
+                  AppDimensions.paddingMedium,
+                  AppDimensions.paddingLarge,
+                  AppDimensions.paddingMedium,
+                  AppDimensions.paddingSmall,
+                ),
                 sliver: SliverToBoxAdapter(
                   child: Text(
-                    'All Generators',
+                    AppStrings.allGenerators,
                     style: theme.textTheme.titleSmall?.copyWith(
                       color: colorScheme.onSurfaceVariant,
                       fontWeight: FontWeight.bold,
@@ -221,11 +216,13 @@ class _GeneratorsTabState extends State<GeneratorsTab> {
                 ),
               ),
             SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppDimensions.paddingMedium,
+              ),
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate((context, index) {
                   final item = unpinnedItems[index];
-                  return _GeneratorListCard(
+                  return GeneratorListCard(
                     key: ValueKey(item.id),
                     item: item,
                     onTap: () {
@@ -243,108 +240,11 @@ class _GeneratorsTabState extends State<GeneratorsTab> {
             ),
           ],
 
-          const SliverToBoxAdapter(child: SizedBox(height: 100)),
+          const SliverToBoxAdapter(
+            child: SizedBox(height: AppDimensions.spacing100),
+          ),
         ],
       ),
     );
-  }
-}
-
-class _GeneratorListCard extends StatelessWidget {
-  final GeneratorItem item;
-  final VoidCallback onTap;
-  final VoidCallback onTogglePin;
-
-  const _GeneratorListCard({
-    super.key,
-    required this.item,
-    required this.onTap,
-    required this.onTogglePin,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    final onColor = _getOnColor(colorScheme, item.containerColor);
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 6),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(48),
-          child: Ink(
-            decoration: BoxDecoration(
-              color: item.containerColor,
-              borderRadius: BorderRadius.circular(48),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                children: [
-                  // Icon
-                  Container(
-                    width: 56,
-                    height: 56,
-                    child: Icon(item.icon, size: 28, color: onColor),
-                  ),
-
-                  // Title and subtitle
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          item.title,
-                          style: theme.textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: onColor,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          item.subtitle,
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: onColor.withOpacity(0.7),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // Pin button
-                  IconButton(
-                    onPressed: onTogglePin,
-                    icon: Icon(
-                      item.isPinned ? Icons.push_pin : Icons.push_pin_outlined,
-                      color: item.isPinned
-                          ? colorScheme.primary
-                          : onColor.withOpacity(0.6),
-                    ),
-                    tooltip: item.isPinned ? 'Unpin' : 'Pin',
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Color _getOnColor(ColorScheme colorScheme, Color containerColor) {
-    if (containerColor == colorScheme.primaryContainer) {
-      return colorScheme.onPrimaryContainer;
-    } else if (containerColor == colorScheme.secondaryContainer) {
-      return colorScheme.onSecondaryContainer;
-    } else if (containerColor == colorScheme.tertiaryContainer) {
-      return colorScheme.onTertiaryContainer;
-    } else if (containerColor == colorScheme.errorContainer) {
-      return colorScheme.onErrorContainer;
-    } else {
-      return colorScheme.onSurfaceVariant;
-    }
   }
 }

@@ -47,6 +47,7 @@ dependencies:
   gal: ^2.3.2
   battery_plus: ^7.0.0
   rename_app: ^1.6.5
+  provider: ^6.1.5+1
 
 dev_dependencies:
   flutter_test:

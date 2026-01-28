@@ -1,8 +1,13 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:random/tab/generators.dart';
 import 'package:random/tab/games.dart';
 import 'package:random/tab/utilities.dart';
+import 'package:random/config/app_strings.dart';
+import 'package:random/config/app_dimensions.dart';
+import 'package:random/config/app_languages.dart';
+import 'package:random/widgets/custom_floating_nav_bar.dart';
+import 'package:random/utils/language_provider.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -30,13 +35,13 @@ class _HomeScreenState extends State<HomeScreen> {
   String get _currentTitle {
     switch (_navIndex) {
       case 0:
-        return 'Generators';
+        return AppStrings.navGenerators;
       case 1:
-        return 'Utilities';
+        return AppStrings.navUtilities;
       case 2:
-        return 'Games';
+        return AppStrings.navGames;
       default:
-        return 'Flipz';
+        return AppStrings.appTitle;
     }
   }
 
@@ -47,7 +52,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void _onNavTap(int index) {
     _pageController.animateToPage(
       index,
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(
+        milliseconds: AppDimensions.animationDurationSlow,
+      ),
       curve: Curves.easeInOut,
     );
   }
@@ -55,6 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final languageProvider = Provider.of<LanguageProvider>(context);
 
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
@@ -62,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return [
             SliverAppBar(
-              expandedHeight: 120.0,
+              expandedHeight: AppDimensions.appBarExpandedHeight,
               floating: false,
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
@@ -72,29 +80,90 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                titlePadding: const EdgeInsets.only(left: 16, bottom: 16),
-                expandedTitleScale: 1.5,
+                titlePadding: const EdgeInsets.only(
+                  left: AppDimensions.paddingMedium,
+                  bottom: AppDimensions.paddingMedium,
+                ),
+                expandedTitleScale: AppDimensions.appBarExpandedTitleScale,
               ),
               backgroundColor: theme.colorScheme.surface,
               foregroundColor: theme.colorScheme.onSurface,
               actions: [
                 PopupMenuButton<String>(
                   icon: const Icon(Icons.language),
-                  tooltip: 'Language',
+                  tooltip: AppStrings.languageTooltip,
                   onSelected: (String languageCode) {
-                    // TODO: Handle language change
+                    languageProvider.changeLanguage(languageCode);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Language changed to ${AppLanguages.getLanguageName(languageCode)}',
+                        ),
+                        duration: const Duration(seconds: 2),
+                      ),
+                    );
                   },
                   itemBuilder: (BuildContext context) => [
-                    const PopupMenuItem(value: 'en', child: Text('English')),
-                    const PopupMenuItem(value: 'de', child: Text('Deutsch')),
-                    const PopupMenuItem(value: 'id', child: Text('Indonesia')),
+                    PopupMenuItem(
+                      value: AppLanguages.english,
+                      child: Row(
+                        children: [
+                          Text(AppStrings.languageEnglish),
+                          if (languageProvider.currentLanguage ==
+                              AppLanguages.english)
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: Icon(
+                                Icons.check,
+                                size: 16,
+                                color: theme.colorScheme.primary,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                    PopupMenuItem(
+                      value: AppLanguages.german,
+                      child: Row(
+                        children: [
+                          Text(AppStrings.languageGerman),
+                          if (languageProvider.currentLanguage ==
+                              AppLanguages.german)
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: Icon(
+                                Icons.check,
+                                size: 16,
+                                color: theme.colorScheme.primary,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                    PopupMenuItem(
+                      value: AppLanguages.indonesian,
+                      child: Row(
+                        children: [
+                          Text(AppStrings.languageIndonesian),
+                          if (languageProvider.currentLanguage ==
+                              AppLanguages.indonesian)
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: Icon(
+                                Icons.check,
+                                size: 16,
+                                color: theme.colorScheme.primary,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-
                 IconButton(
                   icon: const Icon(Icons.info_outline),
                   onPressed: () => _showAboutDialog(context),
-                  tooltip: 'About',
+                  tooltip: AppStrings.aboutTooltip,
                 ),
               ],
             ),
@@ -120,18 +189,18 @@ class _HomeScreenState extends State<HomeScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('About Flipz'),
+        title: Text(AppStrings.aboutTitle),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'A comprehensive collection of random generators and utilities for your everyday needs.',
+              AppStrings.aboutDescription,
               style: theme.textTheme.bodyMedium,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppDimensions.paddingMedium),
             Text(
-              'Generate numbers, flip coins, roll dice, pick names, and explore many more randomization tools.',
+              AppStrings.aboutDetails,
               style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),
@@ -141,164 +210,24 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Close'),
+            child: Text(AppStrings.btnClose),
           ),
           FilledButton.icon(
             onPressed: () {
               Navigator.pop(context);
               showLicensePage(
                 context: context,
-                applicationName: 'Flipz',
-                applicationVersion: '1.1.1',
+                applicationName: AppStrings.appTitle,
+                applicationVersion: AppStrings.appVersion,
               );
             },
-            icon: const Icon(Icons.description_outlined, size: 18),
-            label: const Text('Licenses'),
+            icon: const Icon(
+              Icons.description_outlined,
+              size: AppDimensions.iconSmall,
+            ),
+            label: Text(AppStrings.btnLicenses),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class CustomFloatingNavBar extends StatelessWidget {
-  final int currentIndex;
-  final Function(int) onTap;
-
-  const CustomFloatingNavBar({
-    super.key,
-    required this.currentIndex,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Container(
-      margin: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(40),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.03),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(40),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.surface.withOpacity(0.6),
-              borderRadius: BorderRadius.circular(40),
-              border: Border.all(
-                color: theme.colorScheme.outline.withOpacity(0.15),
-                width: 1,
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _NavItem(
-                  icon: Icons.auto_awesome_outlined,
-                  selectedIcon: Icons.auto_awesome,
-                  label: 'Generators',
-                  isSelected: currentIndex == 0,
-                  onTap: () => onTap(0),
-                ),
-                _NavItem(
-                  icon: Icons.build_outlined,
-                  selectedIcon: Icons.build,
-                  label: 'Utilities',
-                  isSelected: currentIndex == 1,
-                  onTap: () => onTap(1),
-                ),
-                _NavItem(
-                  icon: Icons.casino_outlined,
-                  selectedIcon: Icons.casino,
-                  label: 'Games',
-                  isSelected: currentIndex == 2,
-                  onTap: () => onTap(2),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _NavItem extends StatelessWidget {
-  final IconData icon;
-  final IconData selectedIcon;
-  final String label;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  const _NavItem({
-    required this.icon,
-    required this.selectedIcon,
-    required this.label,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Expanded(
-      child: GestureDetector(
-        onTap: onTap,
-        behavior: HitTestBehavior.opaque,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 250),
-          curve: Curves.easeInOut,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          decoration: BoxDecoration(
-            color: isSelected
-                ? theme.colorScheme.primaryContainer.withOpacity(0.7)
-                : Colors.transparent,
-            borderRadius: BorderRadius.circular(30),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AnimatedSwitcher(
-                duration: const Duration(milliseconds: 200),
-                transitionBuilder: (child, animation) {
-                  return ScaleTransition(scale: animation, child: child);
-                },
-                child: Icon(
-                  isSelected ? selectedIcon : icon,
-                  key: ValueKey(isSelected),
-                  color: isSelected
-                      ? theme.colorScheme.onPrimaryContainer
-                      : theme.colorScheme.onSurfaceVariant,
-                  size: 24,
-                ),
-              ),
-              const SizedBox(height: 4),
-              AnimatedDefaultTextStyle(
-                duration: const Duration(milliseconds: 200),
-                style: theme.textTheme.labelSmall!.copyWith(
-                  color: isSelected
-                      ? theme.colorScheme.onPrimaryContainer
-                      : theme.colorScheme.onSurfaceVariant,
-                  fontWeight: FontWeight.normal,
-                ),
-                child: Text(label),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

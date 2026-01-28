@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:random/page/generators/device.dart';
 import 'package:random/page/generators/email.dart';
 import 'package:random/page/generators/identity.dart';
+import 'package:random/page/generators/loremipsum.dart';
 import 'package:random/page/generators/password.dart';
 import 'package:random/page/generators/phone.dart';
 import 'package:random/page/generators/username.dart';
@@ -101,6 +102,14 @@ class _GeneratorsTabState extends State<GeneratorsTab> {
           icon: Icons.phone_outlined,
           containerColor: colorScheme.primaryContainer,
           pageBuilder: () => const PhoneGeneratorPage(),
+        ),
+        GeneratorItem(
+          id: 'lorem_ipsum',
+          title: 'Lorem Ipsum',
+          subtitle: 'Placeholder text',
+          icon: Icons.text_fields,
+          containerColor: colorScheme.secondaryContainer,
+          pageBuilder: () => const LoremIpsumGeneratorPage(),
         ),
       ];
       _loadPinnedState();

@@ -34,10 +34,10 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
       color: Colors.blue,
     ),
     QuickTile(
-      id: 'caffeine',
-      title: 'Caffeine',
-      subtitle: 'Keep screen awake',
-      icon: Icons.coffee_outlined,
+      id: 'screen_timeout',
+      title: 'Screen Timeout',
+      subtitle: 'Toggle between 1min and 30min',
+      icon: Icons.timer_outlined,
       color: Colors.orange,
     ),
   ];
@@ -80,6 +80,18 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
         }
       }
 
+      // Check WRITE_SETTINGS permission for screen timeout
+      if (tileId == 'screen_timeout' && isActive) {
+        final bool writeSettingsEnabled = await _checkWriteSettings();
+
+        if (!writeSettingsEnabled) {
+          if (mounted) {
+            _showWriteSettingsDialog();
+          }
+          return;
+        }
+      }
+
       if (isActive) {
         await platform.invokeMethod('addTile', {'tileId': tileId});
         setState(() {
@@ -90,6 +102,9 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
           if (tileId == 'screenshot' || tileId == 'lock_screen') {
             message =
                 '${tileId == 'screenshot' ? 'Screenshot' : 'Lock screen'} tile added! Make sure accessibility is enabled.';
+          } else if (tileId == 'screen_timeout') {
+            message =
+                'Screen Timeout tile added! Tap to toggle between 1min and 30min.';
           }
 
           ScaffoldMessenger.of(context).showSnackBar(
@@ -133,6 +148,16 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
     }
   }
 
+  Future<bool> _checkWriteSettings() async {
+    try {
+      final result = await platform.invokeMethod('checkWriteSettings');
+      return result as bool? ?? false;
+    } catch (e) {
+      debugPrint('Failed to check write settings: $e');
+      return false;
+    }
+  }
+
   void _showAccessibilityDialog(String tileId) {
     final String featureName = tileId == 'screenshot'
         ? 'Screenshot'
@@ -170,11 +195,52 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
     );
   }
 
+  void _showWriteSettingsDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Row(
+          children: [
+            Icon(Icons.settings),
+            SizedBox(width: 8),
+            Text('Enable System Settings'),
+          ],
+        ),
+        content: const Text(
+          'Screen Timeout tile requires permission to modify system settings.\n\n'
+          'Would you like to enable it now?\n\n'
+          'In Settings, find "Random" and allow "Modify system settings".',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () {
+              Navigator.pop(context);
+              _openWriteSettingsPermission();
+            },
+            child: const Text('Open Settings'),
+          ),
+        ],
+      ),
+    );
+  }
+
   Future<void> _openAccessibilitySettings() async {
     try {
       await platform.invokeMethod('openAccessibilitySettings');
     } catch (e) {
       debugPrint('Failed to open accessibility settings: $e');
+    }
+  }
+
+  Future<void> _openWriteSettingsPermission() async {
+    try {
+      await platform.invokeMethod('openWriteSettingsPermission');
+    } catch (e) {
+      debugPrint('Failed to open write settings permission: $e');
     }
   }
 
@@ -216,6 +282,16 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
               SizedBox(height: 8),
               Text('• Lock Screen: Accessibility Service'),
               Text('• Screenshot: Accessibility Service (Android 9.0+)'),
+              Text('• Screen Timeout: Modify System Settings'),
+              SizedBox(height: 16),
+              Text(
+                'Screen Timeout Tile:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 8),
+              Text('Tap the tile to toggle between:'),
+              Text('• 1 minute'),
+              Text('• 30 minutes'),
               SizedBox(height: 16),
               Text(
                 'Troubleshooting:',

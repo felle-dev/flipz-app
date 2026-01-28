@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.BatteryManager
 import android.provider.Settings
 import io.flutter.embedding.android.FlutterActivity
@@ -57,6 +58,21 @@ class MainActivity : FlutterActivity() {
                         result.error("ERROR", e.message, null)
                     }
                 }
+                "checkWriteSettings" -> {
+                    val canWrite = Settings.System.canWrite(this)
+                    result.success(canWrite)
+                }
+                "openWriteSettingsPermission" -> {
+                    try {
+                        val intent = Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS)
+                        intent.data = Uri.parse("package:$packageName")
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        startActivity(intent)
+                        result.success(true)
+                    } catch (e: Exception) {
+                        result.error("UNAVAILABLE", "Could not open settings", null)
+                    }
+                }
                 else -> {
                     result.notImplemented()
                 }
@@ -88,7 +104,7 @@ class MainActivity : FlutterActivity() {
             "lock_screen" to ".tiles.LockTileService",
             "volume_control" to ".tiles.VolumeControlTileService",
             "screenshot" to ".tiles.ScreenshotTileService",
-            "caffeine" to ".tiles.CaffeineTileService",
+            "screen_timeout" to ".tiles.ScreenTimeoutTileService",
         )
 
         val packageManager = packageManager
@@ -108,7 +124,7 @@ class MainActivity : FlutterActivity() {
             "lock_screen" to ".tiles.LockTileService",
             "volume_control" to ".tiles.VolumeControlTileService",
             "screenshot" to ".tiles.ScreenshotTileService",
-            "caffeine" to ".tiles.CaffeineTileService",
+            "screen_timeout" to ".tiles.ScreenTimeoutTileService",
         )
 
         val serviceName = serviceNameMap[tileId] ?: return

@@ -38,7 +38,7 @@
 
 ### **Utilities**
 - **EXIF Eraser** – Remove metadata from photos to protect your privacy
-- **Quick Tiles** – Add tile for screenshot, media volume, lock screen and caffeine
+- **Quick Tiles** – Add tile for screenshot, media volume, lock screen and screen timeout
 - **Unit Converter** – Convert between different units
 - **Device Info** – View detailed device and battery information
 

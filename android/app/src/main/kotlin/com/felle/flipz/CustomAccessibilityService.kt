@@ -1,4 +1,4 @@
-package com.example.random
+package com.felle.flipz
 
 import android.accessibilityservice.AccessibilityService
 import android.content.BroadcastReceiver
@@ -14,8 +14,8 @@ class CustomAccessibilityService : AccessibilityService() {
     
     companion object {
         private const val TAG = "CustomAccessibility"
-        const val ACTION_TAKE_SCREENSHOT = "com.example.random.TAKE_SCREENSHOT"
-        const val ACTION_LOCK_SCREEN = "com.example.random.LOCK_SCREEN"
+        const val ACTION_TAKE_SCREENSHOT = "com.felle.flipz.TAKE_SCREENSHOT"
+        const val ACTION_LOCK_SCREEN = "com.felle.flipz.LOCK_SCREEN"
         
         @Volatile
         private var instance: CustomAccessibilityService? = null

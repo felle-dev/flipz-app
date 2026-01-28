@@ -1,4 +1,4 @@
-package com.example.random.tiles
+package com.felle.flipz.tiles
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -12,15 +12,15 @@ import android.os.Build
 import android.os.PowerManager
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
-import com.example.random.R
+import com.felle.flipz.R
 
 class CaffeineTileService : TileService() {
     
     companion object {
         private const val PREF_NAME = "caffeine_prefs"
         private const val KEY_CAFFEINE_ENABLED = "caffeine_enabled"
-        const val ACTION_START_CAFFEINE = "com.example.random.START_CAFFEINE"
-        const val ACTION_STOP_CAFFEINE = "com.example.random.STOP_CAFFEINE"
+        const val ACTION_START_CAFFEINE = "com.felle.flipz.START_CAFFEINE"
+        const val ACTION_STOP_CAFFEINE = "com.felle.flipz.STOP_CAFFEINE"
     }
     
     override fun onStartListening() {

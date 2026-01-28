@@ -1,4 +1,4 @@
-package com.example.random
+package com.felle.flipz
 
 import android.content.ComponentName
 import android.content.Context

@@ -15,7 +15,7 @@
   <uses-permission android:name="android.permission.WRITE_SETTINGS" tools:ignore="ProtectedPermissions" />
 
   <application
-    android:label="Random"
+    android:label="Flipz"
     android:name="${applicationName}"
     android:icon="@mipmap/launcher_icon"
   >
@@ -54,7 +54,7 @@
       android:launchMode="singleInstance"
     >
       <intent-filter>
-        <action android:name="com.example.random.LOCK_SCREEN" />
+        <action android:name="com.felle.flipz.LOCK_SCREEN" />
         <category android:name="android.intent.category.DEFAULT" />
       </intent-filter>
     </activity>

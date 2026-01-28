@@ -1,21 +1,21 @@
-# **Random**
+# **Flipz**
 *A privacy-focused utility app for generating secure passwords, random identities, fake data, and more—built with Flutter. Perfect for testing, development, and maintaining your privacy online.*
 
 *This app i create for my personal use, and i kinda create it for like an all-in-one app for random stuffs, so i don't know if it gonna be useful for you, but if it is, you can use it :)*
 
-[![Latest release](https://img.shields.io/github/v/release/felle-dev/random-app?style=for-the-badge)](https://github.com/felle-dev/random-app/releases)
+[![Latest release](https://img.shields.io/github/v/release/felle-dev/flipz-app?style=for-the-badge)](https://github.com/felle-dev/flipz-app/releases)
 [![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev)
-[![License](https://img.shields.io/github/license/felle-dev/random-app?style=for-the-badge)](LICENSE)
+[![License](https://img.shields.io/github/license/felle-dev/flipz-app?style=for-the-badge)](LICENSE)
 
-[![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://github.com/felle-dev/random-app/releases)
-[![iOS](https://img.shields.io/badge/iOS-000000?style=for-the-badge&logo=ios&logoColor=white)](https://github.com/felle-dev/random-app/releases)
-[![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/felle-dev/random-app/releases)
-[![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)](https://github.com/felle-dev/random-app/releases)
-[![macOS](https://img.shields.io/badge/macOS-000000?style=for-the-badge&logo=apple&logoColor=white)](https://github.com/felle-dev/random-app/releases)
+[![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://github.com/felle-dev/flipz-app/releases)
+[![iOS](https://img.shields.io/badge/iOS-000000?style=for-the-badge&logo=ios&logoColor=white)](https://github.com/felle-dev/flipz-app/releases)
+[![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/felle-dev/flipz-app/releases)
+[![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)](https://github.com/felle-dev/flipz-app/releases)
+[![macOS](https://img.shields.io/badge/macOS-000000?style=for-the-badge&logo=apple&logoColor=white)](https://github.com/felle-dev/flipz-app/releases)
 
-[![Get it on GitHub](https://img.shields.io/badge/Get%20it%20on-GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/felle-dev/random-app/releases)
+[![Get it on GitHub](https://img.shields.io/badge/Get%20it%20on-GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/felle-dev/flipz-app/releases)
 
-## **Why Random?**
+## **Why Flipz?**
 - **Privacy First** – All operations happen locally on your device
 - **No Accounts** – No sign-ups, no registration, just install and use
 - **Lightweight** – Small app size, minimal permissions
@@ -32,7 +32,7 @@
 - **Device Name Generator** – Random device names for privacy
 - **Identity Generator** – Complete fake identities for testing forms
 
-### **Random Tools**
+### **Games**
 - **Random Number** – Generate random numbers in any range
 - **Dice Roller** – Roll virtual dice for games or decisions
 - **Coin Flip** – Flip a virtual coin for random choices
@@ -68,8 +68,8 @@
 ### **Installation**
 1. Clone the repository:
    ```bash
-   git clone https://github.com/felle-dev/random-app.git
-   cd random-app
+   git clone https://github.com/felle-dev/flipz-app.git
+   cd flipz-app
    ```
 
 2. Install dependencies:
@@ -119,7 +119,7 @@ flutter build linux --release
 ## **Contributing**
 Open-source thrives on collaboration! You can:
 - Fork the project and submit pull requests
-- Report bugs or suggest features via [issues](https://github.com/felle-dev/random-app/issues)
+- Report bugs or suggest features via [issues](https://github.com/felle-dev/flipz-app/issues)
 - Share feedback or ideas
 - Improve documentation
 - Help with translations

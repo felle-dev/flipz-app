@@ -1,4 +1,4 @@
-package com.example.random.tiles
+package com.felle.flipz.tiles
 
 import android.app.PendingIntent
 import android.content.Intent
@@ -6,7 +6,7 @@ import android.graphics.drawable.Icon
 import android.os.Build
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
-import com.example.random.R
+import com.felle.flipz.R
 
 class ScreenshotTileService : TileService() {
 

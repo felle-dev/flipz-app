@@ -1,4 +1,4 @@
-package com.example.random.tiles
+package com.felle.flipz.tiles
 
 import android.graphics.drawable.Icon
 import android.media.AudioManager

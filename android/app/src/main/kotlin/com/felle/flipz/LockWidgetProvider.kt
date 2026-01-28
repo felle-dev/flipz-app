@@ -1,4 +1,4 @@
-package com.example.random
+package com.felle.flipz
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
@@ -28,7 +28,7 @@ class LockWidgetProvider : AppWidgetProvider() {
 
         // Create intent to lock screen
         val intent = Intent(context, ShortcutHandlerActivity::class.java)
-        intent.action = "com.example.random.LOCK_SCREEN"
+        intent.action = "com.felle.flipz.LOCK_SCREEN"
         
         val pendingIntent = PendingIntent.getActivity(
             context,

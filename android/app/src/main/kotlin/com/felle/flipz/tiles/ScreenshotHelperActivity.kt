@@ -1,4 +1,4 @@
-package com.example.random.tiles
+package com.felle.flipz.tiles
 
 import android.app.Activity
 import android.content.Intent
@@ -9,7 +9,7 @@ import android.provider.Settings
 import android.util.Log
 import android.view.WindowManager
 import android.widget.Toast
-import com.example.random.CustomAccessibilityService
+import com.felle.flipz.CustomAccessibilityService
 
 class ScreenshotHelperActivity : Activity() {
 

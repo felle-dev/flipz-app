@@ -1,4 +1,4 @@
-package com.example.random
+package com.felle.flipz
 
 import android.app.Activity
 import android.os.Bundle
@@ -10,7 +10,7 @@ class ShortcutHandlerActivity : Activity() {
         super.onCreate(savedInstanceState)
         
         when (intent?.action) {
-            "com.example.random.LOCK_SCREEN" -> {
+            "com.felle.flipz.LOCK_SCREEN" -> {
                 lockScreen()
             }
         }

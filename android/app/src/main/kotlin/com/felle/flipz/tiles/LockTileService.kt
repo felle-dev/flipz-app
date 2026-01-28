@@ -1,9 +1,9 @@
-    package com.example.random.tiles
+    package com.felle.flipz.tiles
 
     import android.graphics.drawable.Icon
     import android.service.quicksettings.Tile
     import android.service.quicksettings.TileService
-    import com.example.random.CustomAccessibilityService
+    import com.felle.flipz.CustomAccessibilityService
 
     class LockTileService : TileService() {
 

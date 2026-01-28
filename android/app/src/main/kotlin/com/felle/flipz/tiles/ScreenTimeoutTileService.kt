@@ -1,4 +1,4 @@
-package com.example.random.tiles
+package com.felle.flipz.tiles
 
 import android.content.Context
 import android.graphics.drawable.Icon

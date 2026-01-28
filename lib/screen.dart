@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:random/tab/generators.dart';
-import 'package:random/tab/random.dart';
+import 'package:random/tab/games.dart';
 import 'package:random/tab/utilities.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
       case 1:
         return 'Utilities';
       case 2:
-        return 'Random Tools';
+        return 'Games';
       default:
         return 'Random';
     }
@@ -90,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
         body: PageView(
           controller: _pageController,
           onPageChanged: _onPageChanged,
-          children: const [GeneratorsTab(), UtilitiesTab(), RandomToolsTab()],
+          children: const [GeneratorsTab(), UtilitiesTab(), GamesToolsTab()],
         ),
       ),
       extendBody: true,
@@ -209,7 +209,7 @@ class CustomFloatingNavBar extends StatelessWidget {
                 _NavItem(
                   icon: Icons.casino_outlined,
                   selectedIcon: Icons.casino,
-                  label: 'Random',
+                  label: 'Games',
                   isSelected: currentIndex == 2,
                   onTap: () => onTap(2),
                 ),

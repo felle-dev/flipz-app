@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:random/page/random/random_number.dart';
-import 'package:random/page/random/dice_roller.dart';
-import 'package:random/page/random/coin_flip.dart';
-import 'package:random/page/random/spinning_wheel.dart';
+import 'package:random/page/games/random_number.dart';
+import 'package:random/page/games/dice_roller.dart';
+import 'package:random/page/games/coin_flip.dart';
+import 'package:random/page/games/spinning_wheel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class RandomToolItem {
+class GamesToolItem {
   final String id;
   final String title;
   final String subtitle;
@@ -14,7 +14,7 @@ class RandomToolItem {
   final Widget Function() pageBuilder;
   bool isPinned;
 
-  RandomToolItem({
+  GamesToolItem({
     required this.id,
     required this.title,
     required this.subtitle,
@@ -25,16 +25,16 @@ class RandomToolItem {
   });
 }
 
-class RandomToolsTab extends StatefulWidget {
-  const RandomToolsTab({super.key});
+class GamesToolsTab extends StatefulWidget {
+  const GamesToolsTab({super.key});
 
   @override
-  State<RandomToolsTab> createState() => _RandomToolsTabState();
+  State<GamesToolsTab> createState() => _GamesToolsTabState();
 }
 
-class _RandomToolsTabState extends State<RandomToolsTab> {
-  late List<RandomToolItem> _tools;
-  static const String _pinnedKey = 'pinned_random_tools';
+class _GamesToolsTabState extends State<GamesToolsTab> {
+  late List<GamesToolItem> _tools;
+  static const String _pinnedKey = 'pinned_games_tools';
 
   @override
   void initState() {
@@ -48,7 +48,7 @@ class _RandomToolsTabState extends State<RandomToolsTab> {
     if (_tools.isEmpty) {
       final colorScheme = Theme.of(context).colorScheme;
       _tools = [
-        RandomToolItem(
+        GamesToolItem(
           id: 'random_number',
           title: 'Random Number',
           subtitle: 'Generate numbers',
@@ -56,7 +56,7 @@ class _RandomToolsTabState extends State<RandomToolsTab> {
           containerColor: colorScheme.primaryContainer,
           pageBuilder: () => const RandomNumberPage(),
         ),
-        RandomToolItem(
+        GamesToolItem(
           id: 'dice_roller',
           title: 'Dice Roller',
           subtitle: 'Roll virtual dice',
@@ -64,7 +64,7 @@ class _RandomToolsTabState extends State<RandomToolsTab> {
           containerColor: colorScheme.secondaryContainer,
           pageBuilder: () => const DiceRollerPage(),
         ),
-        RandomToolItem(
+        GamesToolItem(
           id: 'coin_flip',
           title: 'Coin Flip',
           subtitle: 'Flip a virtual coin',
@@ -72,7 +72,7 @@ class _RandomToolsTabState extends State<RandomToolsTab> {
           containerColor: colorScheme.tertiaryContainer,
           pageBuilder: () => const CoinFlipPage(),
         ),
-        RandomToolItem(
+        GamesToolItem(
           id: 'spinning_wheel',
           title: 'Spinning Wheel',
           subtitle: 'Spin to decide',
@@ -104,13 +104,13 @@ class _RandomToolsTabState extends State<RandomToolsTab> {
     await prefs.setStringList(_pinnedKey, pinnedIds);
   }
 
-  List<RandomToolItem> get _pinnedTools =>
+  List<GamesToolItem> get _pinnedTools =>
       _tools.where((t) => t.isPinned).toList();
 
-  List<RandomToolItem> get _unpinnedTools =>
+  List<GamesToolItem> get _unpinnedTools =>
       _tools.where((t) => !t.isPinned).toList();
 
-  void _togglePin(RandomToolItem item) {
+  void _togglePin(GamesToolItem item) {
     setState(() {
       item.isPinned = !item.isPinned;
     });
@@ -153,7 +153,7 @@ class _RandomToolsTabState extends State<RandomToolsTab> {
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate((context, index) {
                   final item = pinnedItems[index];
-                  return _RandomToolListCard(
+                  return _GamesToolListCard(
                     key: ValueKey(item.id),
                     item: item,
                     onTap: () {
@@ -191,7 +191,7 @@ class _RandomToolsTabState extends State<RandomToolsTab> {
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate((context, index) {
                   final item = unpinnedItems[index];
-                  return _RandomToolListCard(
+                  return _GamesToolListCard(
                     key: ValueKey(item.id),
                     item: item,
                     onTap: () {
@@ -216,12 +216,12 @@ class _RandomToolsTabState extends State<RandomToolsTab> {
   }
 }
 
-class _RandomToolListCard extends StatelessWidget {
-  final RandomToolItem item;
+class _GamesToolListCard extends StatelessWidget {
+  final GamesToolItem item;
   final VoidCallback onTap;
   final VoidCallback onTogglePin;
 
-  const _RandomToolListCard({
+  const _GamesToolListCard({
     super.key,
     required this.item,
     required this.onTap,

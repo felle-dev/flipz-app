@@ -172,4 +172,26 @@ class AppStrings {
   static const String copyWithoutCode = 'Copy Without Code';
   static const String copiedWithCode = 'Copied with country code';
   static const String copiedWithoutCode = 'Copied without country code';
+
+  // Lorem Ipsum Generator
+  static const String loremIpsumGeneratorTitle = 'Lorem Ipsum Generator';
+  static const String generatedText = 'Generated Text';
+  static const String type = 'Type';
+  static const String words = 'Words';
+  static const String sentences = 'Sentences';
+  static const String paragraphs = 'Paragraphs';
+  static const String count = 'Count';
+  static const String startWithLorem = 'Start with "Lorem ipsum"';
+  static const String startWithLoremSubtitle = 'Begin with classic phrase';
+
+  // Unit Converter
+  static const String unitConverterTitle = 'Unit Converter';
+  static const String category = 'Category';
+  static const String from = 'From';
+  static const String to = 'To';
+  static const String unit = 'Unit';
+  static const String enterValue = 'Enter value to convert';
+  static const String result = 'Result';
+  static const String invalidInput = 'Invalid input';
+  static const String resultCopied = 'Result copied!';
 }

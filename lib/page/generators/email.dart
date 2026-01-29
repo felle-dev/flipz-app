@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'dart:math';
+import 'package:random/controllers/email_generator_controller.dart';
+import 'package:random/config/app_strings.dart';
+import 'package:random/config/app_dimensions.dart';
+import 'package:random/config/email_constants.dart';
+import 'package:random/utils/clipboard_helper.dart';
+import 'package:random/widgets/generated_result_card.dart';
+import 'package:random/widgets/email_options_card.dart';
+import 'package:random/widgets/generation_history_card.dart';
 
 class EmailGeneratorPage extends StatefulWidget {
   const EmailGeneratorPage({super.key});
@@ -10,6 +16,8 @@ class EmailGeneratorPage extends StatefulWidget {
 }
 
 class _EmailGeneratorPageState extends State<EmailGeneratorPage> {
+  final EmailGeneratorController _controller = EmailGeneratorController();
+
   String _generatedEmail = '';
   bool _includeNumbers = true;
   bool _includeAdjective = true;
@@ -18,117 +26,6 @@ class _EmailGeneratorPageState extends State<EmailGeneratorPage> {
   String _domain = '@proton.me';
   final List<String> _history = [];
 
-  final List<String> _adjectives = [
-    'silly',
-    'fluffy',
-    'fuzzy',
-    'cozy',
-    'soft',
-    'sweet',
-    'happy',
-    'cheerful',
-    'bubbly',
-    'bouncy',
-    'giggly',
-    'wiggly',
-    'cuddly',
-    'snuggly',
-    'tiny',
-    'little',
-    'mini',
-    'cute',
-    'adorable',
-    'lovely',
-    'pretty',
-    'gentle',
-    'dreamy',
-    'sleepy',
-    'cozy',
-    'warm',
-    'sunny',
-    'bright',
-    'chirpy',
-    'perky',
-    'jolly',
-    'merry',
-    'playful',
-    'zippy',
-    'skippy',
-    'hoppy',
-    'sparkly',
-    'twinkly',
-    'peachy',
-    'rosy',
-  ];
-
-  final List<String> _nouns = [
-    'bunny',
-    'kitty',
-    'puppy',
-    'chick',
-    'duckling',
-    'kitten',
-    'lamb',
-    'piglet',
-    'hamster',
-    'mouse',
-    'squirrel',
-    'hedgehog',
-    'otter',
-    'panda',
-    'koala',
-    'bear',
-    'fox',
-    'deer',
-    'butterfly',
-    'ladybug',
-    'bee',
-    'bird',
-    'cloud',
-    'bubble',
-    'petal',
-    'daisy',
-    'rose',
-    'lily',
-    'peach',
-    'berry',
-    'cherry',
-    'cookie',
-    'cupcake',
-    'muffin',
-    'pancake',
-    'starfish',
-    'seahorse',
-    'penguin',
-    'seal',
-    'frog',
-  ];
-
-  final List<String> _separators = ['', '.', '_', '-'];
-
-  final List<String> _domains = [
-    '@proton.me',
-    '@tutanota.com',
-    '@fastmail.com',
-    '@posteo.de',
-    '@mailbox.org',
-    '@runbox.com',
-    '@mailfence.com',
-    '@disroot.org',
-    '@ctemplar.com',
-    '@cock.li',
-    '@airmail.cc',
-    '@mail.com',
-    '@gmx.com',
-    '@yandex.com',
-    '@zoho.com',
-    '@inbox.com',
-    '@lycos.com',
-    '@rediffmail.com',
-    '@mail.ru',
-    '@privateemail.com',
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -136,33 +33,13 @@ class _EmailGeneratorPageState extends State<EmailGeneratorPage> {
   }
 
   void _generateEmail() {
-    final random = Random();
-    String localPart = '';
-
-    if (_includeAdjective) {
-      String adjective = _adjectives[random.nextInt(_adjectives.length)];
-      if (_capitalize) {
-        adjective = adjective[0].toUpperCase() + adjective.substring(1);
-      }
-      localPart += adjective;
-    }
-
-    if (_includeAdjective && localPart.isNotEmpty) {
-      localPart += _separator;
-    }
-
-    String noun = _nouns[random.nextInt(_nouns.length)];
-    if (_capitalize) {
-      noun = noun[0].toUpperCase() + noun.substring(1);
-    }
-    localPart += noun;
-
-    if (_includeNumbers) {
-      localPart += _separator;
-      localPart += (random.nextInt(9000) + 1000).toString();
-    }
-
-    String email = localPart + _domain;
+    final email = _controller.generateEmail(
+      includeAdjective: _includeAdjective,
+      includeNumbers: _includeNumbers,
+      capitalize: _capitalize,
+      separator: _separator,
+      domain: _domain,
+    );
 
     setState(() {
       _generatedEmail = email;
@@ -174,327 +51,65 @@ class _EmailGeneratorPageState extends State<EmailGeneratorPage> {
   }
 
   void _copyToClipboard(String text) {
-    Clipboard.setData(ClipboardData(text: text));
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Copied "$text" to clipboard'),
-        duration: const Duration(seconds: 2),
-      ),
+    ClipboardHelper.copyToClipboard(
+      context,
+      text,
+      message: '${AppStrings.copied} "$text" ${AppStrings.copiedToClipboard}',
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Email Generator')),
+      appBar: AppBar(title: const Text(AppStrings.emailGeneratorTitle)),
       body: ListView(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(AppDimensions.paddingLarge),
         children: [
-          // Generated Email Section
-          Container(
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: theme.colorScheme.outlineVariant,
-                width: 1,
-              ),
-              borderRadius: BorderRadius.circular(16),
-              color: theme.colorScheme.surface,
-            ),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.email_outlined,
-                        color: theme.colorScheme.primary,
-                        size: 20,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Generated Email',
-                        style: theme.textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: theme.colorScheme.primary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Divider(height: 1, color: theme.colorScheme.outlineVariant),
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      SelectableText(
-                        _generatedEmail,
-                        style: theme.textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'monospace',
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 16),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          FilledButton.icon(
-                            onPressed: () => _copyToClipboard(_generatedEmail),
-                            icon: const Icon(Icons.copy),
-                            label: const Text('Copy'),
-                            style: FilledButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 20,
-                                vertical: 12,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          FilledButton.tonalIcon(
-                            onPressed: _generateEmail,
-                            icon: const Icon(Icons.refresh),
-                            label: const Text('Generate'),
-                            style: FilledButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 20,
-                                vertical: 12,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+          GeneratedResultCard(
+            title: AppStrings.generatedEmailTitle,
+            result: _generatedEmail,
+            icon: Icons.email_outlined,
+            onCopy: () => _copyToClipboard(_generatedEmail),
+            onGenerate: _generateEmail,
           ),
-          const SizedBox(height: 16),
-
-          // Options Section
-          Container(
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: theme.colorScheme.outlineVariant,
-                width: 1,
-              ),
-              borderRadius: BorderRadius.circular(16),
-              color: theme.colorScheme.surface,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.tune_outlined,
-                        color: theme.colorScheme.primary,
-                        size: 20,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Options',
-                        style: theme.textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: theme.colorScheme.primary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Divider(height: 1, color: theme.colorScheme.outlineVariant),
-                SwitchListTile(
-                  title: const Text('Include Adjective'),
-                  subtitle: const Text('Add descriptive word'),
-                  value: _includeAdjective,
-                  onChanged: (value) {
-                    setState(() {
-                      _includeAdjective = value;
-                    });
-                    _generateEmail();
-                  },
-                ),
-                Divider(
-                  height: 1,
-                  indent: 16,
-                  endIndent: 16,
-                  color: theme.colorScheme.outlineVariant,
-                ),
-                SwitchListTile(
-                  title: const Text('Include Numbers'),
-                  subtitle: const Text('Add random numbers'),
-                  value: _includeNumbers,
-                  onChanged: (value) {
-                    setState(() {
-                      _includeNumbers = value;
-                    });
-                    _generateEmail();
-                  },
-                ),
-                Divider(
-                  height: 1,
-                  indent: 16,
-                  endIndent: 16,
-                  color: theme.colorScheme.outlineVariant,
-                ),
-                SwitchListTile(
-                  title: const Text('Capitalize'),
-                  subtitle: const Text('Use capital letters'),
-                  value: _capitalize,
-                  onChanged: (value) {
-                    setState(() {
-                      _capitalize = value;
-                    });
-                    _generateEmail();
-                  },
-                ),
-                Divider(height: 1, color: theme.colorScheme.outlineVariant),
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Separator', style: theme.textTheme.titleMedium),
-                      const SizedBox(height: 12),
-                      Wrap(
-                        spacing: 8,
-                        children: _separators.map((sep) {
-                          return ChoiceChip(
-                            label: Text(sep.isEmpty ? 'None' : sep),
-                            selected: _separator == sep,
-                            onSelected: (selected) {
-                              setState(() {
-                                _separator = sep;
-                              });
-                              _generateEmail();
-                            },
-                          );
-                        }).toList(),
-                      ),
-                    ],
-                  ),
-                ),
-                Divider(height: 1, color: theme.colorScheme.outlineVariant),
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Email Domain', style: theme.textTheme.titleMedium),
-                      const SizedBox(height: 12),
-                      Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        children: _domains.map((domain) {
-                          return ChoiceChip(
-                            label: Text(domain),
-                            selected: _domain == domain,
-                            onSelected: (selected) {
-                              setState(() {
-                                _domain = domain;
-                              });
-                              _generateEmail();
-                            },
-                          );
-                        }).toList(),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+          const SizedBox(height: AppDimensions.paddingMedium),
+          EmailOptionsCard(
+            includeAdjective: _includeAdjective,
+            includeNumbers: _includeNumbers,
+            capitalize: _capitalize,
+            separator: _separator,
+            domain: _domain,
+            separators: EmailConstants.separators,
+            domains: EmailConstants.domains,
+            onAdjectiveChanged: (value) {
+              setState(() => _includeAdjective = value);
+              _generateEmail();
+            },
+            onNumbersChanged: (value) {
+              setState(() => _includeNumbers = value);
+              _generateEmail();
+            },
+            onCapitalizeChanged: (value) {
+              setState(() => _capitalize = value);
+              _generateEmail();
+            },
+            onSeparatorChanged: (value) {
+              setState(() => _separator = value);
+              _generateEmail();
+            },
+            onDomainChanged: (value) {
+              setState(() => _domain = value);
+              _generateEmail();
+            },
           ),
-          const SizedBox(height: 16),
-
-          // History Section
-          if (_history.isNotEmpty)
-            Container(
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: theme.colorScheme.outlineVariant,
-                  width: 1,
-                ),
-                borderRadius: BorderRadius.circular(16),
-                color: theme.colorScheme.surface,
-              ),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.history,
-                          color: theme.colorScheme.primary,
-                          size: 20,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          'Recent History',
-                          style: theme.textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: theme.colorScheme.primary,
-                          ),
-                        ),
-                        const Spacer(),
-                        TextButton(
-                          onPressed: () {
-                            setState(() {
-                              _history.clear();
-                            });
-                          },
-                          child: const Text('Clear'),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Divider(height: 1, color: theme.colorScheme.outlineVariant),
-                  ..._history.reversed.map((email) {
-                    final isLast = email == _history.reversed.last;
-                    return Column(
-                      children: [
-                        Material(
-                          color: Colors.transparent,
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              backgroundColor:
-                                  theme.colorScheme.primaryContainer,
-                              child: Icon(
-                                Icons.email,
-                                size: 20,
-                                color: theme.colorScheme.onPrimaryContainer,
-                              ),
-                            ),
-                            title: Text(
-                              email,
-                              style: const TextStyle(fontFamily: 'monospace'),
-                            ),
-                            trailing: IconButton(
-                              icon: const Icon(Icons.copy),
-                              onPressed: () => _copyToClipboard(email),
-                            ),
-                          ),
-                        ),
-                        if (!isLast)
-                          Divider(
-                            height: 1,
-                            indent: 72,
-                            color: theme.colorScheme.outlineVariant,
-                          ),
-                      ],
-                    );
-                  }).toList(),
-                ],
-              ),
-            ),
-          const SizedBox(height: 100),
+          const SizedBox(height: AppDimensions.paddingMedium),
+          GenerationHistoryCard(
+            history: _history,
+            onClear: () => setState(() => _history.clear()),
+            onCopy: _copyToClipboard,
+            iconData: Icons.email,
+          ),
+          const SizedBox(height: AppDimensions.spacing100),
         ],
       ),
     );

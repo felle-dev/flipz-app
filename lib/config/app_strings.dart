@@ -82,8 +82,6 @@ class AppStrings {
   static const String gameSpinningWheel = 'Spinning Wheel';
   static const String gameSpinningWheelSubtitle = 'Spin to decide';
 
-  // Add these to your existing AppStrings class
-
   // Identity Generator
   static const String identityGeneratorTitle = 'Random Identity Generator';
   static const String legalWarning =
@@ -116,4 +114,27 @@ class AppStrings {
   static const String countryUS = 'United States';
   static const String countryGermany = 'Germany';
   static const String countryIndonesia = 'Indonesia';
+
+  // Username Generator
+  static const String usernameGeneratorTitle = 'Username Generator';
+  static const String generatedUsername = 'Generated Username';
+  static const String options = 'Options';
+  static const String includeAdjective = 'Include Adjective';
+  static const String includeAdjectiveSubtitle = 'Add descriptive word';
+  static const String includeNumbers = 'Include Numbers';
+  static const String includeNumbersSubtitle = 'Add random numbers';
+  static const String capitalize = 'Capitalize';
+  static const String capitalizeSubtitle = 'Use capital letters';
+  static const String separator = 'Separator';
+  static const String separatorNone = 'None';
+  static const String recentHistory = 'Recent History';
+  static const String clear = 'Clear';
+  static const String copy = 'Copy';
+  static const String generate = 'Generate';
+  static const String copiedToClipboard = 'Copied to clipboard';
+
+  // Email Generator
+  static const String emailGeneratorTitle = 'Email Generator';
+  static const String generatedEmailTitle = 'Generated Email';
+  static const String emailDomain = 'Email Domain';
 }

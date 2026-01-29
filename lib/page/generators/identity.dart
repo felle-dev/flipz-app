@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:random/controllers/identity_generator_controller.dart';
-import 'package:random/models/identity_data.dart';
 import 'package:random/config/app_strings.dart';
 import 'package:random/config/app_dimensions.dart';
 import 'package:random/widgets/disclaimer_dialog.dart';

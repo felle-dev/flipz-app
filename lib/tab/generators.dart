@@ -35,66 +35,69 @@ class _GeneratorsTabState extends State<GeneratorsTab> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (_generators.isEmpty) {
-      final colorScheme = Theme.of(context).colorScheme;
-      _generators = [
-        GeneratorItem(
-          id: 'password',
-          title: AppStrings.generatorPassword,
-          subtitle: AppStrings.generatorPasswordSubtitle,
-          icon: Icons.lock_outline,
-          containerColor: colorScheme.primaryContainer,
-          pageBuilder: () => const PasswordGeneratorPage(),
-        ),
-        GeneratorItem(
-          id: 'email',
-          title: AppStrings.generatorEmail,
-          subtitle: AppStrings.generatorEmailSubtitle,
-          icon: Icons.email_outlined,
-          containerColor: colorScheme.secondaryContainer,
-          pageBuilder: () => const EmailGeneratorPage(),
-        ),
-        GeneratorItem(
-          id: 'username',
-          title: AppStrings.generatorUsername,
-          subtitle: AppStrings.generatorUsernameSubtitle,
-          icon: Icons.person_outline,
-          containerColor: colorScheme.tertiaryContainer,
-          pageBuilder: () => const UsernameGeneratorPage(),
-        ),
-        GeneratorItem(
-          id: 'device',
-          title: AppStrings.generatorDevice,
-          subtitle: AppStrings.generatorDeviceSubtitle,
-          icon: Icons.phone_android_outlined,
-          containerColor: colorScheme.errorContainer,
-          pageBuilder: () => const DeviceGeneratorPage(),
-        ),
-        GeneratorItem(
-          id: 'identity',
-          title: AppStrings.generatorIdentity,
-          subtitle: AppStrings.generatorIdentitySubtitle,
-          icon: Icons.badge_outlined,
-          containerColor: colorScheme.errorContainer,
-          pageBuilder: () => const RandomIdentityGeneratorPage(),
-        ),
-        GeneratorItem(
-          id: 'phone',
-          title: AppStrings.generatorPhone,
-          subtitle: AppStrings.generatorPhoneSubtitle,
-          icon: Icons.phone_outlined,
-          containerColor: colorScheme.primaryContainer,
-          pageBuilder: () => const PhoneGeneratorPage(),
-        ),
-        GeneratorItem(
-          id: 'lorem_ipsum',
-          title: AppStrings.generatorLoremIpsum,
-          subtitle: AppStrings.generatorLoremIpsumSubtitle,
-          icon: Icons.text_fields,
-          containerColor: colorScheme.secondaryContainer,
-          pageBuilder: () => const LoremIpsumGeneratorPage(),
-        ),
-      ];
+    final colorScheme = Theme.of(context).colorScheme;
+    final shouldLoadPinned = _generators.isEmpty;
+
+    _generators = [
+      GeneratorItem(
+        id: 'password',
+        title: AppStrings.generatorPassword,
+        subtitle: AppStrings.generatorPasswordSubtitle,
+        icon: Icons.lock_outline,
+        containerColor: colorScheme.primaryContainer,
+        pageBuilder: () => const PasswordGeneratorPage(),
+      ),
+      GeneratorItem(
+        id: 'email',
+        title: AppStrings.generatorEmail,
+        subtitle: AppStrings.generatorEmailSubtitle,
+        icon: Icons.email_outlined,
+        containerColor: colorScheme.secondaryContainer,
+        pageBuilder: () => const EmailGeneratorPage(),
+      ),
+      GeneratorItem(
+        id: 'username',
+        title: AppStrings.generatorUsername,
+        subtitle: AppStrings.generatorUsernameSubtitle,
+        icon: Icons.person_outline,
+        containerColor: colorScheme.tertiaryContainer,
+        pageBuilder: () => const UsernameGeneratorPage(),
+      ),
+      GeneratorItem(
+        id: 'device',
+        title: AppStrings.generatorDevice,
+        subtitle: AppStrings.generatorDeviceSubtitle,
+        icon: Icons.phone_android_outlined,
+        containerColor: colorScheme.errorContainer,
+        pageBuilder: () => const DeviceGeneratorPage(),
+      ),
+      GeneratorItem(
+        id: 'identity',
+        title: AppStrings.generatorIdentity,
+        subtitle: AppStrings.generatorIdentitySubtitle,
+        icon: Icons.badge_outlined,
+        containerColor: colorScheme.errorContainer,
+        pageBuilder: () => const RandomIdentityGeneratorPage(),
+      ),
+      GeneratorItem(
+        id: 'phone',
+        title: AppStrings.generatorPhone,
+        subtitle: AppStrings.generatorPhoneSubtitle,
+        icon: Icons.phone_outlined,
+        containerColor: colorScheme.primaryContainer,
+        pageBuilder: () => const PhoneGeneratorPage(),
+      ),
+      GeneratorItem(
+        id: 'lorem_ipsum',
+        title: AppStrings.generatorLoremIpsum,
+        subtitle: AppStrings.generatorLoremIpsumSubtitle,
+        icon: Icons.text_fields,
+        containerColor: colorScheme.secondaryContainer,
+        pageBuilder: () => const LoremIpsumGeneratorPage(),
+      ),
+    ];
+
+    if (shouldLoadPinned) {
       _loadPinnedState();
     }
   }

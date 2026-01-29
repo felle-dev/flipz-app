@@ -81,4 +81,39 @@ class AppStrings {
 
   static const String gameSpinningWheel = 'Spinning Wheel';
   static const String gameSpinningWheelSubtitle = 'Spin to decide';
+
+  // Add these to your existing AppStrings class
+
+  // Identity Generator
+  static const String identityGeneratorTitle = 'Random Identity Generator';
+  static const String legalWarning =
+      'FOR TESTING ONLY - Illegal use is prohibited';
+  static const String settings = 'Settings';
+  static const String country = 'Country';
+  static const String gender = 'Gender';
+  static const String random = 'Random';
+  static const String male = 'Male';
+  static const String female = 'Female';
+  static const String generateIdentity = 'Generate Identity';
+  static const String generatedIdentity = 'Generated Identity';
+  static const String copyAll = 'Copy All';
+  static const String allDataCopied = 'All data copied!';
+  static const String copied = 'Copied';
+
+  // Disclaimer Dialog
+  static const String legalDisclaimer = 'Legal Disclaimer';
+  static const String disclaimerText1 =
+      'This tool generates FAKE identities for testing and development purposes only.';
+  static const String disclaimerWarning =
+      '⚠️ WARNING: It is ILLEGAL to use fake identities for:';
+  static const String disclaimerLegalUses = '✅ LEGAL USES ONLY:';
+  static const String disclaimerAgreement =
+      'By using this tool, you agree to use it only for legal purposes and take full responsibility for your actions.';
+  static const String cancel = 'Cancel';
+  static const String iAgree = 'I Agree';
+
+  // Countries
+  static const String countryUS = 'United States';
+  static const String countryGermany = 'Germany';
+  static const String countryIndonesia = 'Indonesia';
 }

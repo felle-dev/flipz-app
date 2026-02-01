@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:random/config/app_dimensions.dart';
+import 'package:flipz/config/app_dimensions.dart';
 
 class GeneratedResultCard extends StatelessWidget {
   final String title;

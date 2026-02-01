@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:random/controllers/email_generator_controller.dart';
-import 'package:random/config/app_strings.dart';
-import 'package:random/config/app_dimensions.dart';
-import 'package:random/config/email_constants.dart';
-import 'package:random/utils/clipboard_helper.dart';
-import 'package:random/widgets/generated_result_card.dart';
-import 'package:random/widgets/email_options_card.dart';
-import 'package:random/widgets/generation_history_card.dart';
+import 'package:flipz/controllers/email_generator_controller.dart';
+import 'package:flipz/config/app_strings.dart';
+import 'package:flipz/config/app_dimensions.dart';
+import 'package:flipz/config/email_constants.dart';
+import 'package:flipz/utils/clipboard_helper.dart';
+import 'package:flipz/widgets/generated_result_card.dart';
+import 'package:flipz/widgets/email_options_card.dart';
+import 'package:flipz/widgets/generation_history_card.dart';
 
 class EmailGeneratorPage extends StatefulWidget {
   const EmailGeneratorPage({super.key});

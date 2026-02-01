@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:random/config/app_strings.dart';
-import 'package:random/config/app_dimensions.dart';
-import 'package:random/config/password_constants.dart';
+import 'package:flipz/config/app_strings.dart';
+import 'package:flipz/config/app_dimensions.dart';
+import 'package:flipz/config/password_constants.dart';
 
 class PasswordOptionsCard extends StatelessWidget {
   final int length;

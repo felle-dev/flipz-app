@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:random/tab/generators.dart';
-import 'package:random/tab/games.dart';
-import 'package:random/tab/utilities.dart';
-import 'package:random/config/app_strings.dart';
-import 'package:random/config/app_dimensions.dart';
-import 'package:random/config/app_languages.dart';
-import 'package:random/widgets/custom_floating_nav_bar.dart';
-import 'package:random/utils/language_provider.dart';
+import 'package:flipz/tab/generators.dart';
+import 'package:flipz/tab/games.dart';
+import 'package:flipz/tab/utilities.dart';
+import 'package:flipz/config/app_strings.dart';
+import 'package:flipz/config/app_dimensions.dart';
+import 'package:flipz/config/app_languages.dart';
+import 'package:flipz/widgets/custom_floating_nav_bar.dart';
+import 'package:flipz/utils/language_provider.dart';
 import 'package:provider/provider.dart';
 
-/// Main screen that hosts the tabbed navigation interface. 
+/// Main screen that hosts the tabbed navigation interface.
 /// Displays three main sections: Generators, Utilities, and Games,
 /// accessible through a floating navigation bar and swipeable pages.
 class HomeScreen extends StatefulWidget {

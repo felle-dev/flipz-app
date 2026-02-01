@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:random/page/games/random_number.dart';
-import 'package:random/page/games/dice_roller.dart';
-import 'package:random/page/games/coin_flip.dart';
-import 'package:random/page/games/spinning_wheel.dart';
-import 'package:random/models/game_item.dart';
-import 'package:random/config/app_strings.dart';
-import 'package:random/config/app_dimensions.dart';
-import 'package:random/utils/preferences_helper.dart';
-import 'package:random/widgets/game_list_card.dart';
+import 'package:flipz/page/games/random_number.dart';
+import 'package:flipz/page/games/dice_roller.dart';
+import 'package:flipz/page/games/coin_flip.dart';
+import 'package:flipz/page/games/spinning_wheel.dart';
+import 'package:flipz/models/game_item.dart';
+import 'package:flipz/config/app_strings.dart';
+import 'package:flipz/config/app_dimensions.dart';
+import 'package:flipz/utils/preferences_helper.dart';
+import 'package:flipz/widgets/game_list_card.dart';
 
 class GamesToolsTab extends StatefulWidget {
   const GamesToolsTab({super.key});

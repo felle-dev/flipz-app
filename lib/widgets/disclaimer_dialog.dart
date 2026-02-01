@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:random/config/app_strings.dart';
+import 'package:flipz/config/app_strings.dart';
 
 class DisclaimerDialog extends StatelessWidget {
   final VoidCallback onAgree;

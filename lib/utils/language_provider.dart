@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:random/utils/preferences_helper.dart';
+import 'package:flipz/utils/preferences_helper.dart';
 
 class LanguageProvider extends ChangeNotifier {
   String _currentLanguage = 'en';

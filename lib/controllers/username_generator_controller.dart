@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:random/config/username_constants.dart';
+import 'package:flipz/config/username_constants.dart';
 
 class UsernameGeneratorController {
   final Random _random = Random();

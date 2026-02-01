@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:random/controllers/phone_generator_controller.dart';
-import 'package:random/config/app_strings.dart';
-import 'package:random/config/app_dimensions.dart';
-import 'package:random/config/phone_constants.dart';
-import 'package:random/utils/clipboard_helper.dart';
-import 'package:random/widgets/phone_result_card.dart';
-import 'package:random/widgets/country_selector_card.dart';
-import 'package:random/widgets/phone_history_card.dart';
+import 'package:flipz/controllers/phone_generator_controller.dart';
+import 'package:flipz/config/app_strings.dart';
+import 'package:flipz/config/app_dimensions.dart';
+import 'package:flipz/config/phone_constants.dart';
+import 'package:flipz/utils/clipboard_helper.dart';
+import 'package:flipz/widgets/phone_result_card.dart';
+import 'package:flipz/widgets/country_selector_card.dart';
+import 'package:flipz/widgets/phone_history_card.dart';
 
 class PhoneGeneratorPage extends StatefulWidget {
   const PhoneGeneratorPage({super.key});

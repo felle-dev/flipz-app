@@ -1,6 +1,6 @@
 import 'dart:math';
-import 'package:random/models/identity_data.dart';
-import 'package:random/config/identity_constants.dart';
+import 'package:flipz/models/identity_data.dart';
+import 'package:flipz/config/identity_constants.dart';
 
 class IdentityGeneratorController {
   final Random _random = Random();

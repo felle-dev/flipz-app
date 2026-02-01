@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:random/controllers/identity_generator_controller.dart';
-import 'package:random/config/app_strings.dart';
-import 'package:random/config/app_dimensions.dart';
-import 'package:random/widgets/disclaimer_dialog.dart';
+import 'package:flipz/controllers/identity_generator_controller.dart';
+import 'package:flipz/config/app_strings.dart';
+import 'package:flipz/config/app_dimensions.dart';
+import 'package:flipz/widgets/disclaimer_dialog.dart';
 
 class RandomIdentityGeneratorPage extends StatefulWidget {
   const RandomIdentityGeneratorPage({super.key});

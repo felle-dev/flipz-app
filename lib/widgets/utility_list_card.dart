@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:random/models/utility_item.dart';
-import 'package:random/config/app_strings.dart';
-import 'package:random/config/app_dimensions.dart';
+import 'package:flipz/models/utility_item.dart';
+import 'package:flipz/config/app_strings.dart';
+import 'package:flipz/config/app_dimensions.dart';
 
 class UtilityListCard extends StatelessWidget {
   final UtilityItem item;

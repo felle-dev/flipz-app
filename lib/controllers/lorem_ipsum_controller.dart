@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:random/config/lorem_constants.dart';
+import 'package:flipz/config/lorem_constants.dart';
 
 class LoremIpsumController {
   final Random _random = Random();

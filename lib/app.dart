@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:random/screen.dart';
-import 'package:random/theme/app_theme.dart';
-import 'package:random/config/app_strings.dart';
-import 'package:random/utils/language_provider.dart';
+import 'package:flipz/screen.dart';
+import 'package:flipz/theme/app_theme.dart';
+import 'package:flipz/config/app_strings.dart';
+import 'package:flipz/utils/language_provider.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:provider/provider.dart';
 

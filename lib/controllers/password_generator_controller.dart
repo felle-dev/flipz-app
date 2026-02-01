@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:random/config/password_constants.dart';
+import 'package:flipz/config/password_constants.dart';
 
 class PasswordGeneratorController {
   final Random _random = Random.secure();

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:random/app.dart';
+import 'package:flipz/app.dart';
 
 void main() {
   runApp(const RandomApp());

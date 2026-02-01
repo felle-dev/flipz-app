@@ -1,4 +1,4 @@
-import 'package:random/models/phone_country.dart';
+import 'package:flipz/models/phone_country.dart';
 
 class PhoneConstants {
   static const Map<String, PhoneCountry> countries = {

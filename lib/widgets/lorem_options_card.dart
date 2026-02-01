@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:random/config/app_strings.dart';
-import 'package:random/config/app_dimensions.dart';
-import 'package:random/config/lorem_constants.dart';
+import 'package:flipz/config/app_strings.dart';
+import 'package:flipz/config/app_dimensions.dart';
+import 'package:flipz/config/lorem_constants.dart';
 
 class LoremOptionsCard extends StatelessWidget {
   final String type;

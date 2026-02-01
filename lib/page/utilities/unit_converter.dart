@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:random/controllers/unit_converter_controller.dart';
-import 'package:random/config/app_strings.dart';
-import 'package:random/config/app_dimensions.dart';
-import 'package:random/config/unit_constants.dart';
-import 'package:random/widgets/unit_input_card.dart';
-import 'package:random/widgets/unit_result_card.dart';
+import 'package:flipz/controllers/unit_converter_controller.dart';
+import 'package:flipz/config/app_strings.dart';
+import 'package:flipz/config/app_dimensions.dart';
+import 'package:flipz/config/unit_constants.dart';
+import 'package:flipz/widgets/unit_input_card.dart';
+import 'package:flipz/widgets/unit_result_card.dart';
 
 class UnitConverterPage extends StatefulWidget {
   const UnitConverterPage({super.key});

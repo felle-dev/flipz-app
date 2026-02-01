@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:random/page/utilities/exif_eraser.dart';
-import 'package:random/page/utilities/info.dart';
-import 'package:random/page/utilities/quick_tiles.dart';
-import 'package:random/page/utilities/unit_converter.dart';
-import 'package:random/models/utility_item.dart';
-import 'package:random/config/app_strings.dart';
-import 'package:random/config/app_dimensions.dart';
-import 'package:random/utils/preferences_helper.dart';
-import 'package:random/widgets/utility_list_card.dart';
+import 'package:flipz/page/utilities/exif_eraser.dart';
+import 'package:flipz/page/utilities/info.dart';
+import 'package:flipz/page/utilities/quick_tiles.dart';
+import 'package:flipz/page/utilities/unit_converter.dart';
+import 'package:flipz/models/utility_item.dart';
+import 'package:flipz/config/app_strings.dart';
+import 'package:flipz/config/app_dimensions.dart';
+import 'package:flipz/utils/preferences_helper.dart';
+import 'package:flipz/widgets/utility_list_card.dart';
 
 class UtilitiesTab extends StatefulWidget {
   const UtilitiesTab({super.key});

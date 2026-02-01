@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:random/controllers/device_generator_controller.dart';
-import 'package:random/config/app_strings.dart';
-import 'package:random/config/app_dimensions.dart';
-import 'package:random/config/device_constants.dart';
-import 'package:random/utils/clipboard_helper.dart';
-import 'package:random/widgets/generated_result_card.dart';
-import 'package:random/widgets/category_selector_card.dart';
-import 'package:random/widgets/generation_history_card.dart';
+import 'package:flipz/controllers/device_generator_controller.dart';
+import 'package:flipz/config/app_strings.dart';
+import 'package:flipz/config/app_dimensions.dart';
+import 'package:flipz/config/device_constants.dart';
+import 'package:flipz/utils/clipboard_helper.dart';
+import 'package:flipz/widgets/generated_result_card.dart';
+import 'package:flipz/widgets/category_selector_card.dart';
+import 'package:flipz/widgets/generation_history_card.dart';
 
 class DeviceGeneratorPage extends StatefulWidget {
   const DeviceGeneratorPage({super.key});

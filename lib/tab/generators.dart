@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:random/page/generators/device.dart';
-import 'package:random/page/generators/email.dart';
-import 'package:random/page/generators/identity.dart';
-import 'package:random/page/generators/loremipsum.dart';
-import 'package:random/page/generators/password.dart';
-import 'package:random/page/generators/phone.dart';
-import 'package:random/page/generators/username.dart';
-import 'package:random/models/generator_item.dart';
-import 'package:random/config/app_strings.dart';
-import 'package:random/config/app_dimensions.dart';
-import 'package:random/utils/preferences_helper.dart';
-import 'package:random/widgets/generator_list_card.dart';
+import 'package:flipz/page/generators/device.dart';
+import 'package:flipz/page/generators/email.dart';
+import 'package:flipz/page/generators/identity.dart';
+import 'package:flipz/page/generators/loremipsum.dart';
+import 'package:flipz/page/generators/password.dart';
+import 'package:flipz/page/generators/phone.dart';
+import 'package:flipz/page/generators/username.dart';
+import 'package:flipz/models/generator_item.dart';
+import 'package:flipz/config/app_strings.dart';
+import 'package:flipz/config/app_dimensions.dart';
+import 'package:flipz/utils/preferences_helper.dart';
+import 'package:flipz/widgets/generator_list_card.dart';
 
 class GeneratorsTab extends StatefulWidget {
   const GeneratorsTab({super.key});

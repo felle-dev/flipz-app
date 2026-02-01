@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:random/config/email_constants.dart';
+import 'package:flipz/config/email_constants.dart';
 
 class EmailGeneratorController {
   final Random _random = Random();

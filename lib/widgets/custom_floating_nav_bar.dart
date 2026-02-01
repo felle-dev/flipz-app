@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:random/config/app_dimensions.dart';
+import 'package:flipz/config/app_dimensions.dart';
 
 class CustomFloatingNavBar extends StatelessWidget {
   final int currentIndex;

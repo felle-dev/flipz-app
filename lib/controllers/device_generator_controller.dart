@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:random/config/device_constants.dart';
+import 'package:flipz/config/device_constants.dart';
 
 class DeviceGeneratorController {
   final Random _random = Random();

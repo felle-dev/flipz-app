@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:random/controllers/username_generator_controller.dart';
-import 'package:random/config/app_strings.dart';
-import 'package:random/config/app_dimensions.dart';
-import 'package:random/config/username_constants.dart';
-import 'package:random/utils/clipboard_helper.dart';
-import 'package:random/widgets/generated_result_card.dart';
-import 'package:random/widgets/generator_options_card.dart';
-import 'package:random/widgets/generation_history_card.dart';
+import 'package:flipz/controllers/username_generator_controller.dart';
+import 'package:flipz/config/app_strings.dart';
+import 'package:flipz/config/app_dimensions.dart';
+import 'package:flipz/config/username_constants.dart';
+import 'package:flipz/utils/clipboard_helper.dart';
+import 'package:flipz/widgets/generated_result_card.dart';
+import 'package:flipz/widgets/generator_options_card.dart';
+import 'package:flipz/widgets/generation_history_card.dart';
 
 class UsernameGeneratorPage extends StatefulWidget {
   const UsernameGeneratorPage({super.key});

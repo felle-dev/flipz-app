@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:random/models/phone_country.dart';
+import 'package:flipz/models/phone_country.dart';
 
 class PhoneGeneratorController {
   final Random _random = Random();

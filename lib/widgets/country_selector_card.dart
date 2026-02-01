@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:random/models/phone_country.dart';
-import 'package:random/config/app_dimensions.dart';
+import 'package:flipz/models/phone_country.dart';
+import 'package:flipz/config/app_dimensions.dart';
 
 class CountrySelectorCard extends StatelessWidget {
   final String title;

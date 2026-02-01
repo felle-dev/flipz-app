@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:random/controllers/lorem_ipsum_controller.dart';
-import 'package:random/config/app_strings.dart';
-import 'package:random/config/app_dimensions.dart';
-import 'package:random/config/lorem_constants.dart';
-import 'package:random/utils/clipboard_helper.dart';
-import 'package:random/widgets/lorem_text_card.dart';
-import 'package:random/widgets/lorem_options_card.dart';
-import 'package:random/widgets/text_history_card.dart';
+import 'package:flipz/controllers/lorem_ipsum_controller.dart';
+import 'package:flipz/config/app_strings.dart';
+import 'package:flipz/config/app_dimensions.dart';
+import 'package:flipz/config/lorem_constants.dart';
+import 'package:flipz/utils/clipboard_helper.dart';
+import 'package:flipz/widgets/lorem_text_card.dart';
+import 'package:flipz/widgets/lorem_options_card.dart';
+import 'package:flipz/widgets/text_history_card.dart';
 
 class LoremIpsumGeneratorPage extends StatefulWidget {
   const LoremIpsumGeneratorPage({super.key});

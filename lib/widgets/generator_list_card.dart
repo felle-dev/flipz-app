@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:random/models/generator_item.dart';
-import 'package:random/config/app_strings.dart';
-import 'package:random/config/app_dimensions.dart';
+import 'package:flipz/models/generator_item.dart';
+import 'package:flipz/config/app_strings.dart';
+import 'package:flipz/config/app_dimensions.dart';
 
 class GeneratorListCard extends StatelessWidget {
   final GeneratorItem item;

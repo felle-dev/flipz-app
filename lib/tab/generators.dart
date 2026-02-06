@@ -21,11 +21,13 @@ class GeneratorsTab extends StatefulWidget {
 
 class _GeneratorsTabState extends State<GeneratorsTab> {
   late List<GeneratorItem> _generators;
+  bool _isInitialized = false;
 
   @override
   void initState() {
     super.initState();
     _initializeGenerators();
+    _loadPinnedState(); // ✅ Load pinned state immediately
   }
 
   void _initializeGenerators() {
@@ -35,9 +37,19 @@ class _GeneratorsTabState extends State<GeneratorsTab> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final colorScheme = Theme.of(context).colorScheme;
-    final shouldLoadPinned = _generators.isEmpty;
 
+    // Only rebuild generators list if not already initialized
+    // or if you need to update colors
+    if (!_isInitialized) {
+      _buildGeneratorsList();
+      _isInitialized = true;
+    }
+  }
+
+  void _buildGeneratorsList() {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    // Store current pinned state
     final Map<String, bool> pinnedState = {};
     for (var generator in _generators) {
       pinnedState[generator.id] = generator.isPinned;
@@ -102,25 +114,24 @@ class _GeneratorsTabState extends State<GeneratorsTab> {
       ),
     ];
 
+    // Restore pinned state after rebuilding list
     for (var generator in _generators) {
       if (pinnedState.containsKey(generator.id)) {
         generator.isPinned = pinnedState[generator.id]!;
       }
-    }
-
-    if (shouldLoadPinned) {
-      _loadPinnedState();
     }
   }
 
   Future<void> _loadPinnedState() async {
     final pinnedIds = await PreferencesHelper.getPinnedGenerators();
 
-    setState(() {
-      for (var generator in _generators) {
-        generator.isPinned = pinnedIds.contains(generator.id);
-      }
-    });
+    if (mounted) {
+      setState(() {
+        for (var generator in _generators) {
+          generator.isPinned = pinnedIds.contains(generator.id);
+        }
+      });
+    }
   }
 
   Future<void> _savePinnedState() async {

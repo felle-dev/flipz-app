@@ -72,7 +72,7 @@ class _RandomIdentityGeneratorPageState
     Clipboard.setData(ClipboardData(text: allData));
     ScaffoldMessenger.of(
       context,
-    ).showSnackBar(const SnackBar(content: Text(AppStrings.allDataCopied)));
+    ).showSnackBar(SnackBar(content: Text(AppStrings.allDataCopied)));
   }
 
   @override
@@ -80,7 +80,7 @@ class _RandomIdentityGeneratorPageState
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text(AppStrings.identityGeneratorTitle)),
+      appBar: AppBar(title: Text(AppStrings.identityGeneratorTitle)),
       body: ListView(
         padding: const EdgeInsets.all(AppDimensions.paddingLarge),
         children: [
@@ -161,7 +161,7 @@ class _RandomIdentityGeneratorPageState
                       ),
                       const SizedBox(height: AppDimensions.spacing8),
                       SegmentedButton<String>(
-                        segments: const [
+                        segments: [
                           ButtonSegment(
                             value: AppStrings.countryUS,
                             label: Text('🇺🇸 US'),
@@ -189,7 +189,7 @@ class _RandomIdentityGeneratorPageState
                       ),
                       const SizedBox(height: AppDimensions.spacing8),
                       SegmentedButton<String>(
-                        segments: const [
+                        segments:  [
                           ButtonSegment(
                             value: AppStrings.random,
                             label: Text(AppStrings.random),
@@ -225,7 +225,7 @@ class _RandomIdentityGeneratorPageState
           FilledButton.icon(
             onPressed: _generateIdentity,
             icon: const Icon(Icons.refresh),
-            label: const Text(AppStrings.generateIdentity),
+            label: Text(AppStrings.generateIdentity),
             style: FilledButton.styleFrom(
               padding: const EdgeInsets.symmetric(
                 horizontal: 32,

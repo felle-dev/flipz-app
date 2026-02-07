@@ -59,7 +59,7 @@ class _PhoneGeneratorPageState extends State<PhoneGeneratorPage> {
     final country = PhoneConstants.countries[_selectedCountry]!;
 
     return Scaffold(
-      appBar: AppBar(title: const Text(AppStrings.phoneGeneratorTitle)),
+      appBar: AppBar(title: Text(AppStrings.phoneGeneratorTitle)),
       body: ListView(
         padding: const EdgeInsets.all(AppDimensions.paddingLarge),
         children: [

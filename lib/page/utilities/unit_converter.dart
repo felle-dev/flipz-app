@@ -72,7 +72,7 @@ class _UnitConverterPageState extends State<UnitConverterPage> {
     final units = _controller.getUnitsForCategory(_selectedCategory);
 
     return Scaffold(
-      appBar: AppBar(title: const Text(AppStrings.unitConverterTitle)),
+      appBar: AppBar(title: Text(AppStrings.unitConverterTitle)),
       body: ListView(
         padding: const EdgeInsets.all(AppDimensions.paddingLarge),
         children: [

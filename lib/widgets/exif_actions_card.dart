@@ -61,7 +61,7 @@ class ExifActionsCard extends StatelessWidget {
                   FilledButton.icon(
                     onPressed: onSelectImage,
                     icon: const Icon(Icons.add_photo_alternate),
-                    label: const Text(AppStrings.exifEraserSelectImage),
+                    label: Text(AppStrings.exifEraserSelectImage),
                     style: FilledButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 32,
@@ -95,7 +95,7 @@ class ExifActionsCard extends StatelessWidget {
                   OutlinedButton.icon(
                     onPressed: onClear,
                     icon: const Icon(Icons.clear),
-                    label: const Text(AppStrings.clear),
+                    label: Text(AppStrings.clear),
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 32,
@@ -107,7 +107,7 @@ class ExifActionsCard extends StatelessWidget {
                   FilledButton.icon(
                     onPressed: onSelectImage,
                     icon: const Icon(Icons.add_photo_alternate),
-                    label: const Text(AppStrings.exifEraserSelectNew),
+                    label: Text(AppStrings.exifEraserSelectNew),
                     style: FilledButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 32,

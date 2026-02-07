@@ -71,14 +71,14 @@ class LoremOptionsCard extends StatelessWidget {
                   spacing: AppDimensions.spacing8,
                   children: [
                     ChoiceChip(
-                      label: const Text(AppStrings.words),
+                      label: Text(AppStrings.words),
                       selected: type == LoremConstants.typeWords,
                       onSelected: (selected) {
                         if (selected) onTypeChanged(LoremConstants.typeWords);
                       },
                     ),
                     ChoiceChip(
-                      label: const Text(AppStrings.sentences),
+                      label: Text(AppStrings.sentences),
                       selected: type == LoremConstants.typeSentences,
                       onSelected: (selected) {
                         if (selected)
@@ -86,7 +86,7 @@ class LoremOptionsCard extends StatelessWidget {
                       },
                     ),
                     ChoiceChip(
-                      label: const Text(AppStrings.paragraphs),
+                      label: Text(AppStrings.paragraphs),
                       selected: type == LoremConstants.typeParagraphs,
                       onSelected: (selected) {
                         if (selected)
@@ -131,8 +131,8 @@ class LoremOptionsCard extends StatelessWidget {
           ),
           Divider(height: 1, color: theme.colorScheme.outlineVariant),
           SwitchListTile(
-            title: const Text(AppStrings.startWithLorem),
-            subtitle: const Text(AppStrings.startWithLoremSubtitle),
+            title: Text(AppStrings.startWithLorem),
+            subtitle: Text(AppStrings.startWithLoremSubtitle),
             value: startWithLorem,
             onChanged: onStartWithLoremChanged,
           ),

@@ -61,7 +61,7 @@ class _EmailGeneratorPageState extends State<EmailGeneratorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text(AppStrings.emailGeneratorTitle)),
+      appBar: AppBar(title: Text(AppStrings.emailGeneratorTitle)),
       body: ListView(
         padding: const EdgeInsets.all(AppDimensions.paddingLarge),
         children: [

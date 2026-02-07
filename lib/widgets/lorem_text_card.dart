@@ -69,7 +69,7 @@ class LoremTextCard extends StatelessWidget {
                     FilledButton.icon(
                       onPressed: onCopy,
                       icon: const Icon(Icons.copy),
-                      label: const Text(AppStrings.copy),
+                      label: Text(AppStrings.copy),
                       style: FilledButton.styleFrom(
                         padding: const EdgeInsets.symmetric(
                           horizontal: AppDimensions.paddingLarge,
@@ -81,7 +81,7 @@ class LoremTextCard extends StatelessWidget {
                     FilledButton.tonalIcon(
                       onPressed: onGenerate,
                       icon: const Icon(Icons.refresh),
-                      label: const Text(AppStrings.generate),
+                      label: Text(AppStrings.generate),
                       style: FilledButton.styleFrom(
                         padding: const EdgeInsets.symmetric(
                           horizontal: AppDimensions.paddingLarge,

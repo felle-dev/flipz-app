@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:flipz/page/generators/device.dart';
 import 'package:flipz/page/generators/email.dart';
 import 'package:flipz/page/generators/identity.dart';
@@ -10,6 +11,7 @@ import 'package:flipz/models/generator_item.dart';
 import 'package:flipz/config/app_strings.dart';
 import 'package:flipz/config/app_dimensions.dart';
 import 'package:flipz/utils/preferences_helper.dart';
+import 'package:flipz/utils/language_provider.dart';
 import 'package:flipz/widgets/generator_list_card.dart';
 
 class GeneratorsTab extends StatefulWidget {
@@ -26,19 +28,19 @@ class _GeneratorsTabState extends State<GeneratorsTab> {
   @override
   void initState() {
     super.initState();
-    _generators = []; // Start with empty list
+    _generators = [];
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    // Build the list to get correct colors from theme
+    // Always rebuild the list to get updated translations
     _buildGeneratorsList();
-    
-    // Only load pinned state once
+
+    // Only load pinned state from storage once
     if (!_isInitialized) {
-      _loadPinnedState(); // Load pinned state AFTER building the list
+      _loadPinnedState();
       _isInitialized = true;
     }
   }
@@ -154,119 +156,126 @@ class _GeneratorsTabState extends State<GeneratorsTab> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    final pinnedItems = _pinnedGenerators;
-    final unpinnedItems = _unpinnedGenerators;
+    return Consumer<LanguageProvider>(
+      builder: (context, languageProvider, child) {
+        // Rebuild list when language changes
+        _buildGeneratorsList();
 
-    return ScrollConfiguration(
-      behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-      child: CustomScrollView(
-        slivers: [
-          // Pinned section
-          if (pinnedItems.isNotEmpty) ...[
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(
-                AppDimensions.paddingMedium,
-                AppDimensions.paddingMedium,
-                AppDimensions.paddingMedium,
-                AppDimensions.paddingSmall,
-              ),
-              sliver: SliverToBoxAdapter(
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.push_pin,
-                      size: AppDimensions.iconXSmall,
-                      color: colorScheme.primary,
-                    ),
-                    const SizedBox(width: AppDimensions.spacing8),
-                    Text(
-                      AppStrings.pinned,
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        color: colorScheme.primary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppDimensions.paddingMedium,
-              ),
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate((context, index) {
-                  final item = pinnedItems[index];
-                  return GeneratorListCard(
-                    key: ValueKey(item.id),
-                    item: item,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => item.pageBuilder(),
+        final theme = Theme.of(context);
+        final colorScheme = theme.colorScheme;
+        final pinnedItems = _pinnedGenerators;
+        final unpinnedItems = _unpinnedGenerators;
+
+        return ScrollConfiguration(
+          behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+          child: CustomScrollView(
+            slivers: [
+              // Pinned section
+              if (pinnedItems.isNotEmpty) ...[
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(
+                    AppDimensions.paddingMedium,
+                    AppDimensions.paddingMedium,
+                    AppDimensions.paddingMedium,
+                    AppDimensions.paddingSmall,
+                  ),
+                  sliver: SliverToBoxAdapter(
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.push_pin,
+                          size: AppDimensions.iconXSmall,
+                          color: colorScheme.primary,
                         ),
-                      );
-                    },
-                    onTogglePin: () => _togglePin(item),
-                  );
-                }, childCount: pinnedItems.length),
-              ),
-            ),
-          ],
-
-          // Unpinned section
-          if (unpinnedItems.isNotEmpty) ...[
-            if (pinnedItems.isNotEmpty)
-              SliverPadding(
-                padding: const EdgeInsets.fromLTRB(
-                  AppDimensions.paddingMedium,
-                  AppDimensions.paddingLarge,
-                  AppDimensions.paddingMedium,
-                  AppDimensions.paddingSmall,
-                ),
-                sliver: SliverToBoxAdapter(
-                  child: Text(
-                    AppStrings.allGenerators,
-                    style: theme.textTheme.titleSmall?.copyWith(
-                      color: colorScheme.onSurfaceVariant,
-                      fontWeight: FontWeight.bold,
+                        const SizedBox(width: AppDimensions.spacing8),
+                        Text(
+                          AppStrings.pinned,
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            color: colorScheme.primary,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-              ),
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppDimensions.paddingMedium,
-              ),
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate((context, index) {
-                  final item = unpinnedItems[index];
-                  return GeneratorListCard(
-                    key: ValueKey(item.id),
-                    item: item,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => item.pageBuilder(),
-                        ),
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppDimensions.paddingMedium,
+                  ),
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      final item = pinnedItems[index];
+                      return GeneratorListCard(
+                        key: ValueKey(item.id),
+                        item: item,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => item.pageBuilder(),
+                            ),
+                          );
+                        },
+                        onTogglePin: () => _togglePin(item),
                       );
-                    },
-                    onTogglePin: () => _togglePin(item),
-                  );
-                }, childCount: unpinnedItems.length),
-              ),
-            ),
-          ],
+                    }, childCount: pinnedItems.length),
+                  ),
+                ),
+              ],
 
-          const SliverToBoxAdapter(
-            child: SizedBox(height: AppDimensions.spacing100),
+              // Unpinned section
+              if (unpinnedItems.isNotEmpty) ...[
+                if (pinnedItems.isNotEmpty)
+                  SliverPadding(
+                    padding: const EdgeInsets.fromLTRB(
+                      AppDimensions.paddingMedium,
+                      AppDimensions.paddingLarge,
+                      AppDimensions.paddingMedium,
+                      AppDimensions.paddingSmall,
+                    ),
+                    sliver: SliverToBoxAdapter(
+                      child: Text(
+                        AppStrings.allGenerators,
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppDimensions.paddingMedium,
+                  ),
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      final item = unpinnedItems[index];
+                      return GeneratorListCard(
+                        key: ValueKey(item.id),
+                        item: item,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => item.pageBuilder(),
+                            ),
+                          );
+                        },
+                        onTogglePin: () => _togglePin(item),
+                      );
+                    }, childCount: unpinnedItems.length),
+                  ),
+                ),
+              ],
+
+              const SliverToBoxAdapter(
+                child: SizedBox(height: AppDimensions.spacing100),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

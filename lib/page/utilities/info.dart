@@ -37,7 +37,7 @@ class _DeviceInfoPageState extends State<DeviceInfoPage> {
     Clipboard.setData(ClipboardData(text: allData));
     ScaffoldMessenger.of(
       context,
-    ).showSnackBar(const SnackBar(content: Text(AppStrings.deviceInfoCopied)));
+    ).showSnackBar(SnackBar(content: Text(AppStrings.deviceInfoCopied)));
   }
 
   @override
@@ -45,7 +45,7 @@ class _DeviceInfoPageState extends State<DeviceInfoPage> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text(AppStrings.deviceInfoTitle)),
+      appBar: AppBar(title: Text(AppStrings.deviceInfoTitle)),
       body: ListenableBuilder(
         listenable: _controller,
         builder: (context, child) {
@@ -89,7 +89,7 @@ class _DeviceInfoPageState extends State<DeviceInfoPage> {
               OutlinedButton.icon(
                 onPressed: _controller.refresh,
                 icon: const Icon(Icons.refresh),
-                label: const Text(AppStrings.deviceInfoRefresh),
+                label: Text(AppStrings.deviceInfoRefresh),
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 24,

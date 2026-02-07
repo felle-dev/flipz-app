@@ -40,7 +40,7 @@ class _ExifEraserPageState extends State<ExifEraserPage> {
           children: [
             ListTile(
               leading: const Icon(Icons.photo_library),
-              title: const Text(AppStrings.exifEraserChooseGallery),
+              title: Text(AppStrings.exifEraserChooseGallery),
               onTap: () {
                 Navigator.pop(context);
                 _pickImage(ImageSource.gallery);
@@ -49,7 +49,7 @@ class _ExifEraserPageState extends State<ExifEraserPage> {
             if (!kIsWeb) // Camera not available on web
               ListTile(
                 leading: const Icon(Icons.camera_alt),
-                title: const Text(AppStrings.exifEraserTakePhoto),
+                title: Text(AppStrings.exifEraserTakePhoto),
                 onTap: () {
                   Navigator.pop(context);
                   _pickImage(ImageSource.camera);
@@ -78,7 +78,7 @@ class _ExifEraserPageState extends State<ExifEraserPage> {
       await _controller.removeExif();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text(AppStrings.exifEraserSuccess)),
+          SnackBar(content: Text(AppStrings.exifEraserSuccess)),
         );
       }
     } catch (e) {
@@ -134,7 +134,7 @@ class _ExifEraserPageState extends State<ExifEraserPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text(AppStrings.exifEraserTitle)),
+      appBar: AppBar(title: Text(AppStrings.exifEraserTitle)),
       body: ListenableBuilder(
         listenable: _controller,
         builder: (context, child) {

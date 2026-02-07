@@ -51,7 +51,7 @@ class GenerationHistoryCard extends StatelessWidget {
                 const Spacer(),
                 TextButton(
                   onPressed: onClear,
-                  child: const Text(AppStrings.clear),
+                  child: Text(AppStrings.clear),
                 ),
               ],
             ),

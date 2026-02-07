@@ -47,7 +47,7 @@ class UnitResultCard extends StatelessWidget {
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: result));
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text(AppStrings.resultCopied)),
+                      SnackBar(content: Text(AppStrings.resultCopied)),
                     );
                   },
                   color: theme.colorScheme.onPrimaryContainer,

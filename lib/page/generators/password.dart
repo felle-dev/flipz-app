@@ -86,7 +86,7 @@ class _PasswordGeneratorPageState extends State<PasswordGeneratorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text(AppStrings.passwordGeneratorTitle)),
+      appBar: AppBar(title: Text(AppStrings.passwordGeneratorTitle)),
       body: ListView(
         padding: const EdgeInsets.all(AppDimensions.paddingLarge),
         children: [

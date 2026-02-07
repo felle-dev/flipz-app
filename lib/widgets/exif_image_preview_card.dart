@@ -122,7 +122,7 @@ class ExifImagePreviewCard extends StatelessWidget {
                         OutlinedButton.icon(
                           onPressed: onShare,
                           icon: const Icon(Icons.share),
-                          label: const Text(AppStrings.exifEraserShare),
+                          label: Text(AppStrings.exifEraserShare),
                           style: OutlinedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 24,

@@ -62,8 +62,8 @@ class GeneratorOptionsCard extends StatelessWidget {
           ),
           Divider(height: 1, color: theme.colorScheme.outlineVariant),
           SwitchListTile(
-            title: const Text(AppStrings.includeAdjective),
-            subtitle: const Text(AppStrings.includeAdjectiveSubtitle),
+            title: Text(AppStrings.includeAdjective),
+            subtitle: Text(AppStrings.includeAdjectiveSubtitle),
             value: includeAdjective,
             onChanged: onAdjectiveChanged,
           ),
@@ -74,8 +74,8 @@ class GeneratorOptionsCard extends StatelessWidget {
             color: theme.colorScheme.outlineVariant,
           ),
           SwitchListTile(
-            title: const Text(AppStrings.includeNumbers),
-            subtitle: const Text(AppStrings.includeNumbersSubtitle),
+            title: Text(AppStrings.includeNumbers),
+            subtitle: Text(AppStrings.includeNumbersSubtitle),
             value: includeNumbers,
             onChanged: onNumbersChanged,
           ),
@@ -86,8 +86,8 @@ class GeneratorOptionsCard extends StatelessWidget {
             color: theme.colorScheme.outlineVariant,
           ),
           SwitchListTile(
-            title: const Text(AppStrings.capitalize),
-            subtitle: const Text(AppStrings.capitalizeSubtitle),
+            title: Text(AppStrings.capitalize),
+            subtitle: Text(AppStrings.capitalizeSubtitle),
             value: capitalize,
             onChanged: onCapitalizeChanged,
           ),

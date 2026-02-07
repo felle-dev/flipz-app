@@ -95,7 +95,7 @@ class PhoneResultCard extends StatelessWidget {
                       child: FilledButton.icon(
                         onPressed: onCopyWithCode,
                         icon: const Icon(Icons.copy),
-                        label: const Text(AppStrings.withCode),
+                        label: Text(AppStrings.withCode),
                         style: FilledButton.styleFrom(
                           padding: const EdgeInsets.symmetric(
                             horizontal: AppDimensions.paddingMedium,
@@ -109,7 +109,7 @@ class PhoneResultCard extends StatelessWidget {
                       child: FilledButton.tonalIcon(
                         onPressed: onGenerate,
                         icon: const Icon(Icons.refresh),
-                        label: const Text(AppStrings.generate),
+                        label: Text(AppStrings.generate),
                         style: FilledButton.styleFrom(
                           padding: const EdgeInsets.symmetric(
                             horizontal: AppDimensions.paddingMedium,
@@ -124,7 +124,7 @@ class PhoneResultCard extends StatelessWidget {
                 OutlinedButton.icon(
                   onPressed: onCopyWithoutCode,
                   icon: const Icon(Icons.copy, size: AppDimensions.iconSmall),
-                  label: const Text(AppStrings.copyWithoutCode),
+                  label: Text(AppStrings.copyWithoutCode),
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(
                       horizontal: AppDimensions.paddingLarge,

@@ -16,7 +16,7 @@ class DisclaimerDialog extends StatelessWidget {
         color: theme.colorScheme.error,
         size: 48,
       ),
-      title: const Text(AppStrings.legalDisclaimer),
+      title: Text(AppStrings.legalDisclaimer),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -60,14 +60,14 @@ class DisclaimerDialog extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text(AppStrings.cancel),
+          child: Text(AppStrings.cancel),
         ),
         FilledButton(
           onPressed: () {
             Navigator.of(context).pop();
             onAgree();
           },
-          child: const Text(AppStrings.iAgree),
+          child: Text(AppStrings.iAgree),
         ),
       ],
     );

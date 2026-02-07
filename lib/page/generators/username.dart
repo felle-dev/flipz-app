@@ -59,7 +59,7 @@ class _UsernameGeneratorPageState extends State<UsernameGeneratorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text(AppStrings.usernameGeneratorTitle)),
+      appBar: AppBar(title: Text(AppStrings.usernameGeneratorTitle)),
       body: ListView(
         padding: const EdgeInsets.all(AppDimensions.paddingLarge),
         children: [

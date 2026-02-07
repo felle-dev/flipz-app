@@ -53,7 +53,7 @@ class _DeviceGeneratorPageState extends State<DeviceGeneratorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text(AppStrings.deviceGeneratorTitle)),
+      appBar: AppBar(title: Text(AppStrings.deviceGeneratorTitle)),
       body: ListView(
         padding: const EdgeInsets.all(AppDimensions.paddingLarge),
         children: [

@@ -69,7 +69,7 @@ class _LoremIpsumGeneratorPageState extends State<LoremIpsumGeneratorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text(AppStrings.loremIpsumGeneratorTitle)),
+      appBar: AppBar(title: Text(AppStrings.loremIpsumGeneratorTitle)),
       body: ListView(
         padding: const EdgeInsets.all(AppDimensions.paddingLarge),
         children: [

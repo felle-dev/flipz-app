@@ -96,8 +96,8 @@ class PasswordOptionsCard extends StatelessWidget {
           ),
           Divider(height: 1, color: theme.colorScheme.outlineVariant),
           SwitchListTile(
-            title: const Text(AppStrings.uppercaseLetters),
-            subtitle: const Text(AppStrings.uppercaseSubtitle),
+            title: Text(AppStrings.uppercaseLetters),
+            subtitle: Text(AppStrings.uppercaseSubtitle),
             value: includeUppercase,
             onChanged: onUppercaseChanged,
           ),
@@ -108,8 +108,8 @@ class PasswordOptionsCard extends StatelessWidget {
             color: theme.colorScheme.outlineVariant,
           ),
           SwitchListTile(
-            title: const Text(AppStrings.lowercaseLetters),
-            subtitle: const Text(AppStrings.lowercaseSubtitle),
+            title: Text(AppStrings.lowercaseLetters),
+            subtitle: Text(AppStrings.lowercaseSubtitle),
             value: includeLowercase,
             onChanged: onLowercaseChanged,
           ),
@@ -120,8 +120,8 @@ class PasswordOptionsCard extends StatelessWidget {
             color: theme.colorScheme.outlineVariant,
           ),
           SwitchListTile(
-            title: const Text(AppStrings.numbersLabel),
-            subtitle: const Text(AppStrings.numbersSubtitle),
+            title: Text(AppStrings.numbersLabel),
+            subtitle: Text(AppStrings.numbersSubtitle),
             value: includeNumbers,
             onChanged: onNumbersChanged,
           ),
@@ -132,8 +132,8 @@ class PasswordOptionsCard extends StatelessWidget {
             color: theme.colorScheme.outlineVariant,
           ),
           SwitchListTile(
-            title: const Text(AppStrings.symbolsLabel),
-            subtitle: const Text(AppStrings.symbolsSubtitle),
+            title: Text(AppStrings.symbolsLabel),
+            subtitle: Text(AppStrings.symbolsSubtitle),
             value: includeSymbols,
             onChanged: onSymbolsChanged,
           ),

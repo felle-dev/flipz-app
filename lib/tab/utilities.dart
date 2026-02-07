@@ -3,6 +3,7 @@ import 'package:flipz/page/utilities/exif_eraser.dart';
 import 'package:flipz/page/utilities/info.dart';
 import 'package:flipz/page/utilities/quick_tiles.dart';
 import 'package:flipz/page/utilities/unit_converter.dart';
+import 'package:flipz/page/utilities/tg_monet.dart';
 import 'package:flipz/models/utility_item.dart';
 import 'package:flipz/config/app_strings.dart';
 import 'package:flipz/config/app_dimensions.dart';
@@ -62,6 +63,14 @@ class _UtilitiesTabState extends State<UtilitiesTab> {
           icon: Icons.info_outline,
           containerColor: colorScheme.primaryContainer,
           pageBuilder: () => const DeviceInfoPage(),
+        ),
+        UtilityItem(
+          id: 'tg_monet',
+          title: "Telegram Monet",
+          subtitle: "Telegram Monet Theme Generator",
+          icon: Icons.format_paint_outlined,
+          containerColor: colorScheme.tertiaryContainer,
+          pageBuilder: () => const TelegramMonetPage(),
         ),
       ];
       _loadPinnedState();

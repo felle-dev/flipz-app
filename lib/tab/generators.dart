@@ -82,7 +82,7 @@ class _GeneratorsTabState extends State<GeneratorsTab> {
         title: AppStrings.generatorDevice,
         subtitle: AppStrings.generatorDeviceSubtitle,
         icon: Icons.phone_android_outlined,
-        containerColor: colorScheme.errorContainer,
+        containerColor: colorScheme.primaryContainer,
         pageBuilder: () => const DeviceGeneratorPage(),
       ),
       GeneratorItem(
@@ -90,7 +90,7 @@ class _GeneratorsTabState extends State<GeneratorsTab> {
         title: AppStrings.generatorIdentity,
         subtitle: AppStrings.generatorIdentitySubtitle,
         icon: Icons.badge_outlined,
-        containerColor: colorScheme.errorContainer,
+        containerColor: colorScheme.tertiaryContainer,
         pageBuilder: () => const RandomIdentityGeneratorPage(),
       ),
       GeneratorItem(

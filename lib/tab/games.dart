@@ -60,7 +60,7 @@ class _GamesToolsTabState extends State<GamesToolsTab> {
           title: AppStrings.gameSpinningWheel,
           subtitle: AppStrings.gameSpinningWheelSubtitle,
           icon: Icons.album_outlined,
-          containerColor: colorScheme.errorContainer,
+          containerColor: colorScheme.primaryContainer,
           pageBuilder: () => const SpinningWheelPage(),
         ),
       ];

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../config/app_strings.dart';
 
 class ExifSuccessCard extends StatelessWidget {
   const ExifSuccessCard({super.key});
@@ -27,7 +28,7 @@ class ExifSuccessCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  'EXIF Data Removed',
+                  AppStrings.exifEraserDataRemoved,
                   style: theme.textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Colors.green,
@@ -40,7 +41,7 @@ class ExifSuccessCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(20),
             child: Text(
-              'Your image has been processed and all EXIF metadata has been removed. You can now save or share it safely.',
+              AppStrings.exifEraserProcessedSuccess,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),

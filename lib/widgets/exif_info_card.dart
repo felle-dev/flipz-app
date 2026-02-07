@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../config/app_strings.dart';
 
 class ExifInfoCard extends StatelessWidget {
   const ExifInfoCard({super.key});
@@ -27,7 +28,7 @@ class ExifInfoCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  'About EXIF Data',
+                  AppStrings.exifEraserAboutTitle,
                   style: theme.textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: theme.colorScheme.primary,
@@ -40,9 +41,7 @@ class ExifInfoCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(20),
             child: Text(
-              'EXIF (Exchangeable Image File Format) data is metadata embedded in photos. '
-              'It can include GPS location, camera settings, date and time, and more. '
-              'Removing EXIF data helps protect your privacy when sharing images online.',
+              AppStrings.exifEraserAboutInfo,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),

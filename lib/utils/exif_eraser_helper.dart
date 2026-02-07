@@ -7,6 +7,8 @@ import 'package:share_plus/share_plus.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:universal_html/html.dart' as html;
+import '../../../config/app_strings.dart';
+import '../../../config/exif_constants.dart';
 
 class ExifEraserHelper {
   static Future<String> saveImage({
@@ -15,35 +17,29 @@ class ExifEraserHelper {
   }) async {
     if (kIsWeb) {
       if (webProcessedBytes == null) {
-        throw Exception('No processed image available');
+        throw Exception(AppStrings.exifEraserNoImage);
       }
-
       final blob = html.Blob([webProcessedBytes]);
       final url = html.Url.createObjectUrlFromBlob(blob);
       // ignore: unused_local_variable
       final anchor = html.AnchorElement(href: url)
-        ..setAttribute(
-          'download',
-          'exif_erased_${DateTime.now().millisecondsSinceEpoch}.jpg',
-        )
+        ..setAttribute('download', ExifConstants.generateDownloadName())
         ..click();
       html.Url.revokeObjectUrl(url);
-
-      return 'Image downloaded successfully!';
+      return AppStrings.exifEraserImageDownloaded;
     }
 
     if (processedImage == null) {
-      throw Exception('No processed image available');
+      throw Exception(AppStrings.exifEraserNoImage);
     }
 
     final bytes = await processedImage.readAsBytes();
-
     if (Platform.isAndroid || Platform.isIOS) {
       final hasAccess = await Gal.hasAccess();
       if (!hasAccess) {
         final granted = await Gal.requestAccess();
         if (!granted) {
-          throw Exception('Permission denied. Cannot save to gallery.');
+          throw Exception(AppStrings.exifEraserPermissionDenied);
         }
       }
 
@@ -51,36 +47,38 @@ class ExifEraserHelper {
       if (Platform.isAndroid) {
         await Gal.putImageBytes(
           bytes,
-          album: "Random",
-          name: "exif_erased_${DateTime.now().millisecondsSinceEpoch}",
+          album: ExifConstants.androidAlbumName,
+          name: ExifConstants.generateFileName().replaceAll(
+            ExifConstants.fileExtension,
+            '',
+          ),
         );
-        return 'Image saved to "Pictures/Random/"';
+        return AppStrings.exifEraserImageSavedRandom;
       } else {
         // iOS: save without album parameter
         await Gal.putImageBytes(
           bytes,
-          name: "exif_erased_${DateTime.now().millisecondsSinceEpoch}",
+          name: ExifConstants.generateFileName().replaceAll(
+            ExifConstants.fileExtension,
+            '',
+          ),
         );
-        return 'Image saved to gallery!';
+        return AppStrings.exifEraserImageSavedGallery;
       }
     } else {
       String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
-
       if (selectedDirectory == null) {
-        throw Exception('No directory selected');
+        throw Exception(AppStrings.exifEraserNoDirectory);
       }
 
-      final timestamp = DateTime.now().millisecondsSinceEpoch;
-      final fileName = 'exif_erased_$timestamp.jpg';
+      final fileName = ExifConstants.generateFileName();
       final savePath = '$selectedDirectory/$fileName';
-
       final saveFile = File(savePath);
       await saveFile.writeAsBytes(bytes);
 
       // Open file after saving (desktop platforms)
       await OpenFile.open(savePath);
-
-      return 'Image saved to: $savePath';
+      return '${AppStrings.exifEraserImageSavedTo}$savePath';
     }
   }
 
@@ -89,19 +87,19 @@ class ExifEraserHelper {
     required File? processedImage,
   }) async {
     if (kIsWeb && webImageBytes == null) {
-      throw Exception('No image available to share');
+      throw Exception(AppStrings.exifEraserNoImage);
     }
     if (!kIsWeb && processedImage == null) {
-      throw Exception('No processed image available');
+      throw Exception(AppStrings.exifEraserNoImage);
     }
 
     if (kIsWeb) {
       // Web download instead of share
-      throw Exception('Use save/download for web');
+      throw Exception(AppStrings.exifEraserUseDownload);
     } else {
       await Share.shareXFiles([
         XFile(processedImage!.path),
-      ], text: 'Image with EXIF data removed');
+      ], text: AppStrings.exifEraserShareText);
     }
   }
 }

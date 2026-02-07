@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../config/app_strings.dart';
 
 class ExifDataCard extends StatelessWidget {
   final Map<String, String> exifData;
@@ -39,7 +40,7 @@ class ExifDataCard extends StatelessWidget {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      'EXIF Data Detected (${exifData.length} fields)',
+                      '${AppStrings.exifEraserDataDetected} (${exifData.length} ${AppStrings.exifEraserFields})',
                       style: theme.textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: Colors.orange,
@@ -61,7 +62,7 @@ class ExifDataCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'This image contains EXIF metadata',
+                  AppStrings.exifEraserContainsMetadata,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                     fontWeight: FontWeight.bold,
@@ -69,7 +70,7 @@ class ExifDataCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'EXIF data may include location, camera model, date, and other metadata.',
+                  AppStrings.exifEraserMetadataInfo,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
@@ -86,7 +87,7 @@ class ExifDataCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'EXIF Details:',
+                          AppStrings.exifEraserDetails,
                           style: theme.textTheme.labelLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),

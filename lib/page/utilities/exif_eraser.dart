@@ -1,13 +1,14 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import '../controllers/exif_eraser_controller.dart';
-import '../utils/exif_eraser_helper.dart';
-import '../widgets/exif_image_preview_card.dart';
-import '../widgets/exif_data_card.dart';
-import '../widgets/exif_success_card.dart';
-import '../widgets/exif_actions_card.dart';
-import '../widgets/exif_info_card.dart';
+import '../../config/app_strings.dart';
+import '../../controllers/exif_eraser_controller.dart';
+import '../../utils/exif_eraser_helper.dart';
+import '../../widgets/exif_image_preview_card.dart';
+import '../../widgets/exif_data_card.dart';
+import '../../widgets/exif_success_card.dart';
+import '../../widgets/exif_actions_card.dart';
+import '../../widgets/exif_info_card.dart';
 
 class ExifEraserPage extends StatefulWidget {
   const ExifEraserPage({super.key});
@@ -39,7 +40,7 @@ class _ExifEraserPageState extends State<ExifEraserPage> {
           children: [
             ListTile(
               leading: const Icon(Icons.photo_library),
-              title: const Text('Choose from Gallery'),
+              title: const Text(AppStrings.exifEraserChooseGallery),
               onTap: () {
                 Navigator.pop(context);
                 _pickImage(ImageSource.gallery);
@@ -48,7 +49,7 @@ class _ExifEraserPageState extends State<ExifEraserPage> {
             if (!kIsWeb) // Camera not available on web
               ListTile(
                 leading: const Icon(Icons.camera_alt),
-                title: const Text('Take a Photo'),
+                title: const Text(AppStrings.exifEraserTakePhoto),
                 onTap: () {
                   Navigator.pop(context);
                   _pickImage(ImageSource.camera);
@@ -65,9 +66,9 @@ class _ExifEraserPageState extends State<ExifEraserPage> {
       await _controller.pickImage(source);
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Error picking image: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('${AppStrings.exifEraserErrorPicking}$e')),
+        );
       }
     }
   }
@@ -77,14 +78,14 @@ class _ExifEraserPageState extends State<ExifEraserPage> {
       await _controller.removeExif();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('EXIF data removed successfully!')),
+          const SnackBar(content: Text(AppStrings.exifEraserSuccess)),
         );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Error processing image: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('${AppStrings.exifEraserErrorProcessing}$e')),
+        );
       }
     }
   }
@@ -103,9 +104,9 @@ class _ExifEraserPageState extends State<ExifEraserPage> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Error saving image: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('${AppStrings.exifEraserErrorSaving}$e')),
+        );
       }
     }
   }
@@ -123,9 +124,9 @@ class _ExifEraserPageState extends State<ExifEraserPage> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Error sharing image: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('${AppStrings.exifEraserErrorSharing}$e')),
+        );
       }
     }
   }
@@ -133,7 +134,7 @@ class _ExifEraserPageState extends State<ExifEraserPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('EXIF Eraser')),
+      appBar: AppBar(title: const Text(AppStrings.exifEraserTitle)),
       body: ListenableBuilder(
         listenable: _controller,
         builder: (context, child) {

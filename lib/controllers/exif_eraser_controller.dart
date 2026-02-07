@@ -7,6 +7,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:image/image.dart' as img;
 import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flipz/config/app_strings.dart';
+import 'package:flipz/config/exif_constants.dart';
 
 class ExifEraserController extends ChangeNotifier {
   File? _selectedImage;
@@ -95,7 +97,8 @@ class ExifEraserController extends ChangeNotifier {
           for (var key in imageIfdData.keys) {
             final value = imageIfdData[key];
             if (value != null) {
-              exifMap['Image: $key'] = value.toString();
+              exifMap['${ExifConstants.exifCategoryImage}: $key'] = value
+                  .toString();
             }
           }
         }
@@ -107,7 +110,8 @@ class ExifEraserController extends ChangeNotifier {
           for (var key in exifIfdData.keys) {
             final value = exifIfdData[key];
             if (value != null) {
-              exifMap['EXIF: $key'] = value.toString();
+              exifMap['${ExifConstants.exifCategoryExif}: $key'] = value
+                  .toString();
             }
           }
         }
@@ -119,7 +123,8 @@ class ExifEraserController extends ChangeNotifier {
           for (var key in gpsIfdData.keys) {
             final value = gpsIfdData[key];
             if (value != null) {
-              exifMap['GPS: $key'] = value.toString();
+              exifMap['${ExifConstants.exifCategoryGps}: $key'] = value
+                  .toString();
             }
           }
         }
@@ -131,7 +136,8 @@ class ExifEraserController extends ChangeNotifier {
           for (var key in thumbnailIfdData.keys) {
             final value = thumbnailIfdData[key];
             if (value != null) {
-              exifMap['Thumbnail: $key'] = value.toString();
+              exifMap['${ExifConstants.exifCategoryThumbnail}: $key'] = value
+                  .toString();
             }
           }
         }
@@ -142,7 +148,9 @@ class ExifEraserController extends ChangeNotifier {
       }
     } catch (e) {
       _hasExifData = true;
-      _exifData = {'Error': 'Could not parse EXIF data'};
+      _exifData = {
+        ExifConstants.exifCategoryError: AppStrings.exifEraserErrorParse,
+      };
       notifyListeners();
     }
   }
@@ -169,7 +177,7 @@ class ExifEraserController extends ChangeNotifier {
       image.exif.clear();
 
       // Encode as JPEG without any metadata
-      final newBytes = img.encodeJpg(image, quality: 95);
+      final newBytes = img.encodeJpg(image, quality: ExifConstants.jpegQuality);
 
       if (kIsWeb) {
         _webProcessedBytes = newBytes;
@@ -178,8 +186,7 @@ class ExifEraserController extends ChangeNotifier {
       } else {
         // For mobile/desktop, save to temp directory
         final tempDir = await getTemporaryDirectory();
-        final timestamp = DateTime.now().millisecondsSinceEpoch;
-        final newPath = '${tempDir.path}/exif_erased_$timestamp.jpg';
+        final newPath = ExifConstants.generateTempPath(tempDir.path);
         final newFile = File(newPath);
         await newFile.writeAsBytes(newBytes);
 

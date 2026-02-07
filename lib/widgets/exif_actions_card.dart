@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../config/app_strings.dart';
 
 class ExifActionsCard extends StatelessWidget {
   final bool hasImage;
@@ -42,7 +43,7 @@ class ExifActionsCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  'Actions',
+                  AppStrings.exifEraserActions,
                   style: theme.textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: theme.colorScheme.primary,
@@ -60,7 +61,7 @@ class ExifActionsCard extends StatelessWidget {
                   FilledButton.icon(
                     onPressed: onSelectImage,
                     icon: const Icon(Icons.add_photo_alternate),
-                    label: const Text('Select Image'),
+                    label: const Text(AppStrings.exifEraserSelectImage),
                     style: FilledButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 32,
@@ -79,7 +80,9 @@ class ExifActionsCard extends StatelessWidget {
                           )
                         : const Icon(Icons.delete_sweep),
                     label: Text(
-                      isProcessing ? 'Processing...' : 'Remove EXIF Data',
+                      isProcessing
+                          ? AppStrings.exifEraserProcessing
+                          : AppStrings.exifEraserRemoveExif,
                     ),
                     style: FilledButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
@@ -92,7 +95,7 @@ class ExifActionsCard extends StatelessWidget {
                   OutlinedButton.icon(
                     onPressed: onClear,
                     icon: const Icon(Icons.clear),
-                    label: const Text('Clear'),
+                    label: const Text(AppStrings.clear),
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 32,
@@ -104,7 +107,7 @@ class ExifActionsCard extends StatelessWidget {
                   FilledButton.icon(
                     onPressed: onSelectImage,
                     icon: const Icon(Icons.add_photo_alternate),
-                    label: const Text('Select New Image'),
+                    label: const Text(AppStrings.exifEraserSelectNew),
                     style: FilledButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 32,

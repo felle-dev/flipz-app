@@ -2,6 +2,7 @@ import 'dart:io' show File;
 import 'dart:typed_data';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import '../../../config/app_strings.dart';
 
 class ExifImagePreviewCard extends StatelessWidget {
   final File? selectedImage;
@@ -76,7 +77,9 @@ class ExifImagePreviewCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  isProcessed ? 'Processed Image' : 'Selected Image',
+                  isProcessed
+                      ? AppStrings.exifEraserProcessedImage
+                      : AppStrings.exifEraserSelectedImage,
                   style: theme.textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: theme.colorScheme.primary,
@@ -102,7 +105,11 @@ class ExifImagePreviewCard extends StatelessWidget {
                       FilledButton.icon(
                         onPressed: onSave,
                         icon: const Icon(Icons.download),
-                        label: Text(kIsWeb ? 'Download' : 'Save'),
+                        label: Text(
+                          kIsWeb
+                              ? AppStrings.exifEraserDownload
+                              : AppStrings.exifEraserSave,
+                        ),
                         style: FilledButton.styleFrom(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 24,
@@ -115,7 +122,7 @@ class ExifImagePreviewCard extends StatelessWidget {
                         OutlinedButton.icon(
                           onPressed: onShare,
                           icon: const Icon(Icons.share),
-                          label: const Text('Share'),
+                          label: const Text(AppStrings.exifEraserShare),
                           style: OutlinedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 24,

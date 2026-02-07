@@ -194,4 +194,50 @@ class AppStrings {
   static const String result = 'Result';
   static const String invalidInput = 'Invalid input';
   static const String resultCopied = 'Result copied!';
+
+  // EXIF Eraser
+  static const String exifEraserTitle = 'EXIF Eraser';
+  static const String exifEraserSelectImage = 'Select Image';
+  static const String exifEraserChooseGallery = 'Choose from Gallery';
+  static const String exifEraserTakePhoto = 'Take a Photo';
+  static const String exifEraserRemoveExif = 'Remove EXIF Data';
+  static const String exifEraserProcessing = 'Processing...';
+  static const String exifEraserSelectNew = 'Select New Image';
+  static const String exifEraserActions = 'Actions';
+  static const String exifEraserSelectedImage = 'Selected Image';
+  static const String exifEraserProcessedImage = 'Processed Image';
+  static const String exifEraserDownload = 'Download';
+  static const String exifEraserSave = 'Save';
+  static const String exifEraserShare = 'Share';
+  static const String exifEraserDataDetected = 'EXIF Data Detected';
+  static const String exifEraserFields = 'fields';
+  static const String exifEraserContainsMetadata =
+      'This image contains EXIF metadata';
+  static const String exifEraserMetadataInfo =
+      'EXIF data may include location, camera model, date, and other metadata.';
+  static const String exifEraserDetails = 'EXIF Details:';
+  static const String exifEraserDataRemoved = 'EXIF Data Removed';
+  static const String exifEraserProcessedSuccess =
+      'Your image has been processed and all EXIF metadata has been removed. You can now save or share it safely.';
+  static const String exifEraserAboutTitle = 'About EXIF Data';
+  static const String exifEraserAboutInfo =
+      'EXIF (Exchangeable Image File Format) data is metadata embedded in photos. It can include GPS location, camera settings, date and time, and more. Removing EXIF data helps protect your privacy when sharing images online.';
+  static const String exifEraserSuccess = 'EXIF data removed successfully!';
+  static const String exifEraserErrorPicking = 'Error picking image: ';
+  static const String exifEraserErrorProcessing = 'Error processing image: ';
+  static const String exifEraserErrorSaving = 'Error saving image: ';
+  static const String exifEraserErrorSharing = 'Error sharing image: ';
+  static const String exifEraserNoImage = 'No processed image available';
+  static const String exifEraserPermissionDenied =
+      'Permission denied. Cannot save to gallery.';
+  static const String exifEraserNoDirectory = 'No directory selected';
+  static const String exifEraserImageDownloaded =
+      'Image downloaded successfully!';
+  static const String exifEraserImageSavedRandom =
+      'Image saved to "Pictures/Random/"';
+  static const String exifEraserImageSavedGallery = 'Image saved to gallery!';
+  static const String exifEraserImageSavedTo = 'Image saved to: ';
+  static const String exifEraserShareText = 'Image with EXIF data removed';
+  static const String exifEraserUseDownload = 'Use save/download for web';
+  static const String exifEraserErrorParse = 'Could not parse EXIF data';
 }

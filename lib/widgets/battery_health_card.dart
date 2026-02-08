@@ -24,6 +24,7 @@ class BatteryHealthCard extends StatelessWidget {
     return theme.colorScheme.error;
   }
 
+  // ignore: unused_element
   Widget _buildBatteryIndicator(int level, ThemeData theme) {
     return Container(
       width: DeviceInfoConstants.batteryIndicatorWidth,
@@ -124,8 +125,8 @@ class BatteryHealthCard extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             child: Row(
               children: [
-                _buildBatteryIndicator(batteryLevel, theme),
-                const SizedBox(width: 24),
+                // _buildBatteryIndicator(batteryLevel, theme),
+                // const SizedBox(width: 24),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

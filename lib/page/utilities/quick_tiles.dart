@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import '../../config/app_strings.dart';
+import '../../config/quick_tiles_constants.dart';
+import '../../controllers/quick_tiles_controller.dart';
+import '../../widgets/quick_tile_item_widget.dart';
+import '../../widgets/accessibility_dialog.dart';
+import '../../widgets/write_settings_dialog.dart';
+import '../../widgets/quick_tiles_info_dialog.dart';
 
 class QuickTilesPage extends StatefulWidget {
   const QuickTilesPage({super.key});
@@ -9,188 +15,34 @@ class QuickTilesPage extends StatefulWidget {
 }
 
 class _QuickTilesPageState extends State<QuickTilesPage> {
-  static const platform = MethodChannel('com.random.app/quick_tiles');
-
-  final List<QuickTile> availableTiles = [
-    QuickTile(
-      id: 'lock_screen',
-      title: 'Lock Screen',
-      subtitle: 'Instantly lock your device',
-      icon: Icons.lock_outlined,
-      color: Colors.red,
-    ),
-    QuickTile(
-      id: 'volume_control',
-      title: 'Volume Control',
-      subtitle: 'Quick access to volume settings',
-      icon: Icons.volume_up_outlined,
-      color: Colors.deepPurple,
-    ),
-    QuickTile(
-      id: 'screenshot',
-      title: 'Screenshot',
-      subtitle: 'Take a screenshot instantly',
-      icon: Icons.screenshot_outlined,
-      color: Colors.blue,
-    ),
-    QuickTile(
-      id: 'screen_timeout',
-      title: 'Screen Timeout',
-      subtitle: 'Toggle between 1min and 30min',
-      icon: Icons.timer_outlined,
-      color: Colors.orange,
-    ),
-  ];
-
-  Set<String> activeTiles = {};
-  bool isLoading = true;
+  late QuickTilesController _controller;
 
   @override
   void initState() {
     super.initState();
-    _loadActiveTiles();
+    _controller = QuickTilesController();
+    _controller.initialize();
   }
 
-  Future<void> _loadActiveTiles() async {
-    try {
-      final result = await platform.invokeMethod('getActiveTiles');
-      setState(() {
-        activeTiles = Set<String>.from(result ?? []);
-        isLoading = false;
-      });
-    } catch (e) {
-      setState(() {
-        isLoading = false;
-      });
-      debugPrint('Failed to load active tiles: $e');
-    }
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
-  Future<void> _toggleTile(String tileId, bool isActive) async {
-    try {
-      // Check accessibility for both screenshot and lock screen tiles
-      if ((tileId == 'screenshot' || tileId == 'lock_screen') && isActive) {
-        final bool accessibilityEnabled = await _checkAccessibility();
-
-        if (!accessibilityEnabled) {
-          if (mounted) {
-            _showAccessibilityDialog(tileId);
-          }
-          return;
-        }
-      }
-
-      // Check WRITE_SETTINGS permission for screen timeout
-      if (tileId == 'screen_timeout' && isActive) {
-        final bool writeSettingsEnabled = await _checkWriteSettings();
-
-        if (!writeSettingsEnabled) {
-          if (mounted) {
-            _showWriteSettingsDialog();
-          }
-          return;
-        }
-      }
-
-      if (isActive) {
-        await platform.invokeMethod('addTile', {'tileId': tileId});
-        setState(() {
-          activeTiles.add(tileId);
-        });
-        if (mounted) {
-          String message = 'Tile added! Pull down quick settings to see it.';
-          if (tileId == 'screenshot' || tileId == 'lock_screen') {
-            message =
-                '${tileId == 'screenshot' ? 'Screenshot' : 'Lock screen'} tile added! Make sure accessibility is enabled.';
-          } else if (tileId == 'screen_timeout') {
-            message =
-                'Screen Timeout tile added! Tap to toggle between 1min and 30min.';
-          }
-
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(message),
-              action: SnackBarAction(label: 'OK', onPressed: () {}),
-            ),
-          );
-        }
-      } else {
-        await platform.invokeMethod('removeTile', {'tileId': tileId});
-        setState(() {
-          activeTiles.remove(tileId);
-        });
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Tile removed from quick settings')),
-          );
-        }
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Failed to update tile: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-      debugPrint('Failed to toggle tile: $e');
-    }
-  }
-
-  Future<bool> _checkAccessibility() async {
-    try {
-      final result = await platform.invokeMethod('checkAccessibility');
-      return result as bool? ?? false;
-    } catch (e) {
-      debugPrint('Failed to check accessibility: $e');
-      return false;
-    }
-  }
-
-  Future<bool> _checkWriteSettings() async {
-    try {
-      final result = await platform.invokeMethod('checkWriteSettings');
-      return result as bool? ?? false;
-    } catch (e) {
-      debugPrint('Failed to check write settings: $e');
-      return false;
-    }
+  void _showTileInfo() {
+    showDialog(
+      context: context,
+      builder: (context) => const QuickTilesInfoDialog(),
+    );
   }
 
   void _showAccessibilityDialog(String tileId) {
-    final String featureName = tileId == 'screenshot'
-        ? 'Screenshot'
-        : 'Lock screen';
-
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Row(
-          children: [
-            Icon(Icons.accessibility_new),
-            SizedBox(width: 8),
-            Text('Enable Accessibility'),
-          ],
-        ),
-        content: Text(
-          '$featureName functionality requires accessibility permission. '
-          'Would you like to enable it now?\n\n'
-          'In Settings, find "Random" under Accessibility and turn it on.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          FilledButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _openAccessibilitySettings();
-            },
-            child: const Text('Open Settings'),
-          ),
-        ],
+      builder: (context) => AccessibilityDialog(
+        tileId: tileId,
+        onOpenSettings: _controller.openAccessibilitySettings,
       ),
     );
   }
@@ -198,143 +50,36 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
   void _showWriteSettingsDialog() {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Row(
-          children: [
-            Icon(Icons.settings),
-            SizedBox(width: 8),
-            Text('Enable System Settings'),
-          ],
-        ),
-        content: const Text(
-          'Screen Timeout tile requires permission to modify system settings.\n\n'
-          'Would you like to enable it now?\n\n'
-          'In Settings, find "Random" and allow "Modify system settings".',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          FilledButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _openWriteSettingsPermission();
-            },
-            child: const Text('Open Settings'),
-          ),
-        ],
+      builder: (context) => WriteSettingsDialog(
+        onOpenSettings: _controller.openWriteSettingsPermission,
       ),
     );
   }
 
-  Future<void> _openAccessibilitySettings() async {
-    try {
-      await platform.invokeMethod('openAccessibilitySettings');
-    } catch (e) {
-      debugPrint('Failed to open accessibility settings: $e');
-    }
-  }
+  Future<void> _handleTileToggle(String tileId, bool value) async {
+    final result = await _controller.toggleTile(tileId, value);
 
-  Future<void> _openWriteSettingsPermission() async {
-    try {
-      await platform.invokeMethod('openWriteSettingsPermission');
-    } catch (e) {
-      debugPrint('Failed to open write settings permission: $e');
-    }
-  }
+    if (!mounted) return;
 
-  void _showTileInfo() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Row(
-          children: [
-            Icon(Icons.info_outline),
-            SizedBox(width: 8),
-            Text('About Quick Tiles'),
-          ],
-        ),
-        content: const SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Quick Settings Tiles provide instant access to app features from your notification shade.',
-                style: TextStyle(fontSize: 14),
-              ),
-              SizedBox(height: 16),
-              Text(
-                'How to use:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 8),
-              Text('1. Enable tiles you want to use'),
-              Text('2. Swipe down from the top of your screen'),
-              Text('3. Tap the pencil/edit icon'),
-              Text('4. Drag the tiles to your quick settings'),
-              SizedBox(height: 16),
-              Text(
-                'Permissions Required:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 8),
-              Text('• Lock Screen: Accessibility Service'),
-              Text('• Screenshot: Accessibility Service (Android 9.0+)'),
-              Text('• Screen Timeout: Modify System Settings'),
-              SizedBox(height: 16),
-              Text(
-                'Screen Timeout Tile:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 8),
-              Text('Tap the tile to toggle between:'),
-              Text('• 1 minute'),
-              Text('• 30 minutes'),
-              SizedBox(height: 16),
-              Text(
-                'Troubleshooting:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 8),
-              Text(
-                'If you cannot enable accessibility service:',
-                style: TextStyle(fontSize: 13),
-              ),
-              SizedBox(height: 4),
-              Text(
-                '1. Go to App Info (long-press app icon → App info)',
-                style: TextStyle(fontSize: 12),
-              ),
-              Text(
-                '2. Tap the 3-dot menu (top right corner)',
-                style: TextStyle(fontSize: 12),
-              ),
-              Text(
-                '3. Select "Allow restricted settings"',
-                style: TextStyle(fontSize: 12),
-              ),
-              Text(
-                '4. Now try enabling accessibility again',
-                style: TextStyle(fontSize: 12),
-              ),
-              SizedBox(height: 16),
-              Text(
-                'Note: Quick Settings Tiles require Android 7.0+. The "Allow restricted settings" option may not be available on all Android versions.',
-                style: TextStyle(fontSize: 12, fontStyle: FontStyle.italic),
-              ),
-            ],
+    if (result.success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(result.message ?? ''),
+          action: SnackBarAction(
+            label: AppStrings.quickTilesOk,
+            onPressed: () {},
           ),
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Got it'),
-          ),
-        ],
-      ),
-    );
+      );
+    } else if (result.requiresAccessibility) {
+      _showAccessibilityDialog(result.tileId!);
+    } else if (result.requiresWriteSettings) {
+      _showWriteSettingsDialog();
+    } else if (result.error != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(result.error!), backgroundColor: Colors.red),
+      );
+    }
   }
 
   @override
@@ -343,7 +88,7 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Quick Setting Tiles'),
+        title: Text(AppStrings.quickTilesTitle),
         actions: [
           IconButton(
             icon: const Icon(Icons.info_outline),
@@ -351,99 +96,70 @@ class _QuickTilesPageState extends State<QuickTilesPage> {
           ),
         ],
       ),
-      body: isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : ListView(
-              padding: const EdgeInsets.all(20),
-              children: [
-                // Active Tiles Count
-                Text(
-                  'Active Tiles: ${activeTiles.length}/${availableTiles.length}',
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 16),
+      body: ListenableBuilder(
+        listenable: _controller,
+        builder: (context, child) {
+          if (_controller.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-                // Available Tiles List
-                Container(
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: theme.colorScheme.outlineVariant,
-                      width: 1,
-                    ),
-                    borderRadius: BorderRadius.circular(16),
-                    color: theme.colorScheme.surface,
+          return ListView(
+            padding: const EdgeInsets.all(20),
+            children: [
+              // Active Tiles Count
+              Text(
+                '${AppStrings.quickTilesActiveTiles}: ${_controller.activeTilesCount}/${_controller.totalTilesCount}',
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              // Available Tiles List
+              Container(
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: theme.colorScheme.outlineVariant,
+                    width: 1,
                   ),
-                  child: Column(
-                    children: [
-                      for (int i = 0; i < availableTiles.length; i++) ...[
-                        _QuickTileItem(
-                          tile: availableTiles[i],
-                          isActive: activeTiles.contains(availableTiles[i].id),
-                          onToggle: (value) {
-                            _toggleTile(availableTiles[i].id, value);
-                          },
+                  borderRadius: BorderRadius.circular(16),
+                  color: theme.colorScheme.surface,
+                ),
+                child: Column(
+                  children: [
+                    for (
+                      int i = 0;
+                      i < _controller.availableTiles.length;
+                      i++
+                    ) ...[
+                      QuickTileItemWidget(
+                        tile: _controller.availableTiles[i],
+                        isActive: _controller.isTileActive(
+                          _controller.availableTiles[i].id,
                         ),
-                        if (i < availableTiles.length - 1)
-                          Divider(
-                            height: 1,
-                            indent: 72,
-                            color: theme.colorScheme.outlineVariant,
-                          ),
-                      ],
+                        onToggle: (value) {
+                          _handleTileToggle(
+                            _controller.availableTiles[i].id,
+                            value,
+                          );
+                        },
+                      ),
+                      if (i < _controller.availableTiles.length - 1)
+                        Divider(
+                          height: 1,
+                          indent: QuickTilesConstants.tileDividerIndent,
+                          color: theme.colorScheme.outlineVariant,
+                        ),
                     ],
-                  ),
+                  ],
                 ),
-                const SizedBox(height: 100),
-              ],
-            ),
-    );
-  }
-}
-
-class _QuickTileItem extends StatelessWidget {
-  final QuickTile tile;
-  final bool isActive;
-  final Function(bool) onToggle;
-
-  const _QuickTileItem({
-    required this.tile,
-    required this.isActive,
-    required this.onToggle,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: tile.color.withOpacity(0.2),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Icon(tile.icon, color: tile.color),
+              ),
+              const SizedBox(height: 100),
+            ],
+          );
+        },
       ),
-      title: Text(tile.title),
-      subtitle: Text(tile.subtitle),
-      trailing: Switch(value: isActive, onChanged: onToggle),
     );
   }
-}
-
-class QuickTile {
-  final String id;
-  final String title;
-  final String subtitle;
-  final IconData icon;
-  final Color color;
-
-  QuickTile({
-    required this.id,
-    required this.title,
-    required this.subtitle,
-    required this.icon,
-    required this.color,
-  });
 }

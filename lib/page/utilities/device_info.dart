@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../config/app_strings.dart';
-import '../../../config/device_info_constants.dart';
 import '../../../controllers/device_info_controller.dart';
 import '../../../widgets/battery_health_card.dart';
 import '../../../widgets/battery_not_available_card.dart';
@@ -42,8 +41,6 @@ class _DeviceInfoPageState extends State<DeviceInfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Scaffold(
       appBar: AppBar(title: Text(AppStrings.deviceInfoTitle)),
       body: ListenableBuilder(

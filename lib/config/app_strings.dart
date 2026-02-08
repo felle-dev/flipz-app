@@ -908,6 +908,351 @@ class AppStrings {
     'id': 'Info baterai tidak tersedia di platform ini',
   });
 
+  // Quick Tiles
+  static String get quickTilesTitle => _t({
+    'en': 'Quick Setting Tiles',
+    'de': 'Schnelleinstellungskacheln',
+    'id': 'Ubin Pengaturan Cepat',
+  });
+
+  static String get quickTilesActiveTiles =>
+      _t({'en': 'Active Tiles', 'de': 'Aktive Kacheln', 'id': 'Ubin Aktif'});
+
+  // Tile Names
+  static String get quickTilesLockScreen => _t({
+    'en': 'Lock Screen',
+    'de': 'Bildschirm sperren',
+    'id': 'Kunci Layar',
+  });
+
+  static String get quickTilesLockScreenSubtitle => _t({
+    'en': 'Instantly lock your device',
+    'de': 'Gerät sofort sperren',
+    'id': 'Kunci perangkat secara instan',
+  });
+
+  static String get quickTilesVolumeControl => _t({
+    'en': 'Volume Control',
+    'de': 'Lautstärkeregelung',
+    'id': 'Kontrol Volume',
+  });
+
+  static String get quickTilesVolumeControlSubtitle => _t({
+    'en': 'Quick access to volume settings',
+    'de': 'Schnellzugriff auf Lautstärkeeinstellungen',
+    'id': 'Akses cepat ke pengaturan volume',
+  });
+
+  static String get quickTilesScreenshot =>
+      _t({'en': 'Screenshot', 'de': 'Bildschirmfoto', 'id': 'Tangkapan Layar'});
+
+  static String get quickTilesScreenshotSubtitle => _t({
+    'en': 'Take a screenshot instantly',
+    'de': 'Bildschirmfoto sofort aufnehmen',
+    'id': 'Ambil tangkapan layar secara instan',
+  });
+
+  static String get quickTilesScreenTimeout => _t({
+    'en': 'Screen Timeout',
+    'de': 'Bildschirm-Timeout',
+    'id': 'Waktu Tunggu Layar',
+  });
+
+  static String get quickTilesScreenTimeoutSubtitle => _t({
+    'en': 'Toggle between 1min and 30min',
+    'de': 'Zwischen 1 Min. und 30 Min. wechseln',
+    'id': 'Beralih antara 1 menit dan 30 menit',
+  });
+
+  // Messages
+  static String get quickTilesTileAdded => _t({
+    'en': 'Tile added! Pull down quick settings to see it.',
+    'de':
+        'Kachel hinzugefügt! Schnelleinstellungen herunterziehen, um sie zu sehen.',
+    'id': 'Ubin ditambahkan! Tarik pengaturan cepat untuk melihatnya.',
+  });
+
+  static String get quickTilesScreenshotAdded => _t({
+    'en': 'Screenshot tile added! Make sure accessibility is enabled.',
+    'de':
+        'Bildschirmfoto-Kachel hinzugefügt! Stellen Sie sicher, dass die Barrierefreiheit aktiviert ist.',
+    'id':
+        'Ubin tangkapan layar ditambahkan! Pastikan aksesibilitas diaktifkan.',
+  });
+
+  static String get quickTilesLockScreenAdded => _t({
+    'en': 'Lock screen tile added! Make sure accessibility is enabled.',
+    'de':
+        'Bildschirmsperr-Kachel hinzugefügt! Stellen Sie sicher, dass die Barrierefreiheit aktiviert ist.',
+    'id': 'Ubin kunci layar ditambahkan! Pastikan aksesibilitas diaktifkan.',
+  });
+
+  static String get quickTilesScreenTimeoutAdded => _t({
+    'en': 'Screen Timeout tile added! Tap to toggle between 1min and 30min.',
+    'de':
+        'Bildschirm-Timeout-Kachel hinzugefügt! Tippen Sie, um zwischen 1 Min. und 30 Min. zu wechseln.',
+    'id':
+        'Ubin waktu tunggu layar ditambahkan! Ketuk untuk beralih antara 1 menit dan 30 menit.',
+  });
+
+  static String get quickTilesTileRemoved => _t({
+    'en': 'Tile removed from quick settings',
+    'de': 'Kachel aus Schnelleinstellungen entfernt',
+    'id': 'Ubin dihapus dari pengaturan cepat',
+  });
+
+  static String get quickTilesUpdateFailed => _t({
+    'en': 'Failed to update tile: ',
+    'de': 'Fehler beim Aktualisieren der Kachel: ',
+    'id': 'Gagal memperbarui ubin: ',
+  });
+
+  static String get quickTilesOk => _t({'en': 'OK', 'de': 'OK', 'id': 'OK'});
+
+  // Accessibility Dialog
+  static String get quickTilesEnableAccessibility => _t({
+    'en': 'Enable Accessibility',
+    'de': 'Barrierefreiheit aktivieren',
+    'id': 'Aktifkan Aksesibilitas',
+  });
+
+  static String get quickTilesAccessibilityRequired => _t({
+    'en':
+        'functionality requires accessibility permission. Would you like to enable it now?\n\nIn Settings, find "Random" under Accessibility and turn it on.',
+    'de':
+        'Funktion erfordert Barrierefreiheitsberechtigung. Möchten Sie sie jetzt aktivieren?\n\nSuchen Sie in den Einstellungen unter Barrierefreiheit nach "Random" und aktivieren Sie sie.',
+    'id':
+        'fungsi memerlukan izin aksesibilitas. Apakah Anda ingin mengaktifkannya sekarang?\n\nDi Pengaturan, temukan "Random" di bawah Aksesibilitas dan aktifkan.',
+  });
+
+  static String get quickTilesCancel =>
+      _t({'en': 'Cancel', 'de': 'Abbrechen', 'id': 'Batal'});
+
+  static String get quickTilesOpenSettings => _t({
+    'en': 'Open Settings',
+    'de': 'Einstellungen öffnen',
+    'id': 'Buka Pengaturan',
+  });
+
+  // Write Settings Dialog
+  static String get quickTilesEnableSystemSettings => _t({
+    'en': 'Enable System Settings',
+    'de': 'Systemeinstellungen aktivieren',
+    'id': 'Aktifkan Pengaturan Sistem',
+  });
+
+  static String get quickTilesWriteSettingsRequired => _t({
+    'en':
+        'Screen Timeout tile requires permission to modify system settings.\n\nWould you like to enable it now?\n\nIn Settings, find "Random" and allow "Modify system settings".',
+    'de':
+        'Die Bildschirm-Timeout-Kachel benötigt die Berechtigung zum Ändern der Systemeinstellungen.\n\nMöchten Sie sie jetzt aktivieren?\n\nSuchen Sie in den Einstellungen nach "Random" und erlauben Sie "Systemeinstellungen ändern".',
+    'id':
+        'Ubin Waktu Tunggu Layar memerlukan izin untuk mengubah pengaturan sistem.\n\nApakah Anda ingin mengaktifkannya sekarang?\n\nDi Pengaturan, temukan "Random" dan izinkan "Ubah pengaturan sistem".',
+  });
+
+  // Info Dialog
+  static String get quickTilesAboutTitle => _t({
+    'en': 'About Quick Tiles',
+    'de': 'Über Schnellkacheln',
+    'id': 'Tentang Ubin Cepat',
+  });
+
+  static String get quickTilesAboutDescription => _t({
+    'en':
+        'Quick Settings Tiles provide instant access to app features from your notification shade.',
+    'de':
+        'Schnelleinstellungskacheln bieten sofortigen Zugriff auf App-Funktionen über Ihre Benachrichtigungsleiste.',
+    'id':
+        'Ubin Pengaturan Cepat memberikan akses instan ke fitur aplikasi dari panel notifikasi Anda.',
+  });
+
+  static String get quickTilesHowToUse => _t({
+    'en': 'How to use:',
+    'de': 'So verwenden Sie:',
+    'id': 'Cara menggunakan:',
+  });
+
+  static String get quickTilesStep1 => _t({
+    'en': '1. Enable tiles you want to use',
+    'de': '1. Aktivieren Sie die Kacheln, die Sie verwenden möchten',
+    'id': '1. Aktifkan ubin yang ingin Anda gunakan',
+  });
+
+  static String get quickTilesStep2 => _t({
+    'en': '2. Swipe down from the top of your screen',
+    'de': '2. Wischen Sie vom oberen Bildschirmrand nach unten',
+    'id': '2. Geser ke bawah dari bagian atas layar Anda',
+  });
+
+  static String get quickTilesStep3 => _t({
+    'en': '3. Tap the pencil/edit icon',
+    'de': '3. Tippen Sie auf das Stift-/Bearbeitungssymbol',
+    'id': '3. Ketuk ikon pensil/edit',
+  });
+
+  static String get quickTilesStep4 => _t({
+    'en': '4. Drag the tiles to your quick settings',
+    'de': '4. Ziehen Sie die Kacheln zu Ihren Schnelleinstellungen',
+    'id': '4. Seret ubin ke pengaturan cepat Anda',
+  });
+
+  static String get quickTilesPermissionsRequired => _t({
+    'en': 'Permissions Required:',
+    'de': 'Erforderliche Berechtigungen:',
+    'id': 'Izin yang Diperlukan:',
+  });
+
+  static String get quickTilesPermissionLockScreen => _t({
+    'en': '• Lock Screen: Accessibility Service',
+    'de': '• Bildschirm sperren: Barrierefreiheitsdienst',
+    'id': '• Kunci Layar: Layanan Aksesibilitas',
+  });
+
+  static String get quickTilesPermissionScreenshot => _t({
+    'en': '• Screenshot: Accessibility Service (Android 9.0+)',
+    'de': '• Bildschirmfoto: Barrierefreiheitsdienst (Android 9.0+)',
+    'id': '• Tangkapan Layar: Layanan Aksesibilitas (Android 9.0+)',
+  });
+
+  static String get quickTilesPermissionScreenTimeout => _t({
+    'en': '• Screen Timeout: Modify System Settings',
+    'de': '• Bildschirm-Timeout: Systemeinstellungen ändern',
+    'id': '• Waktu Tunggu Layar: Ubah Pengaturan Sistem',
+  });
+
+  static String get quickTilesScreenTimeoutInfo => _t({
+    'en': 'Screen Timeout Tile:',
+    'de': 'Bildschirm-Timeout-Kachel:',
+    'id': 'Ubin Waktu Tunggu Layar:',
+  });
+
+  static String get quickTilesScreenTimeoutToggle => _t({
+    'en': 'Tap the tile to toggle between:',
+    'de': 'Tippen Sie auf die Kachel, um zu wechseln zwischen:',
+    'id': 'Ketuk ubin untuk beralih antara:',
+  });
+
+  static String get quickTilesScreenTimeout1Min =>
+      _t({'en': '• 1 minute', 'de': '• 1 Minute', 'id': '• 1 menit'});
+
+  static String get quickTilesScreenTimeout30Min =>
+      _t({'en': '• 30 minutes', 'de': '• 30 Minuten', 'id': '• 30 menit'});
+
+  static String get quickTilesTroubleshooting => _t({
+    'en': 'Troubleshooting:',
+    'de': 'Fehlerbehebung:',
+    'id': 'Pemecahan Masalah:',
+  });
+
+  static String get quickTilesTroubleshootingIntro => _t({
+    'en': 'If you cannot enable accessibility service:',
+    'de': 'Wenn Sie den Barrierefreiheitsdienst nicht aktivieren können:',
+    'id': 'Jika Anda tidak dapat mengaktifkan layanan aksesibilitas:',
+  });
+
+  static String get quickTilesTroubleshootingStep1 => _t({
+    'en': '1. Go to App Info (long-press app icon → App info)',
+    'de':
+        '1. Gehen Sie zu App-Informationen (App-Symbol lange drücken → App-Info)',
+    'id': '1. Buka Info Aplikasi (tekan lama ikon aplikasi → Info aplikasi)',
+  });
+
+  static String get quickTilesTroubleshootingStep2 => _t({
+    'en': '2. Tap the 3-dot menu (top right corner)',
+    'de': '2. Tippen Sie auf das 3-Punkte-Menü (oben rechts)',
+    'id': '2. Ketuk menu 3 titik (sudut kanan atas)',
+  });
+
+  static String get quickTilesTroubleshootingStep3 => _t({
+    'en': '3. Select "Allow restricted settings"',
+    'de': '3. Wählen Sie "Eingeschränkte Einstellungen zulassen"',
+    'id': '3. Pilih "Izinkan pengaturan terbatas"',
+  });
+
+  static String get quickTilesTroubleshootingStep4 => _t({
+    'en': '4. Now try enabling accessibility again',
+    'de': '4. Versuchen Sie nun erneut, die Barrierefreiheit zu aktivieren',
+    'id': '4. Sekarang coba aktifkan aksesibilitas lagi',
+  });
+
+  static String get quickTilesNote => _t({
+    'en':
+        'Note: Quick Settings Tiles require Android 7.0+. The "Allow restricted settings" option may not be available on all Android versions.',
+    'de':
+        'Hinweis: Schnelleinstellungskacheln erfordern Android 7.0+. Die Option "Eingeschränkte Einstellungen zulassen" ist möglicherweise nicht in allen Android-Versionen verfügbar.',
+    'id':
+        'Catatan: Ubin Pengaturan Cepat memerlukan Android 7.0+. Opsi "Izinkan pengaturan terbatas" mungkin tidak tersedia di semua versi Android.',
+  });
+
+  // Telegram Monet Theme
+  static String get tgMonetTitle => _t({
+    'en': 'TG Monet Theme',
+    'de': 'TG Monet Design',
+    'id': 'Tema TG Monet',
+  });
+
+  static String get tgMonetLightTheme =>
+      _t({'en': 'Light', 'de': 'Hell', 'id': 'Terang'});
+
+  static String get tgMonetDarkTheme =>
+      _t({'en': 'Dark', 'de': 'Dunkel', 'id': 'Gelap'});
+
+  static String get tgMonetLightDescription => _t({
+    'en': 'Make light theme from system shades. Looks good during the day.',
+    'de':
+        'Erstellen Sie ein helles Design aus Systemfarben. Sieht tagsüber gut aus.',
+    'id': 'Buat tema terang dari nuansa sistem. Terlihat bagus di siang hari.',
+  });
+
+  static String get tgMonetDarkDescription => _t({
+    'en': 'Make dark theme from system shades. Great for the night.',
+    'de':
+        'Erstellen Sie ein dunkles Design aus Systemfarben. Ideal für die Nacht.',
+    'id': 'Buat tema gelap dari nuansa sistem. Bagus untuk malam hari.',
+  });
+
+  static String get tgMonetSettings =>
+      _t({'en': 'Settings', 'de': 'Einstellungen', 'id': 'Pengaturan'});
+
+  static String get tgMonetAmoledMode =>
+      _t({'en': 'Amoled mode', 'de': 'AMOLED-Modus', 'id': 'Mode Amoled'});
+
+  static String get tgMonetEnableGradient => _t({
+    'en': 'Enable gradient (Telegram)',
+    'de': 'Farbverlauf aktivieren (Telegram)',
+    'id': 'Aktifkan gradien (Telegram)',
+  });
+
+  static String get tgMonetEnableGradientAvatars => _t({
+    'en': 'Enable gradient for avatars',
+    'de': 'Farbverlauf für Avatare aktivieren',
+    'id': 'Aktifkan gradien untuk avatar',
+  });
+
+  static String get tgMonetEnableMonetNicknames => _t({
+    'en': 'Enable monet for nicknames',
+    'de': 'Monet für Spitznamen aktivieren',
+    'id': 'Aktifkan monet untuk nama panggilan',
+  });
+
+  static String get tgMonetUseAltOutgoingStyle => _t({
+    'en': 'Use alternative outgoing message style',
+    'de': 'Alternativen Stil für ausgehende Nachrichten verwenden',
+    'id': 'Gunakan gaya pesan keluar alternatif',
+  });
+
+  static String get tgMonetTelegram =>
+      _t({'en': 'Telegram', 'de': 'Telegram', 'id': 'Telegram'});
+
+  static String get tgMonetTelegramX =>
+      _t({'en': 'Telegram X', 'de': 'Telegram X', 'id': 'Telegram X'});
+
+  static String get tgMonetError =>
+      _t({'en': 'Error: ', 'de': 'Fehler: ', 'id': 'Kesalahan: '});
+
+  static String get quickTilesGotIt =>
+      _t({'en': 'Got it', 'de': 'Verstanden', 'id': 'Mengerti'});
+
   // Technical device fields - keeping in English as they're technical terms
   static const String deviceInfoBrand = 'Brand';
   static const String deviceInfoModel = 'Model';

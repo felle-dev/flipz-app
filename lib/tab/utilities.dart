@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flipz/page/utilities/exif_eraser.dart';
-import 'package:flipz/page/utilities/info.dart';
+import 'package:flipz/page/utilities/device_info.dart';
 import 'package:flipz/page/utilities/quick_tiles.dart';
 import 'package:flipz/page/utilities/unit_converter.dart';
 import 'package:flipz/page/utilities/tg_monet.dart';

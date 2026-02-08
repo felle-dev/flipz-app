@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../config/app_strings.dart';
-import '../../../config/random_number_constants.dart';
+import '../../config/app_strings.dart';
+import '../../config/random_number_constants.dart';
 
 class NumberRangeSettingsCard extends StatelessWidget {
   final TextEditingController minController;

@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import '../../../config/spinning_wheel_constants.dart';
+import '../../config/spinning_wheel_constants.dart';
 
 class SpinningWheelController extends ChangeNotifier {
   final List<String> _options = List.from(

@@ -15,7 +15,7 @@ class _SpinningWheelPageState extends State<SpinningWheelPage>
     with SingleTickerProviderStateMixin {
   late SpinningWheelController _controller;
   late AnimationController _animationController;
-  late Animation<double> _animation;
+  Animation<double>? _animation; // Changed to nullable
 
   @override
   void initState() {
@@ -30,7 +30,9 @@ class _SpinningWheelPageState extends State<SpinningWheelPage>
 
     _animationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        _controller.completeSpin(_animation.value);
+        if (_animation != null) {
+          _controller.completeSpin(_animation!.value);
+        }
         if (mounted && _controller.result != null) {
           _showResultDialog(_controller.result!);
         }
@@ -168,7 +170,7 @@ class _SpinningWheelPageState extends State<SpinningWheelPage>
 // ==================== WHEEL DISPLAY WIDGET ====================
 
 class _WheelDisplayCard extends StatelessWidget {
-  final Animation<double> animation;
+  final Animation<double>? animation; // Changed to nullable
   final AnimationController animationController;
   final bool isSpinning;
   final double currentRotation;
@@ -221,7 +223,9 @@ class _WheelDisplayCard extends StatelessWidget {
                 animation: animationController,
                 builder: (context, child) {
                   return Transform.rotate(
-                    angle: isSpinning ? animation.value : currentRotation,
+                    angle: isSpinning && animation != null
+                        ? animation!.value
+                        : currentRotation,
                     child: CustomPaint(
                       size: const Size(
                         SpinningWheelConstants.wheelSize,

@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import '../../../config/spinning_wheel_constants.dart';
+import '../../config/spinning_wheel_constants.dart';
 
 /// Painter for the spinning wheel
 class WheelPainter extends CustomPainter {

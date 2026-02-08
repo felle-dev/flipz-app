@@ -7,8 +7,8 @@ import 'package:share_plus/share_plus.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:universal_html/html.dart' as html;
-import '../../../config/app_strings.dart';
-import '../../../config/exif_constants.dart';
+import '../../config/app_strings.dart';
+import '../../config/exif_constants.dart';
 
 class ExifEraserHelper {
   static Future<String> saveImage({

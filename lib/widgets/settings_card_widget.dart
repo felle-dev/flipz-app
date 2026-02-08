@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../config/telegram_monet_constants.dart';
+import '../../config/telegram_monet_constants.dart';
 
 class SettingsCardWidget extends StatelessWidget {
   final String title;

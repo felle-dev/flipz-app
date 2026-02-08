@@ -1,6 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import '../../config/app_strings.dart';
+import '../../config/coin_flip_constants.dart';
+import '../../controllers/coin_flip_controller.dart';
+import '../../widgets/animated_coin_widget.dart';
 
 class CoinFlipPage extends StatefulWidget {
   const CoinFlipPage({super.key});
@@ -11,42 +13,41 @@ class CoinFlipPage extends StatefulWidget {
 
 class _CoinFlipPageState extends State<CoinFlipPage>
     with SingleTickerProviderStateMixin {
-  String? _result;
-  late AnimationController _controller;
+  late CoinFlipController _controller;
+  late AnimationController _animationController;
   late Animation<double> _animation;
-  bool _isFlipping = false;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 800),
+    _controller = CoinFlipController();
+    _animationController = AnimationController(
+      duration: const Duration(
+        milliseconds: CoinFlipConstants.animationDurationMs,
+      ),
       vsync: this,
     );
-    _animation = CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
+    _animation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    );
   }
 
   @override
   void dispose() {
+    _animationController.dispose();
     _controller.dispose();
     super.dispose();
   }
 
-  void _flipCoin() {
-    if (_isFlipping) return;
-    setState(() {
-      _isFlipping = true;
-      _result = null;
-    });
-
-    _controller.forward(from: 0).then((_) {
-      final random = Random();
-      setState(() {
-        _result = random.nextBool() ? 'Heads' : 'Tails';
-        _isFlipping = false;
+  void _handleFlipCoin() {
+    _controller.flipCoin(() {
+      _animationController.forward(from: 0).then((_) {
+        _controller.completeFlip(() {
+          _animationController.reverse();
+        });
       });
-      _controller.reverse();
-    });
+    }, () {});
   }
 
   @override
@@ -54,70 +55,54 @@ class _CoinFlipPageState extends State<CoinFlipPage>
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Coin Flip')),
+      appBar: AppBar(title: Text(AppStrings.coinFlipTitle)),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(CoinFlipConstants.paddingPage),
           child: Card(
             child: Padding(
-              padding: const EdgeInsets.all(40),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  AnimatedBuilder(
-                    animation: _animation,
-                    builder: (context, child) {
-                      return Transform(
-                        alignment: Alignment.center,
-                        transform: Matrix4.identity()
-                          ..setEntry(3, 2, 0.001)
-                          ..rotateY(_animation.value * pi * 4),
-                        child: Container(
-                          width: 150,
-                          height: 150,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            gradient: LinearGradient(
-                              colors: [
-                                theme.colorScheme.primary,
-                                theme.colorScheme.secondary,
-                              ],
-                            ),
-                          ),
-                          child: Center(
-                            child: Icon(
-                              Icons.monetization_on,
-                              size: 80,
-                              color: theme.colorScheme.onPrimary,
-                            ),
+              padding: const EdgeInsets.all(CoinFlipConstants.paddingCard),
+              child: ListenableBuilder(
+                listenable: _controller,
+                builder: (context, child) {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      AnimatedCoinWidget(animation: _animation),
+                      const SizedBox(height: CoinFlipConstants.spacingMedium),
+                      if (_controller.hasResult) ...[
+                        Text(
+                          _controller.result == CoinFlipConstants.resultHeads
+                              ? AppStrings.coinFlipHeads
+                              : AppStrings.coinFlipTails,
+                          style: theme.textTheme.displayMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: theme.colorScheme.primary,
                           ),
                         ),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 40),
-                  if (_result != null) ...[
-                    Text(
-                      _result!,
-                      style: theme.textTheme.displayMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: theme.colorScheme.primary,
+                        const SizedBox(height: CoinFlipConstants.spacingSmall),
+                      ],
+                      FilledButton.icon(
+                        onPressed: _controller.isFlipping
+                            ? null
+                            : _handleFlipCoin,
+                        icon: const Icon(Icons.sync),
+                        label: Text(
+                          _controller.isFlipping
+                              ? AppStrings.coinFlipFlipping
+                              : AppStrings.coinFlipButton,
+                        ),
+                        style: FilledButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal:
+                                CoinFlipConstants.buttonPaddingHorizontal,
+                            vertical: CoinFlipConstants.buttonPaddingVertical,
+                          ),
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 32),
-                  ],
-                  FilledButton.icon(
-                    onPressed: _isFlipping ? null : _flipCoin,
-                    icon: const Icon(Icons.sync),
-                    label: Text(_isFlipping ? 'Flipping...' : 'Flip Coin'),
-                    style: FilledButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 32,
-                        vertical: 16,
-                      ),
-                    ),
-                  ),
-                ],
+                    ],
+                  );
+                },
               ),
             ),
           ),

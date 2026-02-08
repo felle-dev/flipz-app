@@ -1,5 +1,9 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
+import '../../config/app_strings.dart';
+import '../../config/random_number_constants.dart';
+import '../../controllers/random_number_controller.dart';
+import '../../widgets/number_result_card.dart';
+import '../../widgets/number_range_settings_card.dart';
 
 class RandomNumberPage extends StatefulWidget {
   const RandomNumberPage({super.key});
@@ -9,182 +13,76 @@ class RandomNumberPage extends StatefulWidget {
 }
 
 class _RandomNumberPageState extends State<RandomNumberPage> {
-  int _min = 1;
-  int _max = 100;
-  int? _result;
-  final _minController = TextEditingController(text: '1');
-  final _maxController = TextEditingController(text: '100');
+  late RandomNumberController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = RandomNumberController();
+  }
 
   @override
   void dispose() {
-    _minController.dispose();
-    _maxController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
-  void _generate() {
-    if (_min >= _max) {
+  void _handleGenerate() {
+    final result = _controller.generate();
+
+    if (!result.success && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Minimum must be less than maximum'),
-          duration: Duration(seconds: 2),
+        SnackBar(
+          content: Text(AppStrings.randomNumberMinLessThanMax),
+          duration: const Duration(
+            seconds: RandomNumberConstants.snackbarDurationSeconds,
+          ),
         ),
       );
-      return;
     }
-
-    final random = Random();
-    setState(() {
-      _result = _min + random.nextInt(_max - _min + 1);
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Scaffold(
-      appBar: AppBar(title: const Text('Random Number')),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          // Result Section
-          if (_result != null) ...[
-            Container(
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: theme.colorScheme.outlineVariant,
-                  width: 1,
-                ),
-                borderRadius: BorderRadius.circular(16),
-                color: theme.colorScheme.surface,
-              ),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.tag_outlined,
-                          color: theme.colorScheme.primary,
-                          size: 20,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          'Generated Number',
-                          style: theme.textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: theme.colorScheme.primary,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Divider(height: 1, color: theme.colorScheme.outlineVariant),
-                  Padding(
-                    padding: const EdgeInsets.all(32),
-                    child: Text(
-                      '$_result',
-                      style: theme.textTheme.displayLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: theme.colorScheme.primary,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16),
-          ],
-
-          // Settings Section
-          Container(
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: theme.colorScheme.outlineVariant,
-                width: 1,
-              ),
-              borderRadius: BorderRadius.circular(16),
-              color: theme.colorScheme.surface,
-            ),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.tune_outlined,
-                        color: theme.colorScheme.primary,
-                        size: 20,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Range Settings',
-                        style: theme.textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: theme.colorScheme.primary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Divider(height: 1, color: theme.colorScheme.outlineVariant),
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      TextField(
-                        controller: _minController,
-                        decoration: const InputDecoration(
-                          labelText: 'Minimum',
-                          border: OutlineInputBorder(),
-                          prefixIcon: Icon(Icons.remove_circle_outline),
-                        ),
-                        keyboardType: TextInputType.number,
-                        onChanged: (value) {
-                          setState(() {
-                            _min = int.tryParse(value) ?? 1;
-                          });
-                        },
-                      ),
-                      const SizedBox(height: 16),
-                      TextField(
-                        controller: _maxController,
-                        decoration: const InputDecoration(
-                          labelText: 'Maximum',
-                          border: OutlineInputBorder(),
-                          prefixIcon: Icon(Icons.add_circle_outline),
-                        ),
-                        keyboardType: TextInputType.number,
-                        onChanged: (value) {
-                          setState(() {
-                            _max = int.tryParse(value) ?? 100;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                ),
+      appBar: AppBar(title: Text(AppStrings.randomNumberTitle)),
+      body: ListenableBuilder(
+        listenable: _controller,
+        builder: (context, child) {
+          return ListView(
+            padding: const EdgeInsets.all(RandomNumberConstants.paddingPage),
+            children: [
+              // Result Section
+              if (_controller.hasResult) ...[
+                NumberResultCard(result: _controller.result!),
+                const SizedBox(height: RandomNumberConstants.spacing16),
               ],
-            ),
-          ),
-          const SizedBox(height: 24),
 
-          // Generate Button
-          FilledButton.icon(
-            onPressed: _generate,
-            icon: const Icon(Icons.casino),
-            label: const Text('Generate Random Number'),
-            style: FilledButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-            ),
-          ),
-          const SizedBox(height: 100),
-        ],
+              // Settings Section
+              NumberRangeSettingsCard(
+                minController: _controller.minController,
+                maxController: _controller.maxController,
+                onMinChanged: _controller.setMin,
+                onMaxChanged: _controller.setMax,
+              ),
+              const SizedBox(height: RandomNumberConstants.spacing24),
+
+              // Generate Button
+              FilledButton.icon(
+                onPressed: _handleGenerate,
+                icon: const Icon(Icons.casino),
+                label: Text(AppStrings.randomNumberGenerate),
+                style: FilledButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: RandomNumberConstants.buttonPaddingHorizontal,
+                    vertical: RandomNumberConstants.buttonPaddingVertical,
+                  ),
+                ),
+              ),
+              const SizedBox(height: RandomNumberConstants.bottomSpacing),
+            ],
+          );
+        },
       ),
     );
   }

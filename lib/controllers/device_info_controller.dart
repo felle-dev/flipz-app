@@ -3,8 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:battery_plus/battery_plus.dart';
-import '../../../config/app_strings.dart';
-import '../../../config/device_info_constants.dart';
+import '../../config/app_strings.dart';
+import '../../config/device_info_constants.dart';
 
 class DeviceInfoController extends ChangeNotifier {
   final DeviceInfoPlugin _deviceInfo = DeviceInfoPlugin();

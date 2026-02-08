@@ -2,7 +2,7 @@ import 'dart:io' show File;
 import 'dart:typed_data';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import '../../../config/app_strings.dart';
+import '../../config/app_strings.dart';
 
 class ExifImagePreviewCard extends StatelessWidget {
   final File? selectedImage;

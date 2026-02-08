@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../../config/app_strings.dart';
-import '../../../controllers/device_info_controller.dart';
-import '../../../widgets/battery_health_card.dart';
-import '../../../widgets/battery_not_available_card.dart';
-import '../../../widgets/device_information_card.dart';
+import '../../config/app_strings.dart';
+import '../../controllers/device_info_controller.dart';
+import '../../widgets/battery_health_card.dart';
+import '../../widgets/battery_not_available_card.dart';
+import '../../widgets/device_information_card.dart';
 
 class DeviceInfoPage extends StatefulWidget {
   const DeviceInfoPage({super.key});

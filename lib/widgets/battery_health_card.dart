@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../config/app_strings.dart';
-import '../../../config/device_info_constants.dart';
+import '../../config/app_strings.dart';
+import '../../config/device_info_constants.dart';
 
 class BatteryHealthCard extends StatelessWidget {
   final Map<String, String> batteryData;

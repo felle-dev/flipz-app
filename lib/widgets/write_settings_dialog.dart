@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../config/app_strings.dart';
+import '../../config/app_strings.dart';
 
 class WriteSettingsDialog extends StatelessWidget {
   final VoidCallback onOpenSettings;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../config/app_strings.dart';
+import '../../config/app_strings.dart';
 
 class QuickTilesInfoDialog extends StatelessWidget {
   const QuickTilesInfoDialog({super.key});

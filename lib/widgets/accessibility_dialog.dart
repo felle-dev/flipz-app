@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../config/app_strings.dart';
-import '../../../config/quick_tiles_constants.dart';
+import '../../config/app_strings.dart';
+import '../../config/quick_tiles_constants.dart';
 
 class AccessibilityDialog extends StatelessWidget {
   final String tileId;
@@ -21,7 +21,7 @@ class AccessibilityDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title:  Row(
+      title: Row(
         children: [
           Icon(Icons.accessibility_new),
           SizedBox(width: 8),
@@ -34,14 +34,14 @@ class AccessibilityDialog extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child:  Text(AppStrings.quickTilesCancel),
+          child: Text(AppStrings.quickTilesCancel),
         ),
         FilledButton(
           onPressed: () {
             Navigator.pop(context);
             onOpenSettings();
           },
-          child:  Text(AppStrings.quickTilesOpenSettings),
+          child: Text(AppStrings.quickTilesOpenSettings),
         ),
       ],
     );

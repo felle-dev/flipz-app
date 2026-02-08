@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
-import '../../../config/telegram_monet_constants.dart';
+import '../../config/telegram_monet_constants.dart';
 
 /// Service for generating Telegram Monet themes
 class ThemeGeneratorService {

@@ -1253,6 +1253,154 @@ class AppStrings {
   static String get quickTilesGotIt =>
       _t({'en': 'Got it', 'de': 'Verstanden', 'id': 'Mengerti'});
 
+  // Coin Flip
+  static String get coinFlipTitle =>
+      _t({'en': 'Coin Flip', 'de': 'Münzwurf', 'id': 'Lempar Koin'});
+
+  static String get coinFlipHeads =>
+      _t({'en': 'Heads', 'de': 'Kopf', 'id': 'Kepala'});
+
+  static String get coinFlipTails =>
+      _t({'en': 'Tails', 'de': 'Zahl', 'id': 'Ekor'});
+
+  static String get coinFlipButton =>
+      _t({'en': 'Flip Coin', 'de': 'Münze werfen', 'id': 'Lempar Koin'});
+
+  static String get coinFlipFlipping =>
+      _t({'en': 'Flipping...', 'de': 'Werfen...', 'id': 'Melempar...'});
+
+  // Dice Roller
+  static String get diceRollerTitle =>
+      _t({'en': 'Dice Roller', 'de': 'Würfel', 'id': 'Lempar Dadu'});
+
+  static String get diceRollerResults =>
+      _t({'en': 'Results', 'de': 'Ergebnisse', 'id': 'Hasil'});
+
+  static String get diceRollerTotal =>
+      _t({'en': 'Total', 'de': 'Gesamt', 'id': 'Total'});
+
+  static String get diceRollerSettings => _t({
+    'en': 'Dice Settings',
+    'de': 'Würfeleinstellungen',
+    'id': 'Pengaturan Dadu',
+  });
+
+  static String get diceRollerNumberOfDice => _t({
+    'en': 'Number of Dice',
+    'de': 'Anzahl der Würfel',
+    'id': 'Jumlah Dadu',
+  });
+
+  static String get diceRollerSides =>
+      _t({'en': 'Sides', 'de': 'Seiten', 'id': 'Sisi'});
+
+  static String get diceRollerRollButton =>
+      _t({'en': 'Roll Dice', 'de': 'Würfeln', 'id': 'Lempar Dadu'});
+
+  static String get diceRollerRolling =>
+      _t({'en': 'Rolling...', 'de': 'Würfeln...', 'id': 'Melempar...'});
+
+  // Random Number
+  static String get randomNumberTitle =>
+      _t({'en': 'Random Number', 'de': 'Zufallszahl', 'id': 'Nomor Acak'});
+
+  static String get randomNumberGenerated => _t({
+    'en': 'Generated Number',
+    'de': 'Generierte Zahl',
+    'id': 'Nomor yang Dihasilkan',
+  });
+
+  static String get randomNumberRange => _t({
+    'en': 'Range Settings',
+    'de': 'Bereichseinstellungen',
+    'id': 'Pengaturan Rentang',
+  });
+
+  static String get randomNumberMinimum =>
+      _t({'en': 'Minimum', 'de': 'Minimum', 'id': 'Minimum'});
+
+  static String get randomNumberMaximum =>
+      _t({'en': 'Maximum', 'de': 'Maximum', 'id': 'Maksimum'});
+
+  static String get randomNumberGenerate => _t({
+    'en': 'Generate Random Number',
+    'de': 'Zufallszahl generieren',
+    'id': 'Hasilkan Nomor Acak',
+  });
+
+  static String get randomNumberMinLessThanMax => _t({
+    'en': 'Minimum must be less than maximum',
+    'de': 'Minimum muss kleiner als Maximum sein',
+    'id': 'Minimum harus kurang dari maksimum',
+  });
+
+  // Spinning Wheel
+  static String get spinningWheelTitle =>
+      _t({'en': 'Spinning Wheel', 'de': 'Glücksrad', 'id': 'Roda Putar'});
+
+  static String get spinningWheelSpin =>
+      _t({'en': 'Spin the Wheel', 'de': 'Rad drehen', 'id': 'Putar Roda'});
+
+  static String get spinningWheelSpinning =>
+      _t({'en': 'Spinning...', 'de': 'Dreht sich...', 'id': 'Berputar...'});
+
+  static String get spinningWheelOptions =>
+      _t({'en': 'Options', 'de': 'Optionen', 'id': 'Opsi'});
+
+  static String get spinningWheelEdit =>
+      _t({'en': 'Edit', 'de': 'Bearbeiten', 'id': 'Edit'});
+
+  static String get spinningWheelCancel =>
+      _t({'en': 'Cancel', 'de': 'Abbrechen', 'id': 'Batal'});
+
+  static String get spinningWheelSaveOptions => _t({
+    'en': 'Save Options',
+    'de': 'Optionen speichern',
+    'id': 'Simpan Opsi',
+  });
+
+  static String get spinningWheelEnterOptions => _t({
+    'en': 'Enter options (one per line)',
+    'de': 'Optionen eingeben (eine pro Zeile)',
+    'id': 'Masukkan opsi (satu per baris)',
+  });
+
+  static String get spinningWheelHelperText => _t({
+    'en': 'Each line will be one option on the wheel',
+    'de': 'Jede Zeile wird eine Option auf dem Rad sein',
+    'id': 'Setiap baris akan menjadi satu opsi di roda',
+  });
+
+  static String get spinningWheelCurrentOptions => _t({
+    'en': 'Current options',
+    'de': 'Aktuelle Optionen',
+    'id': 'Opsi saat ini',
+  });
+
+  static String get spinningWheelNeedTwoOptions => _t({
+    'en': 'Need at least 2 options',
+    'de': 'Mindestens 2 Optionen erforderlich',
+    'id': 'Perlu setidaknya 2 opsi',
+  });
+
+  static String get spinningWheelWinner =>
+      _t({'en': 'Winner!', 'de': 'Gewinner!', 'id': 'Pemenang!'});
+
+  static String get spinningWheelSpinAgain =>
+      _t({'en': 'Spin Again', 'de': 'Erneut drehen', 'id': 'Putar Lagi'});
+
+  static String get spinningWheelRemove =>
+      _t({'en': 'Remove', 'de': 'Entfernen', 'id': 'Hapus'});
+
+  static String get spinningWheelDone =>
+      _t({'en': 'Done', 'de': 'Fertig', 'id': 'Selesai'});
+
+  static String spinningWheelRemoved(String option) => _t({
+    'en': 'Removed "$option" from wheel',
+    'de': '"$option" vom Rad entfernt',
+    'id': '"$option" dihapus dari roda',
+  });
+
   // Technical device fields - keeping in English as they're technical terms
   static const String deviceInfoBrand = 'Brand';
   static const String deviceInfoModel = 'Model';

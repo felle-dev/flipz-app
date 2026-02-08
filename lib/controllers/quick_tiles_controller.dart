@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import '../../../config/app_strings.dart';
-import '../../../config/quick_tiles_constants.dart';
-import '../../../models/quick_tile.dart';
+import '../../config/app_strings.dart';
+import '../../config/quick_tiles_constants.dart';
+import '../../models/quick_tile.dart';
 
 class QuickTilesController extends ChangeNotifier {
   static const platform = MethodChannel(QuickTilesConstants.platformChannel);

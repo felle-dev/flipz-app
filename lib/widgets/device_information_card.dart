@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import '../../../config/app_strings.dart';
+import '../../config/app_strings.dart';
 
 class DeviceInformationCard extends StatelessWidget {
   final Map<String, String> deviceData;

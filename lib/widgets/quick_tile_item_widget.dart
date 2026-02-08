@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../config/quick_tiles_constants.dart';
-import '../../../models/quick_tile.dart';
+import '../../config/quick_tiles_constants.dart';
+import '../../models/quick_tile.dart';
 
 class QuickTileItemWidget extends StatelessWidget {
   final QuickTile tile;

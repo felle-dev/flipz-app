@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../config/app_strings.dart';
+import '../../config/app_strings.dart';
 
 class BatteryNotAvailableCard extends StatelessWidget {
   const BatteryNotAvailableCard({super.key});
